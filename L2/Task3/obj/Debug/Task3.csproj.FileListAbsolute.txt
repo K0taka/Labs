@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L2\Task3\bin\Debug\Task3.exe.config
+D:\University\dz\K0taka\Vikentieva\L2\Task3\bin\Debug\Task3.exe
+D:\University\dz\K0taka\Vikentieva\L2\Task3\bin\Debug\Task3.pdb
+D:\University\dz\K0taka\Vikentieva\L2\Task3\obj\Debug\Task3.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L2\Task3\obj\Debug\Task3.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L2\Task3\obj\Debug\Task3.exe
+D:\University\dz\K0taka\Vikentieva\L2\Task3\obj\Debug\Task3.pdb

@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L2\Task2\obj\Debug\Task2.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L2\Task2\obj\Debug\Task2.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L2\Task2\bin\Debug\Task2.exe.config
+D:\University\dz\K0taka\Vikentieva\L2\Task2\bin\Debug\Task2.exe
+D:\University\dz\K0taka\Vikentieva\L2\Task2\bin\Debug\Task2.pdb
+D:\University\dz\K0taka\Vikentieva\L2\Task2\obj\Debug\Task2.exe
+D:\University\dz\K0taka\Vikentieva\L2\Task2\obj\Debug\Task2.pdb
