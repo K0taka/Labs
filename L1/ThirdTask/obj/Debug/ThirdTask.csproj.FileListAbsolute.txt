@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\bin\Debug\ThirdTask.exe.config
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\bin\Debug\ThirdTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\bin\Debug\ThirdTask.pdb
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\obj\Debug\ThirdTask.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\obj\Debug\ThirdTask.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\obj\Debug\ThirdTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\ThirdTask\obj\Debug\ThirdTask.pdb

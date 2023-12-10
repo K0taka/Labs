@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\bin\Debug\SecondTask.exe.config
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\bin\Debug\SecondTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\bin\Debug\SecondTask.pdb
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\obj\Debug\SecondTask.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\obj\Debug\SecondTask.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\obj\Debug\SecondTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\SecondTask\obj\Debug\SecondTask.pdb

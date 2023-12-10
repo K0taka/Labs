@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\bin\Debug\FirstTask.exe.config
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\bin\Debug\FirstTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\bin\Debug\FirstTask.pdb
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\obj\Debug\FirstTask.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\obj\Debug\FirstTask.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\obj\Debug\FirstTask.exe
+D:\University\dz\K0taka\Vikentieva\L1\FirstTask\obj\Debug\FirstTask.pdb
