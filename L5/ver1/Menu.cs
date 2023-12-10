@@ -1,22 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ver1
 {
     internal class Menu
     {
-        private readonly string[] _menuObj;
-        private byte _userAnswer;
+        private readonly string[] _menuObj; //поле для объектов меню
+        private byte _userAnswer; //поле для ответа пользователя
 
+        /// <summary>
+        /// Генератор класса, устанавливает поле _menuOnj
+        /// </summary>
+        /// <param name="menuObj"></param>
         public Menu(string[] menuObj) { _menuObj = menuObj; }
 
+        /// <summary>
+        /// Геттер для поля MenuOnj
+        /// </summary>
         public string[] MenuObj { get { return _menuObj; } }
 
+        /// <summary>
+        /// Геттер для поля _userAnswer
+        /// </summary>
         public byte UserAnswer { get { return _userAnswer; } }
 
+        /// <summary>
+        /// Вывести объекты меню на экран
+        /// </summary>
         public void ShowMenu()
         {
             for (byte menuNum = 1; menuNum <= _menuObj.Length; menuNum++)
@@ -25,6 +34,9 @@ namespace ver1
             }
         }
 
+        /// <summary>
+        /// Получить ответ от пользователя с номером желаемого пункта меню
+        /// </summary>
         private void ReadUserAnswer()
         {
             bool isCorrect;//флаг для повторного запроса по необходимости
@@ -44,12 +56,19 @@ namespace ver1
             IsExit();
         }
 
+        /// <summary>
+        /// Начать получение ответа от пользователя
+        /// </summary>
+        /// <returns>Вернуть ответ пользователя</returns>
         public byte SetUserAnswer()
         {
             ReadUserAnswer();
             return _userAnswer;
         }
 
+        /// <summary>
+        /// Проверка является ли ответ выходом из программы
+        /// </summary>
         private void IsExit()
         {
             if (_menuObj[_userAnswer - 1] == _menuObj[_menuObj.Length - 1])
