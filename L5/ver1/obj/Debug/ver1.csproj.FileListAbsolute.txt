@@ -1,0 +1,7 @@
+D:\University\dz\K0taka\Vikentieva\L5\ver1\bin\Debug\ver1.exe.config
+D:\University\dz\K0taka\Vikentieva\L5\ver1\bin\Debug\ver1.exe
+D:\University\dz\K0taka\Vikentieva\L5\ver1\bin\Debug\ver1.pdb
+D:\University\dz\K0taka\Vikentieva\L5\ver1\obj\Debug\ver1.csproj.AssemblyReference.cache
+D:\University\dz\K0taka\Vikentieva\L5\ver1\obj\Debug\ver1.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L5\ver1\obj\Debug\ver1.exe
+D:\University\dz\K0taka\Vikentieva\L5\ver1\obj\Debug\ver1.pdb
