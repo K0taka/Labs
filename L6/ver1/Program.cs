@@ -66,7 +66,7 @@ namespace ver1
                     .Replace(",", ", ")
                     .Replace(";", "; ")
                     .Replace(":", ": ")
-                    .Trim();
+                    .Trim(); //не удаляет внутри строки пробелы. Значение минимума это слова языка и больше с такой же длиной нет
 
             string[] words = str.Split(" ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             List<string> correctWords = [];
@@ -95,10 +95,11 @@ namespace ver1
                 if (symbs.IsMatch(word))
                     correctWords.Add(word);
             }
+            correctWords = correctWords.Except(keywords).ToList();
             if (correctWords.Count > 0)
             {
                 int minLen = Enumerable.Min(correctWords.Select(x => x.Length));
-                result = correctWords.Distinct().Where(x => x.Length == minLen && !keywords.Contains(x.ToLower())).ToArray();
+                result = correctWords.Distinct().Where(x => x.Length == minLen).ToArray();
             }
             return result!;
         }
