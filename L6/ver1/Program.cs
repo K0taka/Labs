@@ -110,7 +110,7 @@ namespace ver1
                 if (symbs.IsMatch(word))//если слово подходит
                     correctWords.Add(word);//добавляем его в список подходящих слов
             }
-            correctWords = correctWords.Except(keywords).ToList();//удаляем из списка слов все ключевые слова языка
+            correctWords = correctWords.Where(x => !keywords.Contains(x.ToLower())).ToList();//удаляем из списка слов все ключевые слова языка
             if (correctWords.Count > 0)
             {
                 int minLen = Enumerable.Min(correctWords.Select(x => x.Length));//находим минимальное слово
