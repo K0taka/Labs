@@ -84,7 +84,7 @@ namespace ver1
                     .Trim(); //подготовим строку
 
             string[] words = str.Split(" ", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);//разделим по пробелам с удалением лишних элементов
-            List<string> correctWords = [];//создаем список с корректными словами словами
+            string[] correctWords = [];//создаем список с корректными словами словами
             string[] result = null!;//слова-ответ
             string[] keywords = ["abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked", "class", "const", "continue",
                                  "decimal", "default", "delegate", "do", "double", "else", "enum", "event", "explicit", "extern", "false", "true",
@@ -108,15 +108,26 @@ namespace ver1
                         .Replace(";", "")
                         .Replace(":", ""); //удаляем из его знаки препинания если есть
                 if (symbs.IsMatch(word))//если слово подходит
-                    correctWords.Add(word);//добавляем его в список подходящих слов
+                    correctWords = Extand(correctWords, word);//добавляем его в список подходящих слов
             }
-            correctWords = correctWords.Where(x => !keywords.Contains(x.ToLower())).ToList();//удаляем из списка слов все ключевые слова языка
-            if (correctWords.Count > 0)
+            correctWords = correctWords.Where(x => !keywords.Contains(x.ToLower())).ToArray();//удаляем из списка слов все ключевые слова языка
+            if (correctWords.Length > 0)
             {
                 int minLen = Enumerable.Min(correctWords.Select(x => x.Length));//находим минимальное слово
                 result = correctWords.Distinct().Where(x => x.Length == minLen).ToArray();//выбираем слова минимальной длины в результат
             }
             return result!;//вернем результат
+        }
+
+        static string[] Extand(string[] words, string ext)
+        {
+            string[] result = new string[words.Length + 1];
+            for (int index = 0; index < words.Length; index++)
+            {
+                result[index] = words[index];
+            }
+            result[words.Length] = ext;
+            return result;
         }
 
         /// <summary>
@@ -151,7 +162,7 @@ namespace ver1
         /// <returns>Возвращает созданную строку</returns>
         static string RandomCreateString()
         {
-            string[] tests = File.ReadAllLines("D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\Tests.txt");//путь к файлу. К сожалению, абсолюнтый
+            string[] tests = File.ReadAllLines("D:\\L6\\L6\\ver1\\Tests.txt");//путь к файлу. К сожалению, абсолюнтый
             string input = tests[rand.Next(tests.Length)];//строку из списка доступных
             try
             {
@@ -196,12 +207,27 @@ namespace ver1
             Regex dCheck = new(@"(!|\u003f|\u002e|,|;|:|\u0020)(!|\u003f|\u002e|,|;|:)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);//несколько спец. символов подряд
             Regex dSpace = new(@"\u0020{2}");//несколько пробелов подряд
             Regex onlyPoint = new(@"^(\.|\?|!)$");//первый символ строки - спец. знак
+            Regex noLetters = new(@"[a-z]+", RegexOptions.IgnoreCase);
+
             if (str == null || str.Length == 0)
                 throw new ArgumentException("Выполнен пусстой ввод. Повторите ввод предложений >>> ");
+
+            Regex DotLeft = new(@"\.(\.|\?|\!)+");
+            Regex QuestLeft = new(@"\?(\.|\?|\!)+");
+            Regex ExclamLeft = new(@"!(\.|\?|\!)+");
+
+            string normStr = DotLeft.Replace(str, ".");
+            normStr = QuestLeft.Replace(normStr, "?");
+            normStr = ExclamLeft.Replace(normStr, "!");
+            
+            str = normStr;
+
             if (!sFormat.IsMatch(str))
                 throw new ArgumentException("В строке присутствуют символы, не относящиеся к поддерживаемому алфавиту. Повторите ввод предложений >>> ");
             if (onlyPoint.IsMatch(str))
                 throw new ArgumentException($"В строке нет иных символов, кроме \"{str}\". Повторите ввод предложений >>> ");
+            if (!noLetters.IsMatch(str))
+                throw new ArgumentException("В строке нет букв! А значит нет и идентификаторов. Повторите ввод предложений >>> ");
             if (!pCheck.IsMatch(str))
                 throw new ArgumentException("Ошибка в знаках препинания. Повторите ввод предложений >>> ");
             if (dCheck.IsMatch(str) || dSpace.IsMatch(str))

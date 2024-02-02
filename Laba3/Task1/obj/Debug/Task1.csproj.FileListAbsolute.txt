@@ -1,7 +1,0 @@
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\bin\Debug\Task1.exe.config
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\bin\Debug\Task1.exe
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\bin\Debug\Task1.pdb
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\obj\Debug\Task1.csproj.AssemblyReference.cache
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\obj\Debug\Task1.csproj.CoreCompileInputs.cache
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\obj\Debug\Task1.exe
-D:\University\dz\K0taka\Vikentieva\Laba3\Task1\obj\Debug\Task1.pdb

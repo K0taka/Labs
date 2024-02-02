@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\ver1.csproj": {}
+    "D:\\L6\\L6\\ver1\\ver1.csproj": {}
   },
   "projects": {
-    "D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\ver1.csproj": {
+    "D:\\L6\\L6\\ver1\\ver1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\ver1.csproj",
+        "projectUniqueName": "D:\\L6\\L6\\ver1\\ver1.csproj",
         "projectName": "ver1",
-        "projectPath": "D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\ver1.csproj",
-        "packagesPath": "C:\\Users\\Kotaka\\.nuget\\packages\\",
-        "outputPath": "D:\\University\\dz\\K0taka\\Vikentieva\\L6\\ver1\\obj\\",
+        "projectPath": "D:\\L6\\L6\\ver1\\ver1.csproj",
+        "packagesPath": "C:\\Users\\K0taka\\.nuget\\packages\\",
+        "outputPath": "D:\\L6\\L6\\ver1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\VS\\VS SDK\\NuGetPackages"
+          "D:\\VS\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Kotaka\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\K0taka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

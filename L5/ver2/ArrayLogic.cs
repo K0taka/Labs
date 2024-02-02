@@ -204,7 +204,10 @@
             {
                 int[] array = (int[])_userArray.GetValue(oldIndex)!;
                 int[] newArray = new int[array.Length];
-                array.CopyTo(newArray, 0);
+                for (int index = 0; index < array.Length; index++)
+                {
+                    newArray[index] = array[index];
+                }
                 result[newIndex] = newArray;//копируем необходимые элементы
             }
             return result;
