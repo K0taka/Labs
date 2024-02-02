@@ -47,6 +47,7 @@ namespace ver1
 
         DewPoint:
             {
+                //отличия использования static-функции от метода класса
                 Weather currWeather = new();
                 WriteLine(currWeather.ToString());
                 WriteLine($"Определение точки погода как\n- метод {currWeather.DewPoint()}\n- статическая функция {Weather.DewPoint(currWeather)}");
@@ -55,6 +56,7 @@ namespace ver1
 
         OverloadAndOperation:
             {
+                //демонстрация работы перегруженных операторов
                 Weather currWeather = new(15.6, 50, 600);
                 Weather alterWeather = -currWeather;
                 bool notWeather = !currWeather;
@@ -74,7 +76,9 @@ namespace ver1
 
         WArray:
             {
-                int nSaved = Weather.Created;
+                //демонстрация работы с коллекцией
+
+                int nSaved = Weather.Created; //для подсчета созданных на последующем этапе объектов сохраним текущее значение
                 static double Amp(WeatherArray array)
                 {
                     if (array == null || array.Length == 0)
@@ -82,9 +86,10 @@ namespace ver1
                     double min = array[0].Temperature, max = array[0].Temperature;
                     for (int i = 1;  i < array.Length; i++)
                     {
+                        //обновляем min max если необходимо
                         (min, max) = (min > array[i].Temperature ? array[i].Temperature : min, max < array[i].Temperature ? array[i] : max);
                     }
-                    return max - min;
+                    return max - min; //возвращаем амплитуду
                 }
 
                 WeatherArray rndArr = new();
@@ -92,6 +97,8 @@ namespace ver1
                 WeatherArray usrArr = new((int)GetUserAnswer("Введите длину массива >>> ", lower: 1, upper: 10), random: false);
                 WeatherArray copy = new(usrArr);
 
+
+                WriteLine("Создаем несколько коллекций");
                 WriteLine($"rndArr: {rndArr}");
                 WriteLine($"lenArr: {lenArr}");
                 WriteLine($"usrArr: {usrArr}");
@@ -125,7 +132,7 @@ namespace ver1
             {
                 try
                 {
-                    Weather cool = new(-50, 50, 400);
+                    Weather cool = new(-50, 50, 400); //инициализация объекта погоды с неверными показателями
                 }
                 catch (Exception)
                 {
@@ -135,7 +142,7 @@ namespace ver1
                 try
                 {
                     WeatherArray arr = new();
-                    WriteLine(arr[-5].ToString());
+                    WriteLine(arr[-5].ToString()); //доступ по несуществующему индексу
                 }
                 catch (Exception)
                 {
@@ -145,7 +152,7 @@ namespace ver1
                 try
                 {
                     WeatherArray arr = new();
-                    arr[100] = new Weather();
+                    arr[100] = new Weather(); //попытка изменить несуществующий индекс
                 }
                 catch (Exception)
                 {

@@ -2,6 +2,9 @@
 {
     internal class ConsoleIO
     {
+        /// <summary>
+        /// Коды ошибок для возврата описаний
+        /// </summary>
         public enum ErrorCodes: byte
         {
             NotANumber,
@@ -11,6 +14,13 @@
             NumberIsOutOfBounds
         }
 
+        /// <summary>
+        /// Получение ответа от пользователя
+        /// </summary>
+        /// <param name="getter">Строка-запрос ввода</param>
+        /// <param name="lower">Нижняя грань</param>
+        /// <param name="upper">Верхняя грань</param>
+        /// <returns>Введенное число</returns>
         public static long GetUserAnswer(string getter, long lower = Int32.MinValue, long upper = Int32.MaxValue)
         {
             Console.Write($"[{DateTime.Now}] {getter}");
@@ -37,6 +47,14 @@
             } while (!isCorrect);
             return userAnswer;
         }
+        
+        /// <summary>
+        /// Поулчение вещественного ответа от пользователя
+        /// </summary>
+        /// <param name="getter">Строка-запрос</param>
+        /// <param name="lower">Нижжняя граница</param>
+        /// <param name="upper">верхняя граница</param>
+        /// <returns>Полученное значение</returns>
         public static double GetUserAnswer(string getter, double lower = Double.MinValue, double upper = Double.MaxValue)
         {
             Console.Write($"[{DateTime.Now}] {getter}");
@@ -64,8 +82,16 @@
             return userAnswer;
         }
 
+        /// <summary>
+        /// Вывод на экран с декоратором
+        /// </summary>
+        /// <param name="line">Выводимая строка</param>
         public static void WriteLine(string line) => Console.WriteLine($"[{DateTime.Now}] {line}");
 
+        /// <summary>
+        /// Возврат описания ошибки
+        /// </summary>
+        /// <param name="errorCode">Код нужной ошибки</param>
         public static void ReturnError(ErrorCodes errorCode)
         {
             Console.Write($"[{DateTime.Now}] При выполнении была следующая ошибка: ");
@@ -89,6 +115,9 @@
             }
         }
 
+        /// <summary>
+        /// Ожидание нажатия любой кнопки
+        /// </summary>
         public static void WaitAnyButton()
         {
             WriteLine("Нажмите любую клавишу для продолжения...");
