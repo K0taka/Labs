@@ -1,0 +1,14 @@
+D:\University\dz\K0taka\Vikentieva\L9\ver1\bin\Debug\net8.0\ver1.exe
+D:\University\dz\K0taka\Vikentieva\L9\ver1\bin\Debug\net8.0\ver1.deps.json
+D:\University\dz\K0taka\Vikentieva\L9\ver1\bin\Debug\net8.0\ver1.runtimeconfig.json
+D:\University\dz\K0taka\Vikentieva\L9\ver1\bin\Debug\net8.0\ver1.dll
+D:\University\dz\K0taka\Vikentieva\L9\ver1\bin\Debug\net8.0\ver1.pdb
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.GeneratedMSBuildEditorConfig.editorconfig
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.AssemblyInfoInputs.cache
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.AssemblyInfo.cs
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.csproj.CoreCompileInputs.cache
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.dll
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\refint\ver1.dll
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.pdb
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ver1.genruntimeconfig.cache
+D:\University\dz\K0taka\Vikentieva\L9\ver1\obj\Debug\net8.0\ref\ver1.dll
