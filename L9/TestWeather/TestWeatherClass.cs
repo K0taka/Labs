@@ -24,30 +24,34 @@ namespace TestWeather
         public void TestPreferences()
         {
             //Arrange
-            Weather expectedMin = new();
-            Weather expectedMax = new();
+            double minTemp = -100, maxTemp = 100;
+            int minPressure = 550, maxPressure = 850;
+            int minHumidity = 0, maxHumidity = 100;
 
             //Act
-            expectedMin.Temperature = -100;
-            expectedMin.Pressure = 550;
-            expectedMin.Humidity = 0;
-
-            expectedMax.Temperature = 100;
-            expectedMax.Pressure = 850;
-            expectedMax.Humidity = 100;
-
-            Weather actualMin = new(-100, 0, 550);
-            Weather actualMax = new(100, 100, 850);
+            Weather actualMin = new(minTemp, minHumidity, minPressure);
+            Weather actualMax = new(maxTemp, maxHumidity, maxPressure);
             
             //Assert
-            Assert.AreEqual(expectedMax, actualMax);
-            Assert.AreEqual(expectedMin, actualMin);
-            Assert.ThrowsException<ArgumentException>(() => new Weather(110,0,550));
-            Assert.ThrowsException<ArgumentException>(() => new Weather(10, -50, 550));
-            Assert.ThrowsException<ArgumentException>(() => new Weather(10, 0, 250));
+            Assert.AreEqual(minTemp, actualMin.Temperature);
+            Assert.AreEqual(minHumidity, actualMin.Humidity);
+            Assert.AreEqual(minPressure, actualMin.Pressure);
+
+            Assert.AreEqual(maxTemp, actualMax.Temperature);
+            Assert.AreEqual(maxHumidity, actualMax.Humidity);
+            Assert.AreEqual(maxPressure, actualMax.Pressure);
         }
+
         [TestMethod]
-        public void TestDewPoint()
+        public void TestExcPreferences()
+        {
+            Assert.ThrowsException<ArgumentException>(() => new Weather(100.1, 0, 550));
+            Assert.ThrowsException<ArgumentException>(() => new Weather(10, -1, 550));
+            Assert.ThrowsException<ArgumentException>(() => new Weather(10, 0, 549));
+        }
+
+        [TestMethod]
+        public void TestDewPoints()
         {
             //Arrange
             double temperature = 20.54;
@@ -71,38 +75,107 @@ namespace TestWeather
         }
 
         [TestMethod]
-        public void TestOperators()
+        public void TestNegateWeather()
         {
             //Arrange
             double temperature = 20.54;
             int pressure = 678;
             int humidity = 21;
-
             Weather expectedNegateWeather = new(-20.54, 21, 678);
-            bool expectedNotWeather = humidity > 80;
-            bool expectedExpBoolWeather = pressure > 760;
-            double expectedImpDoubleWeather = Math.Round(0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094)), 2);
-            Weather expectedMinusWeather = new(temperature - 10, humidity, pressure);
-            Weather expectedProdWeather = new(temperature * 1.2, humidity + (int)(humidity * 0.2), pressure + (int)(pressure * 0.2));
 
             //Act
             Weather expected = new(temperature, humidity, pressure);
             Weather actualNegateWeather = -expected;
+            
+            //Assert
+            Assert.AreEqual(expectedNegateWeather.Temperature, actualNegateWeather.Temperature);
+        }
+
+        [TestMethod]
+        public void TestNotWeather()
+        {
+            //Arrange
+            double temperature = 20.54;
+            int pressure = 678;
+            int humidity = 21;
+            bool expectedNotWeather = humidity > 80;
+
+            //Act
+            Weather expected = new(temperature, humidity, pressure);
             bool actualNotWeather = !expected;
+
+            //Assert
+            Assert.AreEqual(expectedNotWeather, actualNotWeather);
+        }
+
+        [TestMethod]
+        public void TestExpBoolWeather()
+        {
+            //Arrange
+            double temperature = 20.54;
+            int pressure = 678;
+            int humidity = 21;
+            bool expectedExpBoolWeather = pressure > 760;
+
+            //Act
+            Weather expected = new(temperature, humidity, pressure);
             bool actualExplBoolWeather = (bool)expected;
+
+            //Assert
+            Assert.AreEqual(expectedExpBoolWeather, actualExplBoolWeather);
+        }
+
+        [TestMethod]
+        public void TestImpDoubleWeather()
+        {
+            //Arrange
+            double temperature = 20.54;
+            int pressure = 678;
+            int humidity = 21;
+            double expectedImpDoubleWeather = Math.Round(0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) + (humidity * 0.094)), 2);
+
+            //Act
+            Weather expected = new(temperature, humidity, pressure);
             double actualImpDoubleWeather = expected;
+
+            //Assert
+            Assert.AreEqual(expectedImpDoubleWeather, actualImpDoubleWeather);
+        }
+
+        [TestMethod]
+        public void TestMinusWeather()
+        {
+            //Arrange
+            double temperature = 20.54;
+            int pressure = 678;
+            int humidity = 21;
+            Weather expectedMinusWeather = new(temperature - 10, humidity, pressure);
+
+            //Act
+            Weather expected = new(temperature, humidity, pressure);
             Weather actualMinusWeather = expected - 10;
+
+            //Assert
+            Assert.AreEqual(expectedMinusWeather, actualMinusWeather);
+
+        }
+
+        [TestMethod]
+        public void TestProdWeather()
+        {
+            //Arrange
+            double temperature = 20.54;
+            int pressure = 678;
+            int humidity = 21;
+            Weather expectedProdWeather = new(temperature * 1.2, humidity + (int)(humidity * 0.2), pressure + (int)(pressure * 0.2));
+
+            //Act
+            Weather expected = new(temperature, humidity, pressure);
             Weather actualProdWeather = expected * 20;
 
             //Assert
-            Assert.AreEqual(expectedNegateWeather.Temperature, actualNegateWeather.Temperature);
-            Assert.AreEqual(expectedNotWeather, actualNotWeather);
-            Assert.AreEqual(expectedExpBoolWeather, actualExplBoolWeather);
-            Assert.AreEqual(expectedImpDoubleWeather, actualImpDoubleWeather);
-            Assert.AreEqual(expectedMinusWeather, actualMinusWeather);
             Assert.AreEqual(expectedProdWeather, actualProdWeather);
             Assert.ThrowsException<ArgumentException>(() => expected * 150);
-
         }
     }
 }
