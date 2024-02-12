@@ -6,7 +6,7 @@ namespace ver1
         static void Main()
         {
             //внимание, обработка исключений для всех частей вынесена в отдельный блок Excp
-            //goto Excp; //используется для более удобной демонстрации на паре, передвигаясь по именованым участкам
+            goto WArray; //используется для более удобной демонстрации на паре, передвигаясь по именованым участкам
         Init:
             {
                 //Создание объектов класса Weather
@@ -87,7 +87,7 @@ namespace ver1
                     for (int i = 1;  i < array.Length; i++)
                     {
                         //обновляем min max если необходимо
-                        (min, max) = (min > array[i].Temperature ? array[i].Temperature : min, max < array[i].Temperature ? array[i] : max);
+                        (min, max) = (min > array[i].Temperature ? array[i].Temperature : min, max < array[i].Temperature ? array[i].Temperature : max);
                     }
                     return max - min; //возвращаем амплитуду
                 }

@@ -32,17 +32,22 @@
                 {
                     userAnswer = long.Parse(Console.ReadLine()!);
                     if (userAnswer > upper || userAnswer < lower)
+                    {
                         ReturnError(ErrorCodes.NumberIsOutOfBounds);
+                        Console.Write("Повторите ввод >>> ");
+                    }
                     else
                         isCorrect = true;
                 } 
                 catch (FormatException)
                 {
                     ReturnError(ErrorCodes.NotANumber);
+                    Console.Write("Повторите ввод >>> ");
                 }
                 catch (OverflowException)
                 {
                     ReturnError(ErrorCodes.OverflowError);
+                    Console.Write("Повторите ввод >>> ");
                 }
             } while (!isCorrect);
             return userAnswer;
@@ -66,17 +71,22 @@
                 {
                     userAnswer = double.Parse(Console.ReadLine()!);
                     if (userAnswer > upper || userAnswer < lower)
+                    {
                         ReturnError(ErrorCodes.NumberIsOutOfBounds);
+                        Console.Write("Повторите ввод >>> ");
+                    }
                     else
                         isCorrect = true;
                 }
                 catch (FormatException)
                 {
                     ReturnError(ErrorCodes.NotANumber);
+                    Console.Write("Повторите ввод >>> ");
                 }
                 catch (OverflowException)
                 {
                     ReturnError(ErrorCodes.OverflowError);
+                    Console.Write("Повторите ввод >>> ");
                 }
             } while (!isCorrect);
             return userAnswer;
