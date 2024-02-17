@@ -15,7 +15,7 @@ namespace Lab10Lib
 
         public Button() : base()
         {
-            text = "Вы наблюдаете отсутствие текста";
+            Text = "Вы наблюдаете отсутствие текста";
         }
 
         public Button(uint x, uint y, string text) : base(x, y)
@@ -39,18 +39,18 @@ namespace Lab10Lib
         public override void Init()
         {
             base.Init();
-            Console.Write("Введите текст кнопки >>> ");
             bool isCorrect = false;
             do
             {
                 try
                 {
-                    Text = Console.ReadLine()!;
+                    Text = GetTextAnswer("Введите текст кнопки >>> ")!;
                     isCorrect = true;
                 }
                 catch (ArgumentNullException)
                 {
-                    Console.Write("Ошибка! Надпись не должна быть пуста! Повторите ввод >>> ");
+                    ReturnError(ErrorCodes.IncorrectClassInit);
+                    WriteLine("Повторите ввод!");
                 }
             } while (!isCorrect);
         }

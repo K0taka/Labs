@@ -34,8 +34,7 @@
         public override void Init()
         {
             base.Init();
-            Console.Write("Укажите любое число кроме 0 для состояния \"Включить\" или 0 для состояния \"Выключить\"");
-            IsEnabled = bool.Parse(Console.ReadLine()!);
+            IsEnabled = bool.Parse(GetTextAnswer("Укажите любое число кроме 0 для состояния \"Включить\" или 0 для состояния \"Выключить\" >>> "));
         }
 
         public override void RandomInit()

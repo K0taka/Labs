@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Lab10Lib
+﻿namespace Lab10Lib
 {
     public class ControlElement
     {
@@ -87,44 +85,8 @@ namespace Lab10Lib
 
         public virtual void Init()
         {
-            static uint GetAnswer()
-            {
-                bool isCorrect = false;
-                uint ans = 0;
-                do
-                {
-                    try
-                    {
-                        ans = uint.Parse(Console.ReadLine()!);
-                        isCorrect = true;
-                    }
-                    catch (FormatException)
-                    {
-                        Console.Write("Необходимо ввести целое положительное число! Повторите ввод >>> ");
-                    }
-                } while (!isCorrect);
-                return ans;
-            }
-
-            Console.Write("Введите координату X >> ");
-            try
-            {
-                X = GetAnswer();
-            }
-            catch (InvalidOperationException)
-            {
-                Console.Write("Вы не можете задать это поле таким значением! Повторите ввод >>> ");
-            }
-
-            Console.Write("Введите координату Y >> ");
-            try
-            {
-                Y = GetAnswer();
-            }
-            catch (InvalidOperationException)
-            {
-                Console.Write("Вы не можете задать это поле таким значением! Повторите ввод >>> ");
-            }
+            X = (uint)GetIntegerAnswer("Введите координату X >>> ", 0, 1921);
+            Y = (uint)GetIntegerAnswer("Введите координату Y >>> ", 0, 1081);
         }
 
         public virtual void RandomInit()

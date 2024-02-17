@@ -49,20 +49,19 @@ namespace Lab10Lib
         public override void Init()
         {
             base.Init();
-            Console.Write("Введите подсказку >>> ");
-            Hint = Console.ReadLine()!;
-            Console.Write("Введите текст >>> ");
+            Hint = GetTextAnswer("Введите подсказку >>> ");
             bool isCorrect = false;
             do
             {
                 try
                 {
-                    Text = Console.ReadLine()!;
+                    Text = GetTextAnswer("Введите текст >>> ");
                     isCorrect = true;
                 }
                 catch(ArgumentNullException)
                 {
-                    Console.Write("Ошибка! Текстовое поле не должно быть пустым! Повторите ввод >>> ");
+                    ReturnError(ErrorCodes.IncorrectClassInit);
+                    WriteLine("Повторите ввод!");
                 }
             } while (!isCorrect);
 
