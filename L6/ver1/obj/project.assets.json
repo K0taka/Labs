@@ -9,19 +9,19 @@
   },
   "packageFolders": {
     "C:\\Users\\K0taka\\.nuget\\packages\\": {},
-    "D:\\VS\\Shared\\NuGetPackages": {}
+    "D:\\VS\\SDK\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\L6\\L6\\ver1\\ver1.csproj",
+      "projectUniqueName": "D:\\repos\\Labs\\L6\\ver1\\ver1.csproj",
       "projectName": "ver1",
-      "projectPath": "D:\\L6\\L6\\ver1\\ver1.csproj",
+      "projectPath": "D:\\repos\\Labs\\L6\\ver1\\ver1.csproj",
       "packagesPath": "C:\\Users\\K0taka\\.nuget\\packages\\",
-      "outputPath": "D:\\L6\\L6\\ver1\\obj\\",
+      "outputPath": "D:\\repos\\Labs\\L6\\ver1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\VS\\Shared\\NuGetPackages"
+        "D:\\VS\\SDK\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\K0taka\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -67,7 +67,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
