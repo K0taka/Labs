@@ -1,10 +1,12 @@
-﻿namespace Lab10Lib
+﻿using System.Runtime.CompilerServices;
+
+namespace Lab10Lib
 {
     public class ControlElement
     {
-        protected static Random rnd = new();
-        protected static uint nextId;
-        protected static List<uint> destroyedIds = [];
+        protected static readonly Random rnd = new();
+        private static uint nextId;
+        protected static readonly List<uint> destroyedIds = [];
 
         protected uint id;
         protected uint x;
@@ -60,7 +62,7 @@
             Y = el.Y;
         }
 
-        protected static uint ChooseId()
+        private static uint ChooseId()
         {
             if (destroyedIds != null && destroyedIds.Count != 0)
             {
@@ -73,7 +75,7 @@
 
         public override string ToString()
         {
-            return $"Элемент типа ControlElement имеет ID {Id}, и находится по координатам x = {X}, y = {Y}";
+            return $"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}.";
         }
 
         public override bool Equals(object? obj)
@@ -127,7 +129,14 @@
 
         public virtual void RandomInit()
         {
-
+            id = ChooseId();
+            X = (uint)rnd.Next(0, 1921);
+            Y = (uint)rnd.Next(0, 1081);
+        }
+        
+        ~ControlElement()
+        { 
+            destroyedIds.Add(id);
         }
     }
 }
