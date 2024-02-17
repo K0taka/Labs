@@ -1,6 +1,6 @@
 ﻿namespace Lab10Lib
 {
-    public class ControlElement
+    public class ControlElement: IInit
     {
         protected static readonly Random rnd = new();
         private static uint nextId;
@@ -91,11 +91,15 @@
 
         public virtual void RandomInit()
         {
-            id = ChooseId();
             X = (uint)rnd.Next(0, 1921);
             Y = (uint)rnd.Next(0, 1081);
         }
         
+        public void Show()
+        {
+            WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}.");
+        }
+
         ~ControlElement()
         { 
             destroyedIds.Add(id);

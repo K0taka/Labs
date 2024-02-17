@@ -2,7 +2,7 @@
 
 namespace Lab10Lib
 {
-    public partial class Button:ControlElement
+    public partial class Button: ControlElement, IInit
     {
         private static readonly Regex checkSpace = NotEmptyText();
         protected string? text;
@@ -10,7 +10,8 @@ namespace Lab10Lib
         public string Text
         {
             get { return text!; }
-            set { text = value == null || value == "" || !checkSpace.IsMatch(value) ? throw new ArgumentNullException(message: "Button text must not be empty", paramName: text) : value; }
+            set { text = value == null || value == "" || !checkSpace.IsMatch(value) ? throw new ArgumentNullException(message: "Button text must not be empty", paramName: text) :
+                    value.Length > 100 ? throw new NotSupportedException("Text is too long!") : value; }
         }
 
         public Button() : base()
@@ -47,7 +48,7 @@ namespace Lab10Lib
                     Text = GetTextAnswer("Введите текст кнопки >>> ")!;
                     isCorrect = true;
                 }
-                catch (ArgumentNullException)
+                catch (Exception)
                 {
                     ReturnError(ErrorCodes.IncorrectClassInit);
                     WriteLine("Повторите ввод!");
@@ -66,6 +67,11 @@ namespace Lab10Lib
             if (obj is not Button btn)
                 return false;
             return base.Equals(btn) && btn.Text == Text;
+        }
+
+        public new void Show()
+        {
+            WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\".");
         }
 
         ~Button()

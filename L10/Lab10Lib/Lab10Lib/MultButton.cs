@@ -1,6 +1,6 @@
 ﻿namespace Lab10Lib
 {
-    public class MultButton: Button
+    public class MultButton: Button, IInit
     {
         public bool IsEnabled { get; set; }
 
@@ -41,6 +41,11 @@
         {
             base.RandomInit();
             IsEnabled = rnd.Next(0, 2) == 0;
+        }
+
+        public new void Show()
+        {
+            WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\". Она {(IsEnabled ? "включена" : "выключена")}.");
         }
 
         ~MultButton()
