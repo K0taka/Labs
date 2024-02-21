@@ -107,6 +107,10 @@ namespace Lab10Lib
 
         public static void Write(string line) => Console.Write($"[{DateTime.Now}] {line}");
 
+        public static void EmptyLine() => Console.WriteLine();
+
+        public static void Clear() => Console.Clear();
+
         /// <summary>
         /// Возврат описания ошибки
         /// </summary>

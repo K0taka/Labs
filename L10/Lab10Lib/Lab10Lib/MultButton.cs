@@ -1,6 +1,6 @@
 ﻿namespace Lab10Lib
 {
-    public class MultButton: Button, IInit
+    public class MultButton: Button, IInit, IComparable, ICloneable
     {
         public bool IsEnabled { get; set; }
 
@@ -12,11 +12,6 @@
         public MultButton(uint x, uint y, string text, bool enabled) : base(x, y, text)
         {
             IsEnabled = enabled;
-        }
-
-        public MultButton(MultButton button) : base(button)
-        {
-            IsEnabled = button.IsEnabled;
         }
 
         public override string ToString()
@@ -48,9 +43,19 @@
             WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\". Она {(IsEnabled ? "включена" : "выключена")}.");
         }
 
+        public override object Clone()
+        {
+            return new MultButton(X, Y, Text, IsEnabled);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() + IsEnabled.GetHashCode() * 17;
+        }
+
         ~MultButton()
         {
-            destroyedIds.Add(id);
+            ID.destroyedIds.Add(id);
         }
     }
 }

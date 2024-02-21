@@ -2,7 +2,7 @@
 
 namespace Lab10Lib
 {
-    public partial class Button: ControlElement, IInit
+    public partial class Button: ControlElement, IInit, IComparable, ICloneable
     {
         private static readonly Regex checkSpace = NotEmptyText();
         protected string? text;
@@ -22,11 +22,6 @@ namespace Lab10Lib
         public Button(uint x, uint y, string text) : base(x, y)
         {
             Text = text;
-        }
-
-        public Button(Button button) : base(button)
-        {
-            Text = button.Text;
         }
 
         [GeneratedRegex(@"\S+", RegexOptions.Compiled)]
@@ -74,9 +69,19 @@ namespace Lab10Lib
             WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\".");
         }
 
+        public override object Clone()
+        {
+            return new Button(X, Y, Text);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() + Text.GetHashCode() * 13;
+        }
+
         ~Button()
         {
-            destroyedIds.Add(id);
+            ID.destroyedIds.Add(id);
         }
     }
 }

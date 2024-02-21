@@ -1,6 +1,6 @@
 ﻿namespace Lab10Lib
 {
-    public partial class TextField: ControlElement, IInit
+    public partial class TextField: ControlElement, IInit, IComparable, ICloneable
     {
         public string Hint { get; set; }
         public string Text { get; set; }
@@ -15,12 +15,6 @@
         {
             Hint = hint;
             Text = text;
-        }
-
-        public TextField(TextField tF) : base(tF)
-        {
-            Hint = tF.Hint;
-            Text = tF.Text;
         }
 
         public override bool Equals(object? obj)
@@ -68,9 +62,19 @@
             WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Значение подсказки Hint: \"{Hint}\", а текст: \"{Text}\".");
         }
 
+        public override object Clone()
+        {
+            return new TextField(X, Y, Hint, Text);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() + Hint.GetHashCode() * 11 + Text.GetHashCode() * 13;
+        }
+
         ~TextField()
         {
-            destroyedIds.Add(id);
+            ID.destroyedIds.Add(id);
         }
     }
 }
