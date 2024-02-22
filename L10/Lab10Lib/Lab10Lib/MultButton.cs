@@ -40,7 +40,7 @@
 
         public new void Show()
         {
-            WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\". Она {(IsEnabled ? "включена" : "выключена")}.");
+            WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\". Она {(IsEnabled ? "включена" : "выключена")}.");
         }
 
         public override object Clone()
@@ -51,11 +51,6 @@
         public override int GetHashCode()
         {
             return base.GetHashCode() + IsEnabled.GetHashCode() * 17;
-        }
-
-        ~MultButton()
-        {
-            ID.destroyedIds.Add(id);
         }
     }
 }

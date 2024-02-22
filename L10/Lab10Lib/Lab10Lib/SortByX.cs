@@ -1,6 +1,6 @@
 ﻿namespace Lab10Lib
 {
-    internal class SortByX: IComparer<object>
+    public class SortByX: IComparer<object>
     {
         public int Compare(object? obj1, object? obj2)
         {

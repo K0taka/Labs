@@ -59,7 +59,7 @@
 
         public new void Show()
         {
-            WriteLine($"Элемент типа {GetType()} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Значение подсказки Hint: \"{Hint}\", а текст: \"{Text}\".");
+            WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Значение подсказки Hint: \"{Hint}\", а текст: \"{Text}\".");
         }
 
         public override object Clone()
@@ -70,11 +70,6 @@
         public override int GetHashCode()
         {
             return base.GetHashCode() + Hint.GetHashCode() * 11 + Text.GetHashCode() * 13;
-        }
-
-        ~TextField()
-        {
-            ID.destroyedIds.Add(id);
         }
     }
 }

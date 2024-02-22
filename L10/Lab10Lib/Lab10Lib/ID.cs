@@ -35,6 +35,7 @@
         {
             if (destroyedIds != null && destroyedIds.Count != 0)
             {
+                destroyedIds.Sort();
                 uint res = destroyedIds[0];
                 destroyedIds.RemoveAt(0);
                 return res;

@@ -11,20 +11,19 @@ namespace Lab10Lib
             AllElementsAtXPos
         }
 
-        public static string[] SendRequest(ControlElement[] array, Request req, out bool isFound)
+        public static string[] SendRequest(ControlElement[] array, Request req)
         {
             return req switch
             {
-                Request.EnableMultButtonText => EnableMultButtonText(array, out isFound),
-                Request.ExistTextWithExistHint => ExistTextWithExistHint(array, out isFound),
-                Request.AllElementsAtXPos => AllElementsAtXPos(array, out isFound),
+                Request.EnableMultButtonText => EnableMultButtonText(array),
+                Request.ExistTextWithExistHint => ExistTextWithExistHint(array),
+                Request.AllElementsAtXPos => AllElementsAtXPos(array),
                 _ => throw new KeyNotFoundException("Request do not exist")
             };
         }
 
-        private static string[] EnableMultButtonText(ControlElement[] array, out bool isFound)
+        private static string[] EnableMultButtonText(ControlElement[] array)
         {
-            isFound = false;
             List<string> buttonsText = [];
             foreach (ControlElement element in array)
             {
@@ -33,15 +32,13 @@ namespace Lab10Lib
                 if (btn.IsEnabled)
                 {
                     buttonsText.Add(btn.Text);
-                    isFound = true;
                 }
             }
-            return buttonsText.Count > 0 ?  buttonsText.ToArray() : ["Нет таких кнопок"];
+            return buttonsText.Count > 0 ?  buttonsText.ToArray() : [];
         }
 
-        private static string[] ExistTextWithExistHint(ControlElement[] array, out bool isFound)
+        private static string[] ExistTextWithExistHint(ControlElement[] array)
         {
-            isFound = false;
             Regex NotEmpty = new(@"\S+");
             List<string> texts = [];
             foreach(ControlElement element in array)
@@ -52,15 +49,13 @@ namespace Lab10Lib
                 if (textField.Hint != null && NotEmpty.IsMatch(textField.Hint) && textField.Text != null && NotEmpty.IsMatch(textField.Text))
                 {
                     texts.Add(textField.Text);
-                    isFound = true;
                 }
             }
-            return texts.Count > 0 ? texts.ToArray() : ["Нед удовлетворяющих запросу текстовых полей"];
+            return texts.Count > 0 ? texts.ToArray() : [];
         }
 
-        private static string[] AllElementsAtXPos(ControlElement[] array, out bool isFound)
+        private static string[] AllElementsAtXPos(ControlElement[] array)
         {
-            isFound = false;
             uint x = (uint)GetIntegerAnswer("Введите x для поиска >>> ", 0, 1980);
             List<string> savedInfo = [];
             foreach (ControlElement element in array)
@@ -68,10 +63,9 @@ namespace Lab10Lib
                 if (element.X == x)
                 {
                     savedInfo.Add(element.ToString());
-                    isFound = true;
                 }
             }
-            return savedInfo.Count > 0 ? savedInfo.ToArray() : ["Нет элементов по заданной координате X"];
+            return savedInfo.Count > 0 ? savedInfo.ToArray() : [];
         }
     }
 }
