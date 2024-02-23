@@ -16,4 +16,10 @@
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Lab10Lib">
+      <HintPath>..\..\Lab10Lib\Lab10Lib\bin\Release\net8.0\Lab10Lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

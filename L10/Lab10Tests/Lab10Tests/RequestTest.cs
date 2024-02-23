@@ -1,4 +1,3 @@
-using Lab10Lib;
 namespace Lab10Tests
 {
     [TestClass]
