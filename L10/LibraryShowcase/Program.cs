@@ -62,8 +62,9 @@ namespace LibraryShowcase
             //-------------------------------------------------------------------------------------------------
             //выполнение запросов
             //-------------------------------------------------------------------------------------------------
+            uint xPos = (uint)GetIntegerAnswer("Введите x для поиска >>> ", 0, 1980);
             string[] EnableMutiBtnText = SendRequest(elements, Request.EnableMultButtonText);//запрос текста на включенных мульти-кнопках
-            string[] AllElementsAtXPos = SendRequest(elements, Request.AllElementsAtXPos);//запрос всех элементов на заданной X
+            string[] AllElementsAtXPos = SendRequest(elements, Request.AllElementsAtXPos, xPos);//запрос всех элементов на заданной X
             string[] ExistTextWithExistHint = SendRequest(elements, Request.ExistTextWithExistHint);//запрос всего текста у текстовых полей с имеющейся подсказкой
 
             WriteLine("Текущий массив выглядит так:");//печать текущего массива

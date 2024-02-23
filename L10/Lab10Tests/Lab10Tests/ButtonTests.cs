@@ -1,21 +1,23 @@
 ﻿namespace Lab10Tests
 {
     [TestClass]
-    public class ControlElementTests
+    public class ButtonTests
     {
         [TestMethod]
         public void CorrectCreationTest()
         {
             //Arrange
-            uint x = 1000, y = 1000;
+            uint x = 100;
+            uint y = 110;
+            string text = "Button text";
 
             //Act
-            ControlElement elem = new(x, y);
+            Button button = new(x, y, text);
 
             //Assert
-            Assert.IsNotNull(elem);
-            Assert.AreEqual(x, elem.X);
-            Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(x, button.X);
+            Assert.AreEqual(y, button.Y);
+            Assert.AreEqual(text, button.Text);
         }
 
         [TestMethod]
@@ -23,15 +25,18 @@
         {
             //Arrange
             uint x = 1000, y = 1000;
-            ControlElement elem = new();
+            string text = "Changed text";
+            Button elem = new();
 
             //Act
             elem.X = x;
             elem.Y = y;
+            elem.Text = text;
 
             //Assert
             Assert.AreEqual(x, elem.X);
             Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(text, elem.Text);
         }
 
         [TestMethod]
@@ -39,10 +44,10 @@
         {
             //Arrange
             uint incorrectX = 2000;
-            ControlElement elem = new();
+            Button elem = new();
 
             //Assert
-            Assert.ThrowsException<InvalidOperationException>( () => elem.X = incorrectX);
+            Assert.ThrowsException<InvalidOperationException>(() => elem.X = incorrectX);
         }
 
         [TestMethod]
@@ -50,18 +55,39 @@
         {
             //Arrange
             uint incorrectY = 2000;
-            ControlElement elem = new();
+            Button elem = new();
 
             //Assert
             Assert.ThrowsException<InvalidOperationException>(() => elem.Y = incorrectY);
         }
 
         [TestMethod]
+        public void EmptyTextTest()
+        {
+            //Arrange
+            Button button = new();
+
+            //Assert
+            Assert.ThrowsException<ArgumentNullException>(() => button.Text = "   \t  ");
+        }
+
+        [TestMethod]
+        public void LongTextTest()
+        {
+            //Arrange
+            Button button = new();
+
+            //Assert
+            Assert.ThrowsException<NotSupportedException>(() => button.Text = "123456789 123456789 123456789 123456789 123456789" +
+                                                                              " 123456789 123456789 123456789 123456789 123456789 123456789 ");
+        }
+
+        [TestMethod]
         public void CompareLessTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            Button elem1 = new();
+            Button elem2 = new();
             int expectedResult = -1;
 
             //Act
@@ -76,8 +102,8 @@
         public void CompareGreaterTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            Button elem1 = new();
+            Button elem2 = new();
             int expectedResult = 1;
 
             //Act
@@ -91,8 +117,8 @@
         public void EqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(1000, 100);
+            Button elem1 = new(1000, 100, "Text");
+            Button elem2 = new(1000, 100, "Text");
 
             //Assert
             Assert.AreEqual(elem1, elem2);
@@ -102,8 +128,8 @@
         public void NotEqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(100, 1000);
+            Button elem1 = new(100, 100, "Text");
+            Button elem2 = new(100, 100, "Test");
 
             //Assert
             Assert.AreNotEqual(elem1, elem2);
@@ -113,10 +139,10 @@
         public void CloneCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            Button elem = new(100, 100, "Text");
 
             //Act
-            ControlElement clone = (ControlElement)elem.Clone();
+            Button clone = (Button)elem.Clone();
 
             //Assert
             Assert.AreEqual(elem, clone);
@@ -127,12 +153,12 @@
         public void CloneChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement clone = (ControlElement)elem.Clone();
+            Button elem = new(100, 100, "Text");
+            Button clone = (Button)elem.Clone();
 
             //Act
-            clone.X = 1000;
-            
+            clone.Text = "Test";
+
             //Assert
             Assert.AreNotEqual(elem, clone);
         }
@@ -141,10 +167,10 @@
         public void ShallowCopyCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            Button elem = new(100, 100, "Text");
 
             //Act
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            Button copy = (Button)elem.ShallowCopy();
 
             //Assert
             Assert.AreEqual(elem, copy);
@@ -155,14 +181,15 @@
         public void ShallowCopyChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            Button elem = new(100, 100, "Text");
+            Button copy = (Button)elem.ShallowCopy();
 
             //Act
-            copy.X = 1000;
+            copy.Y = 1000;
 
             //Assert
             Assert.AreEqual(elem, copy);
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using static IOLib.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lab10Lib
 {
@@ -46,6 +47,7 @@ namespace Lab10Lib
         /// Строковое представление всей информации об объекте
         /// </summary>
         /// <returns>Строка с информацией об объекте</returns>
+        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             return base.ToString() + $" Она имеет текст: \"{Text}\".";
@@ -54,6 +56,7 @@ namespace Lab10Lib
         /// <summary>
         /// Метод для инициализации полей классса вручную
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void Init()
         {
             base.Init();
@@ -76,6 +79,7 @@ namespace Lab10Lib
         /// <summary>
         /// Метод для инициализации полей класса случайным образом
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void RandomInit()
         {
             base.RandomInit();
@@ -96,6 +100,7 @@ namespace Lab10Lib
         /// <summary>
         /// Выводит на экран информацию о текущем объекте
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public new void Show()
         {
             WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\".");

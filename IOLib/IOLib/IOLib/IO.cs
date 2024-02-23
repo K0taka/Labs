@@ -1,5 +1,8 @@
-﻿namespace IOLib
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace IOLib
 {
+    [ExcludeFromCodeCoverage]
     public class IO
     {
         /// <summary>

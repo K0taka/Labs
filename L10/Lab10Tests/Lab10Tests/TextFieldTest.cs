@@ -1,21 +1,24 @@
 ﻿namespace Lab10Tests
 {
     [TestClass]
-    public class ControlElementTests
+    public class TextFieldTest
     {
         [TestMethod]
         public void CorrectCreationTest()
         {
             //Arrange
             uint x = 1000, y = 1000;
+            string hint = "Hint", text = "Text";
 
             //Act
-            ControlElement elem = new(x, y);
+            TextField elem = new(x, y, hint, text);
 
             //Assert
             Assert.IsNotNull(elem);
             Assert.AreEqual(x, elem.X);
             Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(hint, elem.Hint);
+            Assert.AreEqual(text, elem.Text);
         }
 
         [TestMethod]
@@ -23,15 +26,20 @@
         {
             //Arrange
             uint x = 1000, y = 1000;
-            ControlElement elem = new();
+            string text = "Text", hint = "Hint";
+            TextField elem = new();
 
             //Act
             elem.X = x;
             elem.Y = y;
+            elem.Hint = hint;
+            elem.Text = text;
 
             //Assert
             Assert.AreEqual(x, elem.X);
             Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(hint, elem.Hint);
+            Assert.AreEqual(text, elem.Text);
         }
 
         [TestMethod]
@@ -39,10 +47,10 @@
         {
             //Arrange
             uint incorrectX = 2000;
-            ControlElement elem = new();
+            TextField elem = new();
 
             //Assert
-            Assert.ThrowsException<InvalidOperationException>( () => elem.X = incorrectX);
+            Assert.ThrowsException<InvalidOperationException>(() => elem.X = incorrectX);
         }
 
         [TestMethod]
@@ -50,7 +58,7 @@
         {
             //Arrange
             uint incorrectY = 2000;
-            ControlElement elem = new();
+            TextField elem = new();
 
             //Assert
             Assert.ThrowsException<InvalidOperationException>(() => elem.Y = incorrectY);
@@ -60,8 +68,8 @@
         public void CompareLessTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            TextField elem1 = new();
+            TextField elem2 = new();
             int expectedResult = -1;
 
             //Act
@@ -76,8 +84,8 @@
         public void CompareGreaterTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            TextField elem1 = new();
+            TextField elem2 = new();
             int expectedResult = 1;
 
             //Act
@@ -91,8 +99,8 @@
         public void EqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(1000, 100);
+            TextField elem1 = new(1000, 100, "Hint", "Text");
+            TextField elem2 = new(1000, 100, "Hint", "Text");
 
             //Assert
             Assert.AreEqual(elem1, elem2);
@@ -102,8 +110,8 @@
         public void NotEqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(100, 1000);
+            TextField elem1 = new(1000, 100, "Hint", "Text");
+            TextField elem2 = new(100, 1000, "Text", "Hint");
 
             //Assert
             Assert.AreNotEqual(elem1, elem2);
@@ -113,10 +121,10 @@
         public void CloneCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            TextField elem = new(100, 100, "Hint", "Text");
 
             //Act
-            ControlElement clone = (ControlElement)elem.Clone();
+            TextField clone = (TextField)elem.Clone();
 
             //Assert
             Assert.AreEqual(elem, clone);
@@ -127,12 +135,12 @@
         public void CloneChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement clone = (ControlElement)elem.Clone();
+            TextField elem = new(100, 100, "Hint", "Text");
+            TextField clone = (TextField)elem.Clone();
 
             //Act
             clone.X = 1000;
-            
+
             //Assert
             Assert.AreNotEqual(elem, clone);
         }
@@ -141,10 +149,10 @@
         public void ShallowCopyCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            TextField elem = new(100, 100, "Text", "Hint");
 
             //Act
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            TextField copy = (TextField)elem.ShallowCopy();
 
             //Assert
             Assert.AreEqual(elem, copy);
@@ -155,8 +163,8 @@
         public void ShallowCopyChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            TextField elem = new(100, 100, "Hint", "Text");
+            TextField copy = (TextField)elem.ShallowCopy();
 
             //Act
             copy.X = 1000;

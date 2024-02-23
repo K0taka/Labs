@@ -1,8 +1,11 @@
-﻿namespace Lab10Lib
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Lab10Lib
 {
     /// <summary>
     /// Класс-компаратор для координаты X
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class SortByX: IComparer<object>
     {
         public int Compare(object? obj1, object? obj2)

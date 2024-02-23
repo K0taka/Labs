@@ -1,5 +1,4 @@
-﻿using static IOLib.IO;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Lab10Lib
 {
@@ -33,13 +32,13 @@ namespace Lab10Lib
         /// <param name="req">Необходимый запрос</param>
         /// <returns>Строковый массив с результатам выполнения запроса</returns>
         /// <exception cref="KeyNotFoundException">Запрос указан неверно</exception>
-        public static string[] SendRequest(ControlElement[] array, Request req)
+        public static string[] SendRequest(ControlElement[] array, Request req, uint x = 0)
         {
             return req switch
             {
                 Request.EnableMultButtonText => EnableMultButtonText(array),
                 Request.ExistTextWithExistHint => ExistTextWithExistHint(array),
-                Request.AllElementsAtXPos => AllElementsAtXPos(array),
+                Request.AllElementsAtXPos => AllElementsAtXPos(array, x),
                 _ => throw new KeyNotFoundException("Request do not exist")
             };
         }
@@ -91,9 +90,8 @@ namespace Lab10Lib
         /// </summary>
         /// <param name="array">Массив для поиска значений</param>
         /// <returns>Строковый массив найденных значений</returns>
-        private static string[] AllElementsAtXPos(ControlElement[] array)
+        private static string[] AllElementsAtXPos(ControlElement[] array, uint x)
         {
-            uint x = (uint)GetIntegerAnswer("Введите x для поиска >>> ", 0, 1980);
             List<string> savedInfo = [];
             foreach (ControlElement element in array)
             {

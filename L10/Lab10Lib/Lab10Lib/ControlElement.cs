@@ -1,4 +1,5 @@
-﻿using static IOLib.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using static IOLib.IO;
 namespace Lab10Lib
 {
     public class ControlElement: IInit, IComparable, ICloneable, IDisposable
@@ -71,6 +72,7 @@ namespace Lab10Lib
         /// Строковое представление информации об объекте
         /// </summary>
         /// <returns>Строка с информацией об объекте</returns>
+        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             return $"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}.";
@@ -91,6 +93,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализирует объект по заданным значениям
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public virtual void Init()
         {
             X = (uint)GetIntegerAnswer("Введите координату X >>> ", 0, 1921);
@@ -100,6 +103,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализирует объект случайными объектами
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public virtual void RandomInit()
         {
             X = (uint)rnd.Next(0, 1921);
@@ -117,10 +121,11 @@ namespace Lab10Lib
                 return -1;
             return Id.CompareTo(element.Id);
         }
-        
+
         /// <summary>
         /// Показать информацию об объекте на экране
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public void Show()
         {
             WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}.");

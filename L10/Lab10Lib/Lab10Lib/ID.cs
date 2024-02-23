@@ -1,4 +1,6 @@
-﻿namespace Lab10Lib
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Lab10Lib
 {
     public class ID: IComparable
     {
@@ -33,6 +35,7 @@
         /// Представление объекта в строковом виде
         /// </summary>
         /// <returns>Уникальный номер id в виде строки</returns>
+        [ExcludeFromCodeCoverage]
         public override string ToString() => id.ToString();
 
         /// <summary>

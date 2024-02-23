@@ -1,21 +1,25 @@
 ﻿namespace Lab10Tests
 {
     [TestClass]
-    public class ControlElementTests
+    public class MultButtonTest
     {
         [TestMethod]
         public void CorrectCreationTest()
         {
             //Arrange
-            uint x = 1000, y = 1000;
+            uint x = 100;
+            uint y = 110;
+            string text = "Button text";
+            bool isEnable = true;
 
             //Act
-            ControlElement elem = new(x, y);
+            MultButton mltButton = new(x, y, text, isEnable);
 
             //Assert
-            Assert.IsNotNull(elem);
-            Assert.AreEqual(x, elem.X);
-            Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(x, mltButton.X);
+            Assert.AreEqual(y, mltButton.Y);
+            Assert.AreEqual(text, mltButton.Text);
+            Assert.AreEqual(isEnable, mltButton.IsEnabled);
         }
 
         [TestMethod]
@@ -23,15 +27,20 @@
         {
             //Arrange
             uint x = 1000, y = 1000;
-            ControlElement elem = new();
+            string text = "Changed text";
+            MultButton elem = new();
 
             //Act
             elem.X = x;
             elem.Y = y;
+            elem.Text = text;
+            elem.IsEnabled = true;
 
             //Assert
             Assert.AreEqual(x, elem.X);
             Assert.AreEqual(y, elem.Y);
+            Assert.AreEqual(text, elem.Text);
+            Assert.IsTrue(elem.IsEnabled);
         }
 
         [TestMethod]
@@ -39,10 +48,10 @@
         {
             //Arrange
             uint incorrectX = 2000;
-            ControlElement elem = new();
+            MultButton elem = new();
 
             //Assert
-            Assert.ThrowsException<InvalidOperationException>( () => elem.X = incorrectX);
+            Assert.ThrowsException<InvalidOperationException>(() => elem.X = incorrectX);
         }
 
         [TestMethod]
@@ -50,18 +59,39 @@
         {
             //Arrange
             uint incorrectY = 2000;
-            ControlElement elem = new();
+            MultButton elem = new();
 
             //Assert
             Assert.ThrowsException<InvalidOperationException>(() => elem.Y = incorrectY);
         }
 
         [TestMethod]
+        public void EmptyTextTest()
+        {
+            //Arrange
+            MultButton button = new();
+
+            //Assert
+            Assert.ThrowsException<ArgumentNullException>(() => button.Text = "   \t  ");
+        }
+
+        [TestMethod]
+        public void LongTextTest()
+        {
+            //Arrange
+            MultButton button = new();
+
+            //Assert
+            Assert.ThrowsException<NotSupportedException>(() => button.Text = "123456789 123456789 123456789 123456789 123456789" +
+                                                                              " 123456789 123456789 123456789 123456789 123456789 123456789 ");
+        }
+
+        [TestMethod]
         public void CompareLessTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            MultButton elem1 = new();
+            MultButton elem2 = new();
             int expectedResult = -1;
 
             //Act
@@ -76,8 +106,8 @@
         public void CompareGreaterTest()
         {
             //Arrange
-            ControlElement elem1 = new();
-            ControlElement elem2 = new();
+            MultButton elem1 = new();
+            MultButton elem2 = new();
             int expectedResult = 1;
 
             //Act
@@ -91,8 +121,8 @@
         public void EqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(1000, 100);
+            MultButton elem1 = new(1000, 100, "Text", true);
+            MultButton elem2 = new(1000, 100, "Text", true);
 
             //Assert
             Assert.AreEqual(elem1, elem2);
@@ -102,8 +132,8 @@
         public void NotEqualsTest()
         {
             //Arrange
-            ControlElement elem1 = new(1000, 100);
-            ControlElement elem2 = new(100, 1000);
+            MultButton elem1 = new(100, 100, "Text", true);
+            MultButton elem2 = new(100, 100, "Test", false);
 
             //Assert
             Assert.AreNotEqual(elem1, elem2);
@@ -113,10 +143,10 @@
         public void CloneCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            MultButton elem = new(100, 100, "Text", true);
 
             //Act
-            ControlElement clone = (ControlElement)elem.Clone();
+            MultButton clone = (MultButton)elem.Clone();
 
             //Assert
             Assert.AreEqual(elem, clone);
@@ -127,12 +157,12 @@
         public void CloneChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement clone = (ControlElement)elem.Clone();
+            MultButton elem = new(100, 100, "Text", true);
+            MultButton clone = (MultButton)elem.Clone();
 
             //Act
-            clone.X = 1000;
-            
+            clone.IsEnabled = false;
+
             //Assert
             Assert.AreNotEqual(elem, clone);
         }
@@ -141,10 +171,10 @@
         public void ShallowCopyCreationTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
+            MultButton elem = new(100, 100, "Text", true);
 
             //Act
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            MultButton copy = (MultButton)elem.ShallowCopy();
 
             //Assert
             Assert.AreEqual(elem, copy);
@@ -155,11 +185,11 @@
         public void ShallowCopyChangingTest()
         {
             //Arrange
-            ControlElement elem = new(100, 100);
-            ControlElement copy = (ControlElement)elem.ShallowCopy();
+            MultButton elem = new(100, 100, "Text", true);
+            MultButton copy = (MultButton)elem.ShallowCopy();
 
             //Act
-            copy.X = 1000;
+            copy.Y = 1000;
 
             //Assert
             Assert.AreEqual(elem, copy);

@@ -1,4 +1,5 @@
-﻿using static IOLib.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using static IOLib.IO;
 namespace Lab10Lib
 {
     public class MultButton: Button, IInit, IComparable, ICloneable
@@ -32,6 +33,7 @@ namespace Lab10Lib
         /// Представление информации об объекте в виде строки
         /// </summary>
         /// <returns>Строка с информацией об объекте</returns>
+        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             return base.ToString() + $" Она {(IsEnabled ? "включена" : "выключена")}.";
@@ -52,6 +54,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализация объекта с клавиатуры
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void Init()
         {
             base.Init();
@@ -61,6 +64,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализация объекта случайными значениями
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void RandomInit()
         {
             base.RandomInit();
@@ -70,6 +74,7 @@ namespace Lab10Lib
         /// <summary>
         /// Вывод информации об объекте на экран
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public new void Show()
         {
             WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Она имеет текст: \"{Text}\". Она {(IsEnabled ? "включена" : "выключена")}.");

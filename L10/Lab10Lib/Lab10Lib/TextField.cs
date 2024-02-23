@@ -1,4 +1,5 @@
-﻿using static IOLib.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using static IOLib.IO;
 namespace Lab10Lib
 {
     public partial class TextField: ControlElement, IInit, IComparable, ICloneable
@@ -51,6 +52,7 @@ namespace Lab10Lib
         /// Строковое представление информации об объекте
         /// </summary>
         /// <returns>Строка с информацией об объекте</returns>
+        [ExcludeFromCodeCoverage]
         public override string ToString()
         {
             return base.ToString() + $" Значение подсказки Hint: \"{Hint}\", а текст: \"{Text}\".";
@@ -59,6 +61,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализация объекта с клавиатуры
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void Init()
         {
             base.Init();
@@ -69,6 +72,7 @@ namespace Lab10Lib
         /// <summary>
         /// Инициализация объекта случайными значениями
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public override void RandomInit()
         {
             base.RandomInit();
@@ -79,6 +83,7 @@ namespace Lab10Lib
         /// <summary>
         /// Вывод информации об объекте на экран
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public new void Show()
         {
             WriteLine($"Элемент типа {GetType().Name} имеет ID {Id}, и находится по координатам x = {X}, y = {Y}. Значение подсказки Hint: \"{Hint}\", а текст: \"{Text}\".");
