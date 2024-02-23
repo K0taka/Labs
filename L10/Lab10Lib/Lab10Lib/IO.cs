@@ -93,10 +93,39 @@ namespace Lab10Lib
             return userAnswer;
         }
 
+        /// <summary>
+        /// Запрос и получение текстовой строки у пользователя
+        /// </summary>
+        /// <param name="getter">Строка-запрос</param>
+        /// <returns>Полученный ответ пользователя</returns>
         public static string GetTextAnswer(string getter)
         {
             Console.Write($"[{DateTime.Now}] {getter}");
             return Console.ReadLine()!;
+        }
+
+        /// <summary>
+        /// Получение логического значения от пользователя
+        /// </summary>
+        /// <param name="getter">Строка-запрос</param>
+        /// <returns>Логическое от пользователя</returns>
+        public static bool GetBoolAnswer(string getter)
+        {
+            bool isCorrect = false;
+            bool userAnswer = false;
+            do
+            {
+                try
+                {
+                    userAnswer = bool.Parse(GetTextAnswer(getter));
+                    isCorrect = true;
+                }
+                catch
+                {
+                    WriteLine("Некорректный ввод! Повторите попытку!");
+                }
+            } while(!isCorrect);
+            return userAnswer;
         }
 
         /// <summary>
@@ -105,10 +134,20 @@ namespace Lab10Lib
         /// <param name="line">Выводимая строка</param>
         public static void WriteLine(string line) => Console.WriteLine($"[{DateTime.Now}] {line}");
 
+        /// <summary>
+        /// Выводит строку на экран с декоратором без символа переноса строки
+        /// </summary>
+        /// <param name="line"></param>
         public static void Write(string line) => Console.Write($"[{DateTime.Now}] {line}");
 
+        /// <summary>
+        /// Вывод на экран пустой строки
+        /// </summary>
         public static void EmptyLine() => Console.WriteLine();
 
+        /// <summary>
+        /// Очистка консоли
+        /// </summary>
         public static void Clear() => Console.Clear();
 
         /// <summary>

@@ -229,6 +229,9 @@
             return newWeather;
         }
 
+        /// <summary>
+        /// Инициализация полей значениями с клавиатуры
+        /// </summary>
         public void Init()
         {
             Temperature = GetDoubleAnswer("Укажите температуру >>> ", -100.0, 100.0);
@@ -236,6 +239,9 @@
             Pressure = (int)GetIntegerAnswer("Укажите влажность >>> ", 550, 850);
         }
 
+        /// <summary>
+        /// Инициализация полей случайными значениями
+        /// </summary>
         public void RandomInit()
         {
             Temperature = Math.Round(rnd.Next(-100, 71) + rnd.NextDouble(), 2);

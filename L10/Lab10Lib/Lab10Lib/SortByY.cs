@@ -1,5 +1,8 @@
 ﻿namespace Lab10Lib
 {
+    /// <summary>
+    /// Класс компаратор для координаты Y
+    /// </summary>
     public class SortByY: IComparer<object>
     {
         public int Compare(object? obj1, object? obj2)
