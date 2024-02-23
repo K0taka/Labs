@@ -1,6 +1,8 @@
-﻿namespace Lab10Lib
+﻿using static IOLib.IO;
+
+namespace Lab9Lib
 {
-    public class Weather: IInit
+    public class Weather: Lab10Lib.IInit
     {
         private static int numCreated = 0;
         private static readonly Random rnd = new();

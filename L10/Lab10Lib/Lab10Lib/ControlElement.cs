@@ -1,4 +1,5 @@
-﻿namespace Lab10Lib
+﻿using static IOLib.IO;
+namespace Lab10Lib
 {
     public class ControlElement: IInit, IComparable, ICloneable, IDisposable
     {

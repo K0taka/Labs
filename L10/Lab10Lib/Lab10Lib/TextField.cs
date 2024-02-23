@@ -1,4 +1,5 @@
-﻿namespace Lab10Lib
+﻿using static IOLib.IO;
+namespace Lab10Lib
 {
     public partial class TextField: ControlElement, IInit, IComparable, ICloneable
     {

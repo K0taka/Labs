@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Reference Include="IOLib">
-      <HintPath>..\..\..\IOLib\IOLib\IOLib\bin\Release\net8.0\IOLib.dll</HintPath>
+      <HintPath>..\..\IOLib\IOLib\IOLib\bin\Release\net8.0\IOLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lab10Lib">
+      <HintPath>..\Lab10Lib\Lab10Lib\bin\Release\net8.0\Lab10Lib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

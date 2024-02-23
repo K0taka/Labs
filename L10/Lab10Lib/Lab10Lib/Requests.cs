@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using static IOLib.IO;
+using System.Text.RegularExpressions;
 
 namespace Lab10Lib
 {

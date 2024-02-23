@@ -1,12 +1,13 @@
 ﻿using Lab10Lib;
-using static Lab10Lib.IO;
+using Lab9Lib;
+using static IOLib.IO;
 using static Lab10Lib.Requests;
 
-namespace ver1
+namespace LibraryShowcase
 {
     internal class Program
     {
-        static void Main()
+        static void Main(string[] args)
         {
             //-------------------------------------------------------------------------------------------------
             //демонстрация разницы меджду virtual и обычными методами
@@ -18,7 +19,7 @@ namespace ver1
 
             for (int index = 0; index < elements.Length; index++)
             {
-                WriteLine($"Элемент {index+1}");
+                WriteLine($"Элемент {index + 1}");
                 WriteLine(elements[index].ToString());//виртуальный метод
                 elements[index].Show();//обычный метод
                 EmptyLine();
@@ -130,7 +131,7 @@ namespace ver1
             IInit[] iElements = CreateIInitArray();//массив объектов, реализующих интерфейс IInit
             Dictionary<Type, byte> numTypes = [];//словарь для хранения кол-ва элементов в виде ТИП::КОЛИЧЕСТВО
 
-            foreach(IInit element in iElements)//цикл по массиву
+            foreach (IInit element in iElements)//цикл по массиву
             {
                 if (numTypes.ContainsKey(element.GetType()))//если тип элемента в словаре
                     numTypes[element.GetType()]++;//то увеличим счетчик этого типа
@@ -285,7 +286,7 @@ namespace ver1
         {
             for (int index = 0; index < array.Length; index++)
             {
-                WriteLine($"Элемент {index+1}:: {array[index]}");
+                WriteLine($"Элемент {index + 1}:: {array[index]}");
             }
         }
 
