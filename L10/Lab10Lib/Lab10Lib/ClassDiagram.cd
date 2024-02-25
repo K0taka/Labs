@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Lab10Lib.Button">
+    <Position X="3.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAACAAAAEgAAAAAgAAAAEAIAIAAACCAAAABA=</HashCode>
+      <FileName>Button.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="Lab10Lib.ControlElement">
+    <Position X="5.75" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAGAAAAACCAAAQEgAAAAAAAAAAEAIAAAAACABAAYjA=</HashCode>
+      <FileName>ControlElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lab10Lib.Cordinates">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Cordinates.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab10Lib.ID">
+    <Position X="13.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>FAAAAAAAAAAAAAQEgBAAAAAAAAAAAIAAAAAAAAAIAgA=</HashCode>
+      <FileName>ID.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Lab10Lib.MultButton">
+    <Position X="1" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAEgAEAAAAAAAAEAIAAAAACAAAAABA=</HashCode>
+      <FileName>MultButton.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="Lab10Lib.Requests">
+    <Position X="11.25" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="Lab10Lib.Requests.Request">
+        <TypeIdentifier>
+          <NewMemberFileName>Requests.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAgAAAACACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Requests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lab10Lib.SortByX">
+    <Position X="11.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>SortByX.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Lab10Lib.SortByY">
+    <Position X="11.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>SortByY.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="Lab10Lib.TextField">
+    <Position X="8.5" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAEgAAgAAAAAAAEAIAAAAACCAAAABA=</HashCode>
+      <FileName>TextField.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="1.582" />
+  </Class>
+  <Interface Name="Lab10Lib.IInit">
+    <Position X="4" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>IInit.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
