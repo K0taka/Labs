@@ -235,31 +235,19 @@ namespace LibraryShowcase
         static IInit[] CreateIInitArray()
         {
             IInit[] elements = new IInit[20];
-            for (int i = 0; i < elements.Length; i++)
+            for (int i = 0; i < elements.Length; i+=5)
             {
-                switch (i % 5)
-                {
-                    case 0:
-                        elements[i] = new ControlElement();
-                        elements[i].RandomInit();
-                        break;
-                    case 1:
-                        elements[i] = new Button();
-                        elements[i].RandomInit();
-                        break;
-                    case 2:
-                        elements[i] = new MultButton();
-                        elements[i].RandomInit();
-                        break;
-                    case 3:
-                        elements[i] = new TextField();
-                        elements[i].RandomInit();
-                        break;
-                    case 4:
-                        elements[i] = new Weather();
-                        elements[i].RandomInit();
-                        break;
-                }
+                elements[i] = new ControlElement();
+                elements[i + 1] = new Button();
+                elements[i + 2] = new MultButton();
+                elements[i + 3] = new TextField();
+                elements[i + 4] = new Weather();
+
+                elements[i].RandomInit();
+                elements[i + 1].RandomInit();
+                elements[i + 2].RandomInit();
+                elements[i + 3].RandomInit();
+                elements[i + 4].RandomInit();
             }
             return elements;
         }
