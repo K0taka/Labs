@@ -9,6 +9,11 @@ namespace Lab10Lib
         private static readonly Regex checkSpace = NotEmptyText(); //регулярное выражение на непустой текст (присутствует любой символ кроме пробельного)
         private string? text;//поле для текста кнопки
         
+        public ControlElement GetBase
+        {
+            get => new(X, Y);
+        }
+
         /// <summary>
         /// Свойства для поля text
         /// </summary>
@@ -83,7 +88,7 @@ namespace Lab10Lib
         public override void RandomInit()
         {
             base.RandomInit();
-            Text = $"Кнопка {rnd.Next(0, 100)}";
+            Text = $"Кнопка {rnd.Next(0, 10000)}";
         }
 
         /// <summary>
