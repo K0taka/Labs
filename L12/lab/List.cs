@@ -119,6 +119,36 @@ namespace lab
             return false;
         }
 
+        public void RemoveAt(int index)
+        {
+            if (Count == 0)
+                throw new NullReferenceException();
+            ListNode<T> removing = NodeAt(index);
+            if (index == 0)
+            {
+                Head = removing.Next;
+                if (Head != null)
+                    Head.Previous = null;
+                else
+                    Last = null;
+                removing.Dispose();
+                len--;
+                return;
+            }
+            if (index == Count - 1)
+            {
+                Last = Last.Previous;
+                Last.Next = null;
+                removing.Dispose();
+                len--;
+                return;
+            }
+            removing.Previous.Next = removing.Next;
+            removing.Next.Previous = removing.Previous;
+            removing.Dispose();
+            len--;
+        }
+
         /// <summary>
         /// Индекс первого вхождения указанного элемента в список
         /// </summary>
