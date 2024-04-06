@@ -1,8 +1,9 @@
 ﻿using System.Collections;
+using System.Xml;
 
 namespace lab
 {
-    public class List<T>: ICloneable, IEnumerable<T>, IDisposable where T: ICloneable, IDisposable
+    public class List<T>: IList<T>, ICloneable, IEnumerable<T>, IDisposable where T: ICloneable, IDisposable
     {
         /// <summary>
         /// Текущая длина списка
@@ -125,31 +126,25 @@ namespace lab
         {
             get
             {
-                if (index >= 0 && index < len)
-                {
-                    ListNode<T> curr = Head;
-                    for (int currIndex = 1; currIndex <= index; currIndex++)
-                    {
-                        curr = curr.Next;
-                    }
-                    return curr.Data;
-                }
-                throw new IndexOutOfRangeException();
+                ListNode<T>? curr = NodeAt(index) ?? throw new NullReferenceException();
+                return curr.Data;
             }
 
             set
             {
-                if (index >= 0 && index < len)
-                {
-                    ListNode<T> curr = Head;
-                    for (int currIndex = 1; currIndex <= index; currIndex++)
-                    {
-                        curr = curr.Next;
-                    }
-                    curr.Data = value;
-                }
-                throw new IndexOutOfRangeException();
+                ListNode<T>? curr = NodeAt(index) ?? throw new NullReferenceException();
+                curr.Data = value;
             }
+        }
+
+        private ListNode<T>? NodeAt(int index)
+        {
+            if (index < 0 || index >= Count)
+                throw new IndexOutOfRangeException();
+            ListNode<T>? curr = Head;
+            for (int currIndex = 1; currIndex <= index; currIndex++)
+                curr = curr.Next;
+            return curr;
         }
 
         /// <summary>
