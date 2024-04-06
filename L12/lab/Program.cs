@@ -74,12 +74,14 @@ namespace lab
                         first.Init();
                         list.AddFirst(first);
                         Clear();
+                        first.Dispose();
                         break;
                     case 4:
                         Clear();
                         ControlElement last = new();
                         last.Init();
-                        list.AddFirst(last);
+                        list.Add(last);
+                        last.Dispose();
                         Clear();
                         break;
                     case 5:
@@ -91,7 +93,11 @@ namespace lab
                             WaitAnyButton();
                         }
                         else
-                            chosEl = (ControlElement?)list[(int)GetIntegerAnswer("Выберите номер предпочитаемого элемента >>> ", 1, list.Count) - 1];
+                        {
+                            chosEl = FindWithX(list, (uint)GetIntegerAnswer("Выберите координату X предпочитаемого элемента >>> ", 0, 1920));
+                            if (chosEl == null)
+                                WriteLine("Элемент с такой координатой X не найден");
+                        }
                         Clear();
                         break;
                     case 6:
@@ -115,6 +121,7 @@ namespace lab
                             ControlElement adding = new();
                             adding.Init();
                             list.AddAfter(chosEl, adding);
+                            adding.Dispose();
                         }
                         Clear();
                         break;
@@ -140,8 +147,6 @@ namespace lab
                         {
                             list.DeleteAllBefore(chosEl);
                             WriteLine($"Элементы до элемента\n\t{chosEl}\nудалены");
-                            chosEl.Dispose();
-                            chosEl = null;
                         }
                         WaitAnyButton();
                         Clear();
@@ -302,7 +307,17 @@ namespace lab
                         break;
                 }
             }
+            copy.Dispose();
+            Clear();
+        }
 
+        static ControlElement? FindWithX(List<ControlElement> list, uint x)
+        {
+            foreach(ControlElement element in list)
+            {
+                if (element.X == x) return element;
+            }
+            return null;
         }
     }
 }
