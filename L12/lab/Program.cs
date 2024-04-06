@@ -1,8 +1,6 @@
 ﻿global using Lab10Lib;
 global using IOLib;
 global using static IOLib.IO;
-using System.ComponentModel.Design;
-using System.Runtime.ConstrainedExecution;
 
 namespace lab
 {
@@ -46,8 +44,8 @@ namespace lab
             "Демонстрация работы с копией",
             "Назад в главное меню"]);
 
-            bool isClosed = true;
-            while (isClosed)
+            bool isClosed = false;
+            while (!isClosed)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -141,7 +139,7 @@ namespace lab
                         else
                         {
                             list.DeleteAllBefore(chosEl);
-                            WriteLine($"Элемент\n\t{chosEl}\nудален");
+                            WriteLine($"Элементы до элемента\n\t{chosEl}\nудалены");
                             chosEl.Dispose();
                             chosEl = null;
                         }
@@ -150,10 +148,12 @@ namespace lab
                         break;
                     case 10:
                         Clear();
+                        WorkWithListCopy(list);
+                        Clear();
                         break;
                     case 11:
                         Clear();
-                        isClosed = false;
+                        isClosed = true;
                         break;
                 }
             }
@@ -204,6 +204,91 @@ namespace lab
             wkProgress.ShowMenu();
             wkProgress.SetUserAnswer();
             Clear();
+        }
+
+        static void WorkWithListCopy(List<ControlElement> list)
+        {
+            List<ControlElement> copy = (List<ControlElement>)list.Clone();
+            Menu cloneMenu = new([
+                "Напечатать изначальный список",
+                "Напечатать копию",
+                "Добавить в конец изначального списка",
+                "Добавить в конец клона",
+                "Удалить последний элемент из начального списка",
+                "Удалить последний элемент из клона",
+                "Редактировать элемент в начальном списке",
+                "Редактировать элемент в клоне",
+                "Назад"]);
+
+
+            bool isClosed = false;
+            while(!isClosed)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+
+                cloneMenu.ShowMenu();
+                switch (cloneMenu.SetUserAnswer())
+                {
+                    case 1:
+                        Clear();
+                        PrintList(list);
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 2:
+                        Clear();
+                        PrintList(copy);
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 3:
+                        Clear();
+                        ControlElement newToList = new();
+                        newToList.Init();
+                        list.Add(newToList);
+                        Clear();
+                        break;
+                    case 4:
+                        Clear();
+                        ControlElement newToClone = new();
+                        newToClone.Init();
+                        copy.Add(newToClone);
+                        Clear();
+                        break;
+                    case 5:
+                        Clear();
+                        ControlElement removedFromList = list[^1];
+                        list.Remove(removedFromList);
+                        WriteLine($"Элемент\n\t{removedFromList}\nудален");
+                        break;
+                        Clear();
+                    case 6:
+                        Clear();
+                        ControlElement removedFromCopy = copy[^1];
+                        list.Remove(removedFromCopy);
+                        WriteLine($"Элемент\n\t{removedFromCopy}\nудален");
+                        Clear();
+                        break;
+                    case 7:
+                        Clear();
+                        PrintList(list);
+                        list[(int)GetIntegerAnswer("Выберите элемент >>> ", 1, list.Count) - 1].Init();
+                        Clear();
+                        break;
+                    case 8:
+                        Clear();
+                        PrintList(copy);
+                        copy[(int)GetIntegerAnswer("Выберите элемент >>> ", 1, copy.Count) - 1].Init();
+                        Clear();
+                        break;
+                    case 9:
+                        Clear();
+                        isClosed = true;
+                        break;
+                }
+            }
+
         }
     }
 }
