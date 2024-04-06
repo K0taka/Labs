@@ -48,7 +48,11 @@ namespace lab
             Last.Previous.Next = Last;
             len += 1;
         }
-
+        
+        /// <summary>
+        /// Добавляет элемент в начало списка
+        /// </summary>
+        /// <param name="element">Элемент для добавления</param>
         public void AddFirst(T element)
         {
             if (Head == null)
@@ -63,6 +67,26 @@ namespace lab
             Head = new ListNode<T>((T)element.Clone(), next: Head);
             //У предыдущей головы добавим ссылку назад на новую голову
             Head.Next.Previous = Head;
+            len += 1;
+        }
+
+        public void Insert(int index, T element)
+        {
+            if (index == Count)
+            {
+                Add(element);
+                return;
+            }
+            else if (index == 0)
+            {
+                AddFirst(element);
+                return;
+            }
+            ListNode<T> wkNode = NodeAt(index);
+            //предыдущий элемент точно есть, index > 0
+            ListNode<T> add = new((T)element.Clone(), next:  wkNode, previous: wkNode.Previous);
+            wkNode.Previous.Next = add;
+            wkNode.Previous = add;
             len += 1;
         }
 
@@ -126,22 +150,28 @@ namespace lab
         {
             get
             {
-                ListNode<T>? curr = NodeAt(index) ?? throw new NullReferenceException();
+                ListNode<T> curr = NodeAt(index);
                 return curr.Data;
             }
 
             set
             {
-                ListNode<T>? curr = NodeAt(index) ?? throw new NullReferenceException();
+                ListNode<T> curr = NodeAt(index);
                 curr.Data = value;
             }
         }
 
-        private ListNode<T>? NodeAt(int index)
+        /// <summary>
+        /// Возвращает узел по его индексу
+        /// </summary>
+        /// <param name="index">Индекс необходимого узла</param>
+        /// <returns>Найденный узел</returns>
+        /// <exception cref="IndexOutOfRangeException">Индекс узла за границами списка</exception>
+        private ListNode<T> NodeAt(int index)
         {
             if (index < 0 || index >= Count)
                 throw new IndexOutOfRangeException();
-            ListNode<T>? curr = Head;
+            ListNode<T> curr = Head;
             for (int currIndex = 1; currIndex <= index; currIndex++)
                 curr = curr.Next;
             return curr;
