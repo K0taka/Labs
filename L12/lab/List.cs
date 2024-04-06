@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Xml;
 
 namespace lab
 {
@@ -10,10 +9,14 @@ namespace lab
         /// </summary>
         private int len;
 
+        private bool readOnly = false;
+
         /// <summary>
         /// Возвращает количество элементов в списке
         /// </summary>
-        public int Count { get { return len; } }
+        public int Count { get => len; }
+
+        public bool IsReadOnly { get => readOnly; }
 
         /// <summary>
         /// Автосвойство головы списка
@@ -27,12 +30,26 @@ namespace lab
         /// </summary>
         public List() { len = 0; }
 
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            ArgumentNullException.ThrowIfNull(array);
+            ArgumentOutOfRangeException.ThrowIfNegative(arrayIndex);
+            if (Count < array.Length - arrayIndex)
+                throw new ArgumentException("Not enought space");
+            for (int index = arrayIndex; index < array.Length; index++)
+            {
+                array[index] = (T)this[index].Clone();
+            }
+        }
+
         /// <summary>
         /// Добавляет элемент в конец списка
         /// </summary>
         /// <param name="element">элемент для добавления</param>
         public void Add(T element)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             if (Last == null)
             {
                 Head = new ListNode<T>((T)element.Clone());
@@ -55,6 +72,8 @@ namespace lab
         /// <param name="element">Элемент для добавления</param>
         public void AddFirst(T element)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             if (Head == null)
             {
                 Last = new ListNode<T>((T)element.Clone());
@@ -72,6 +91,8 @@ namespace lab
 
         public void Insert(int index, T element)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             if (index == Count)
             {
                 Add(element);
@@ -97,6 +118,8 @@ namespace lab
         /// <returns>Логическое об успешности удаления, true если выполнено</returns>
         public bool Remove(T element)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             ListNode<T>? curr = SearchFirstNodeWithData(element);
             
 
@@ -121,6 +144,8 @@ namespace lab
 
         public void RemoveAt(int index)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             if (Count == 0)
                 throw new NullReferenceException();
             ListNode<T> removing = NodeAt(index);
@@ -149,6 +174,13 @@ namespace lab
             len--;
         }
 
+        public void Clear()
+        {
+            if (readOnly)
+                throw new MemberAccessException();
+            Dispose();
+        }
+
         /// <summary>
         /// Индекс первого вхождения указанного элемента в список
         /// </summary>
@@ -170,6 +202,11 @@ namespace lab
             return -1;
         }
 
+        public bool Contains(T element)
+        {
+            return !(IndexOf(element) < 0);
+        }
+
         /// <summary>
         /// Индексатор для списка
         /// </summary>
@@ -186,6 +223,8 @@ namespace lab
 
             set
             {
+                if (readOnly)
+                    throw new MemberAccessException();
                 ListNode<T> curr = NodeAt(index);
                 curr.Data = value;
             }
@@ -237,7 +276,7 @@ namespace lab
         /// <returns>Список - глубокая копия текущего</returns>
         public object Clone()
         {
-            List<T> clone = new();
+            List<T> clone = [];
             foreach(T element in this)
             {
                 clone.Add( (T)element.Clone() );
@@ -272,6 +311,8 @@ namespace lab
         /// <returns>Возвращает bool об успешности операции, true если выполнена</returns>
         public bool AddAfter(T afterElement, T addElement)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             ListNode<T>? curr = SearchFirstNodeWithData(afterElement);
 
             if (curr != null)
@@ -297,6 +338,8 @@ namespace lab
         /// <returns>Логическое об успешности операции, true если удалено</returns>
         public bool DeleteAllBefore(T element)
         {
+            if (readOnly)
+                throw new MemberAccessException();
             ListNode<T>? found = SearchFirstNodeWithData(element);
             if (found == null)
                 return false;
