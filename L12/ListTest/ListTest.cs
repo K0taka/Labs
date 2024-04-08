@@ -250,5 +250,85 @@ namespace Tests
 
             Assert.ThrowsException<IndexOutOfRangeException>(() => list.Insert(6, insert));
         }
+
+        [TestMethod]
+        public void RemoveTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement remove = new(10, 10);
+            list.Insert(3, remove);
+
+            Assert.AreEqual(remove, list[3]);
+
+            list.Remove(remove);
+
+            Assert.IsFalse(list.Contains(remove));
+        }
+
+        [TestMethod]
+        public void RemoveNonExistTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement remove = new(10, 10);
+
+            Assert.IsFalse(list.Remove(remove));
+        }
+
+        [TestMethod]
+        public void RemoveFirstTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement remove = new(10, 10);
+            list.AddFirst(remove);
+
+            Assert.AreEqual(remove, list[0]);
+
+            list.Remove(remove);
+
+            Assert.IsFalse(list.Contains(remove));
+
+        }
+
+        [TestMethod]
+        public void RemoveLastTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement remove = new(10, 10);
+            list.Add(remove);
+
+            Assert.AreEqual(remove, list[^1]);
+
+            list.Remove(remove);
+
+            Assert.IsFalse(list.Contains(remove));
+        }
     }
 }
