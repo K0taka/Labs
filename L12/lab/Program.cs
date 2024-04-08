@@ -29,7 +29,7 @@ namespace lab
 
         static void ListPart()
         {
-            List<ControlElement> list = [];
+            MyList<ControlElement> list = [];
             ControlElement? chosEl = null;
             Menu ListMenu = new([
             "Напечатать список и выбранный элемент",
@@ -178,7 +178,7 @@ namespace lab
             return element;
         }
 
-        static void FillList(int len, List<ControlElement> list)
+        static void FillList(int len, MyList<ControlElement> list)
         {
             list.Dispose();
             GC.Collect();
@@ -189,7 +189,7 @@ namespace lab
             }
         }
 
-        static void PrintList<T>(List<T> list) where T : IDisposable, ICloneable
+        static void PrintList<T>(MyList<T> list) where T : IDisposable, ICloneable
         {
             WriteLine("На текущий момент двусвязный список выглядит так:");
             if (list == null || list.Count == 0)
@@ -211,9 +211,9 @@ namespace lab
             Clear();
         }
 
-        static void WorkWithListCopy(List<ControlElement> list)
+        static void WorkWithListCopy(MyList<ControlElement> list)
         {
-            List<ControlElement> copy = (List<ControlElement>)list.Clone();
+            MyList<ControlElement> copy = (MyList<ControlElement>)list.Clone();
             Menu cloneMenu = new([
                 "Напечатать изначальный список",
                 "Напечатать копию",
@@ -313,7 +313,7 @@ namespace lab
             Clear();
         }
 
-        static ControlElement? FindWithX(List<ControlElement> list, uint x)
+        static ControlElement? FindWithX(MyList<ControlElement> list, uint x)
         {
             foreach(ControlElement element in list)
             {

@@ -2,7 +2,7 @@
 
 namespace lab
 {
-    public class List<T>: IList<T>, ICloneable, IEnumerable<T>, IDisposable where T: ICloneable, IDisposable
+    public class MyList<T>: IList<T>, ICloneable, IEnumerable<T>, IDisposable where T: ICloneable, IDisposable
     {
         /// <summary>
         /// Текущая длина списка
@@ -37,14 +37,14 @@ namespace lab
         /// <summary>
         /// Инициализирует пустой список
         /// </summary>
-        public List() { len = 0; }
+        public MyList() { len = 0; }
 
         /// <summary>
         /// Конструктор для списка из массива
         /// </summary>
         /// <param name="array">Массив элементов</param>
         /// <exception cref="ArgumentNullException">Массив не инициализирован</exception>
-        public List(T[] array, bool readOnly = false)
+        public MyList(T[] array, bool readOnly = false)
         {
             ArgumentNullException.ThrowIfNull(array);
             len = 0;
@@ -334,7 +334,7 @@ namespace lab
         /// <returns>Список - глубокая копия текущего</returns>
         public object Clone()
         {
-            List<T> clone = [];
+            MyList<T> clone = [];
             foreach(T element in this)
             {
                 //конструкцию try можно опустить, только что созданный список имеет readonly = false
@@ -435,7 +435,7 @@ namespace lab
             return null;
         }
 
-        ~List()
+        ~MyList()
         {
             Dispose();
         }
