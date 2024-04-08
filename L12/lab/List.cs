@@ -9,6 +9,9 @@ namespace lab
         /// </summary>
         private int len;
 
+        /// <summary>
+        /// Список доступен только для чтения
+        /// </summary>
         private bool readOnly = false;
 
         /// <summary>
@@ -16,6 +19,9 @@ namespace lab
         /// </summary>
         public int Count { get => len; }
 
+        /// <summary>
+        /// Возвращает логическое, true если список доступен только для чтения
+        /// </summary>
         public bool IsReadOnly { get => readOnly; }
 
         /// <summary>
@@ -23,6 +29,9 @@ namespace lab
         /// </summary>
         public ListNode<T>? Head { get; set; }
 
+        /// <summary>
+        /// Автосвойство последнего элемента списка
+        /// </summary>
         public ListNode<T>? Last { get; set; }
 
         /// <summary>
@@ -30,11 +39,34 @@ namespace lab
         /// </summary>
         public List() { len = 0; }
 
+        /// <summary>
+        /// Конструктор для списка из массива
+        /// </summary>
+        /// <param name="array">Массив элементов</param>
+        /// <exception cref="ArgumentNullException">Массив не инициализирован</exception>
+        public List(T[] array)
+        {
+            if (array == null)
+                throw new ArgumentNullException("array");
+            len = 0;
+            foreach (var item in array)
+            {
+                Add(item);
+                len += 1;
+            }
+        }
+
+        /// <summary>
+        /// Копировать элементы
+        /// </summary>
+        /// <param name="array">Массив в который производится копирование</param>
+        /// <param name="arrayIndex">Индекс начала</param>
+        /// <exception cref="ArgumentException">Массив недостаточной размерности</exception>
         public void CopyTo(T[] array, int arrayIndex)
         {
             ArgumentNullException.ThrowIfNull(array);
             ArgumentOutOfRangeException.ThrowIfNegative(arrayIndex);
-            if (Count < array.Length - arrayIndex)
+            if (Count > array.Length - arrayIndex)
                 throw new ArgumentException("Not enought space");
             for (int index = arrayIndex; index < array.Length; index++)
             {
@@ -89,6 +121,13 @@ namespace lab
             len += 1;
         }
 
+        /// <summary>
+        /// Поместить на эказанный индекс элемент
+        /// </summary>
+        /// <param name="index">Индекс для прмещения объекта</param>
+        /// <param name="element">Элемент который нужно поместить</param>
+        /// <exception cref="MemberAccessException">Невозможно поместить, список только для чтения</exception>
+        /// <exception cref="IndexOutOfRangeException">Указан индекс за пределами массива</exception>
         public void Insert(int index, T element)
         {
             if (readOnly)
@@ -103,7 +142,7 @@ namespace lab
                 AddFirst(element);
                 return;
             }
-            ListNode<T> wkNode = NodeAt(index);
+            ListNode<T> wkNode = NodeAt(index) ?? throw new IndexOutOfRangeException();
             //предыдущий элемент точно есть, index > 0
             ListNode<T> add = new((T)element.Clone(), next:  wkNode, previous: wkNode.Previous);
             wkNode.Previous.Next = add;
@@ -142,13 +181,20 @@ namespace lab
             return false;
         }
 
+        /// <summary>
+        /// Удаляет элемент на указанной позиции
+        /// </summary>
+        /// <param name="index">Индекс удаляемого элемента</param>
+        /// <exception cref="MemberAccessException">Операция невозможно, список в режиме только для чтения</exception>
+        /// <exception cref="NullReferenceException">Список пуст</exception>
+        /// <exception cref="IndexOutOfRangeException">Индекс за пределами списка</exception>
         public void RemoveAt(int index)
         {
             if (readOnly)
                 throw new MemberAccessException();
             if (Count == 0)
                 throw new NullReferenceException();
-            ListNode<T> removing = NodeAt(index);
+            ListNode<T> removing = NodeAt(index) ?? throw new IndexOutOfRangeException();
             if (index == 0)
             {
                 Head = removing.Next;
@@ -174,6 +220,10 @@ namespace lab
             len--;
         }
 
+        /// <summary>
+        /// Очистить список
+        /// </summary>
+        /// <exception cref="MemberAccessException">Список доступен только для чтения</exception>
         public void Clear()
         {
             if (readOnly)
@@ -202,6 +252,11 @@ namespace lab
             return -1;
         }
 
+        /// <summary>
+        /// Список содержит указанный элемент
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         public bool Contains(T element)
         {
             return !(IndexOf(element) < 0);
@@ -217,7 +272,7 @@ namespace lab
         {
             get
             {
-                ListNode<T> curr = NodeAt(index);
+                ListNode<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
                 return curr.Data;
             }
 
@@ -225,7 +280,7 @@ namespace lab
             {
                 if (readOnly)
                     throw new MemberAccessException();
-                ListNode<T> curr = NodeAt(index);
+                ListNode<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
                 curr.Data = value;
             }
         }
@@ -236,10 +291,10 @@ namespace lab
         /// <param name="index">Индекс необходимого узла</param>
         /// <returns>Найденный узел</returns>
         /// <exception cref="IndexOutOfRangeException">Индекс узла за границами списка</exception>
-        private ListNode<T> NodeAt(int index)
+        private ListNode<T>? NodeAt(int index)
         {
             if (index < 0 || index >= Count)
-                throw new IndexOutOfRangeException();
+                return null;
             ListNode<T> curr = Head;
             for (int currIndex = 1; currIndex <= index; currIndex++)
                 curr = curr.Next;
@@ -279,7 +334,7 @@ namespace lab
             List<T> clone = [];
             foreach(T element in this)
             {
-                clone.Add( (T)element.Clone() );
+                clone.Add(element); //так как при добавлении используется Clone, то не нужно его делать дважды
             }
             return clone;
         }
@@ -355,6 +410,11 @@ namespace lab
             return true;
         }
 
+        /// <summary>
+        /// Поиск первого узла в списке с указанным значением data
+        /// </summary>
+        /// <param name="data">Значение для поиска</param>
+        /// <returns>Найденный узел или null</returns>
         private ListNode<T>? SearchFirstNodeWithData(T data)
         {
             if (Head == null)

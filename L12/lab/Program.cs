@@ -263,9 +263,9 @@ namespace lab
                         break;
                     case 5:
                         Clear();
-                        ControlElement removedFromList = list[^1];
                         try
                         {
+                            ControlElement removedFromList = list[^1];
                             list.RemoveAt(list.Count - 1);
                             WriteLine($"Элемент\n\t{removedFromList}\nудален");
                         }
@@ -273,13 +273,14 @@ namespace lab
                         {
                             WriteLine("Ошибка! Список пуст.");
                         }
+                        WaitAnyButton();
                         Clear();
                         break;
                     case 6:
                         Clear();
-                        ControlElement removedFromCopy = copy[^1];
                         try
                         {
+                            ControlElement removedFromCopy = copy[^1];
                             copy.RemoveAt(copy.Count - 1);
                             WriteLine($"Элемент\n\t{removedFromCopy}\nудален");
                         }
@@ -287,6 +288,7 @@ namespace lab
                         {
                             WriteLine("Ошибка! Список пуст.");
                         }
+                        WaitAnyButton();
                         Clear();
                         break;
                     case 7:
