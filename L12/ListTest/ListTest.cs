@@ -180,5 +180,75 @@ namespace Tests
             Assert.AreEqual(first, list[0]);
             Assert.AreEqual(first, list.Head.Data);
         }
+
+        [TestMethod]
+        public void InsertTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+            ControlElement insert = new();
+            insert.RandomInit();
+
+            list.Insert(3, insert);
+
+            Assert.AreEqual(insert, list[3]);
+        }
+
+        [TestMethod]
+        public void InsertFirstTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+            ControlElement insert = new();
+            insert.RandomInit();
+
+            list.Insert(0, insert);
+
+            Assert.AreEqual(insert, list[0]);
+        }
+
+        [TestMethod]
+        public void InsertLastTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+            ControlElement insert = new();
+            insert.RandomInit();
+
+            list.Insert(5, insert);
+
+            Assert.AreEqual(insert, list[5]);
+        }
+
+        [TestMethod]
+        public void InsertOutOfRangeTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+            ControlElement insert = new();
+            insert.RandomInit();
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => list.Insert(6, insert));
+        }
     }
 }
