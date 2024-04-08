@@ -78,6 +78,7 @@ namespace lab
         /// Добавляет элемент в конец списка
         /// </summary>
         /// <param name="element">элемент для добавления</param>
+        /// <exception cref="MemberAccessException">Невозможно поместить, список только для чтения</exception>
         public void Add(T element)
         {
             if (readOnly)
@@ -97,11 +98,12 @@ namespace lab
             Last.Previous.Next = Last;
             len += 1;
         }
-        
+
         /// <summary>
         /// Добавляет элемент в начало списка
         /// </summary>
         /// <param name="element">Элемент для добавления</param>
+        /// <exception cref="MemberAccessException">Невозможно поместить, список только для чтения</exception>
         public void AddFirst(T element)
         {
             if (readOnly)
@@ -155,6 +157,7 @@ namespace lab
         /// </summary>
         /// <param name="element">Элемент, который необходимо удалить</param>
         /// <returns>Логическое об успешности удаления, true если выполнено</returns>
+        /// <exception cref="MemberAccessException">Невозможно удалить, список только для чтения</exception>
         public bool Remove(T element)
         {
             if (readOnly)
@@ -364,6 +367,7 @@ namespace lab
         /// <param name="afterElement">Элемент после первого вхождения которого будет добавлен новый</param>
         /// <param name="addElement">Значение нового элемента</param>
         /// <returns>Возвращает bool об успешности операции, true если выполнена</returns>
+        /// <exception cref="MemberAccessException">Невозможно поместить, список только для чтения</exception>
         public bool AddAfter(T afterElement, T addElement)
         {
             if (readOnly)
@@ -391,6 +395,7 @@ namespace lab
         /// </summary>
         /// <param name="element">Элемент до первого вхождения которого производится удаление</param>
         /// <returns>Логическое об успешности операции, true если удалено</returns>
+        /// <exception cref="MemberAccessException">Невозможно удалить, список только для чтения</exception>
         public bool DeleteAllBefore(T element)
         {
             if (readOnly)
