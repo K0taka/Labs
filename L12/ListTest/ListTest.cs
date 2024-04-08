@@ -119,7 +119,66 @@ namespace Tests
         [TestMethod]
         public void CopyToArrayNegativeIndexTest()
         {
+            MyList<ControlElement> list = new();
+            ControlElement[] arr = new ControlElement[5];
+            
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => list.CopyTo(arr, -3));
+        }
 
+        [TestMethod]
+        public void CopyToArrayWithNotEnoghtSpaceTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 10; i++)
+            {
+                ControlElement element = new();
+                element.RandomInit();
+                list.Add(element);
+            }
+
+            ControlElement[] arr = new ControlElement[5];
+
+            Assert.ThrowsException<ArgumentException>(() => list.CopyTo(arr, 0));
+        }
+
+        [TestMethod]
+        public void AddMethodTest()
+        {
+            ControlElement last = new ControlElement();
+            last.RandomInit();
+
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 10; i++)
+            {
+                ControlElement element = new();
+                element.RandomInit();
+                list.Add(element);
+            }
+
+            list.Add(last);
+
+            Assert.AreEqual(last, list[^1]);
+            Assert.AreEqual(last, list.Last.Data);
+        }
+
+        [TestMethod]
+        public void AddFirstMethodTest()
+        {
+            ControlElement first = new ControlElement();
+            first.RandomInit();
+
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 10; i++)
+            {
+                ControlElement element = new();
+                element.RandomInit();
+                list.AddFirst(element);
+            }
+
+            list.AddFirst(first);
+
+            Assert.AreEqual(first, list[0]);
+            Assert.AreEqual(first, list.Head.Data);
         }
     }
 }
