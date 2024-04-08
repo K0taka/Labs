@@ -70,7 +70,7 @@ namespace lab
                 throw new ArgumentException("Not enought space");
             for (int index = arrayIndex; index < array.Length; index++)
             {
-                array[index] = (T)this[index].Clone();
+                array[index] = (T)this[index - arrayIndex].Clone();
             }
         }
 
