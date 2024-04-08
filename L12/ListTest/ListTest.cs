@@ -361,6 +361,7 @@ namespace Tests
             Assert.IsFalse(list.Contains(removing));
         }
 
+        [TestMethod]
         public void RemoveAtFirstTest()
         {
             MyList<ControlElement> list = new();
@@ -418,6 +419,35 @@ namespace Tests
             }
 
             Assert.ThrowsException<IndexOutOfRangeException>(() => list.RemoveAt(6));
+        }
+
+        [TestMethod]
+        public void ClearTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+            list.Clear();
+            Assert.AreEqual(0, list.Count);
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            //Create two items to make sure the IDs are in order.
+            ControlElement nElem = new();
+            ControlElement nElem1 = new();
+            Assert.AreEqual(0, (int)nElem.Id);
+            Assert.AreEqual(1, (int)nElem1.Id);
+        }
+
+        [TestMethod]
+        public void IndexOfTest()
+        {
+
         }
     }
 }
