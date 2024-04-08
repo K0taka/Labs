@@ -12,7 +12,7 @@ namespace lab
         /// <summary>
         /// Список доступен только для чтения
         /// </summary>
-        private bool readOnly = false;
+        private readonly bool readOnly = false;
 
         /// <summary>
         /// Возвращает количество элементов в списке
@@ -44,16 +44,16 @@ namespace lab
         /// </summary>
         /// <param name="array">Массив элементов</param>
         /// <exception cref="ArgumentNullException">Массив не инициализирован</exception>
-        public List(T[] array)
+        public List(T[] array, bool readOnly = false)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
+            ArgumentNullException.ThrowIfNull(array);
             len = 0;
             foreach (var item in array)
             {
                 Add(item);
                 len += 1;
             }
+            this.readOnly = readOnly;
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace lab
                 throw new MemberAccessException();
             if (index == Count)
             {
-                Add(element);
+                Add(element); //try не требуется, исключение от Add уже проверено выше
                 return;
             }
             else if (index == 0)
@@ -337,6 +337,7 @@ namespace lab
             List<T> clone = [];
             foreach(T element in this)
             {
+                //конструкцию try можно опустить, только что созданный список имеет readonly = false
                 clone.Add(element); //так как при добавлении используется Clone, то не нужно его делать дважды
             }
             return clone;
