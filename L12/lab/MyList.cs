@@ -27,12 +27,12 @@ namespace lab
         /// <summary>
         /// Автосвойство головы списка
         /// </summary>
-        public ListNode<T>? Head { get; set; }
+        public Node<T>? Head { get; set; }
 
         /// <summary>
         /// Автосвойство последнего элемента списка
         /// </summary>
-        public ListNode<T>? Last { get; set; }
+        public Node<T>? Last { get; set; }
 
         /// <summary>
         /// Инициализирует пустой список
@@ -85,7 +85,7 @@ namespace lab
                 throw new MemberAccessException();
             if (Last == null)
             {
-                Head = new ListNode<T>((T)element.Clone());
+                Head = new Node<T>((T)element.Clone());
                 Last = Head;
                 len += 1;
                 GC.ReRegisterForFinalize(this);
@@ -110,14 +110,14 @@ namespace lab
                 throw new MemberAccessException();
             if (Head == null)
             {
-                Last = new ListNode<T>((T)element.Clone());
+                Last = new Node<T>((T)element.Clone());
                 Head = Last;
                 len += 1;
                 GC.ReRegisterForFinalize(this);
                 return;
             }
             //Создаем новый Head со ссылкой (точно не null) на предыдущую голову
-            Head = new ListNode<T>((T)element.Clone(), next: Head);
+            Head = new Node<T>((T)element.Clone(), next: Head);
             //У предыдущей головы добавим ссылку назад на новую голову
             Head.Next.Previous = Head;
             len += 1;
@@ -144,9 +144,9 @@ namespace lab
                 AddFirst(element);
                 return;
             }
-            ListNode<T> wkNode = NodeAt(index) ?? throw new IndexOutOfRangeException();
+            Node<T> wkNode = NodeAt(index) ?? throw new IndexOutOfRangeException();
             //предыдущий элемент точно есть, index > 0
-            ListNode<T> add = new((T)element.Clone(), next:  wkNode, previous: wkNode.Previous);
+            Node<T> add = new((T)element.Clone(), next:  wkNode, previous: wkNode.Previous);
             wkNode.Previous.Next = add;
             wkNode.Previous = add;
             len += 1;
@@ -162,7 +162,7 @@ namespace lab
         {
             if (readOnly)
                 throw new MemberAccessException();
-            ListNode<T>? curr = SearchFirstNodeWithData(element);
+            Node<T>? curr = SearchFirstNodeWithData(element);
             
 
             if (curr != null)
@@ -197,7 +197,7 @@ namespace lab
                 throw new MemberAccessException();
             if (Count == 0)
                 throw new NullReferenceException();
-            ListNode<T> removing = NodeAt(index) ?? throw new IndexOutOfRangeException();
+            Node<T> removing = NodeAt(index) ?? throw new IndexOutOfRangeException();
             if (index == 0)
             {
                 Head = removing.Next;
@@ -244,7 +244,7 @@ namespace lab
             if (Head == null)
                 return -1;
             int index = 0;
-            ListNode<T> curr = Head;
+            Node<T> curr = Head;
             while (curr.Next != null && !curr.Data.Equals(element)) 
             {
                 curr = curr.Next;
@@ -275,7 +275,7 @@ namespace lab
         {
             get
             {
-                ListNode<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
+                Node<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
                 return curr.Data;
             }
 
@@ -283,7 +283,7 @@ namespace lab
             {
                 if (readOnly)
                     throw new MemberAccessException();
-                ListNode<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
+                Node<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
                 curr.Data = value;
             }
         }
@@ -294,11 +294,11 @@ namespace lab
         /// <param name="index">Индекс необходимого узла</param>
         /// <returns>Найденный узел</returns>
         /// <exception cref="IndexOutOfRangeException">Индекс узла за границами списка</exception>
-        private ListNode<T>? NodeAt(int index)
+        private Node<T>? NodeAt(int index)
         {
             if (index < 0 || index >= Count)
                 return null;
-            ListNode<T> curr = Head;
+            Node<T> curr = Head;
             for (int currIndex = 1; currIndex <= index; currIndex++)
                 curr = curr.Next;
             return curr;
@@ -319,7 +319,7 @@ namespace lab
         /// <returns>Текущий элемент итерации</returns>
         public IEnumerator<T> GetEnumerator()
         {
-            ListNode<T>? curr = Head;
+            Node<T>? curr = Head;
             while (curr != null)
             {
                 yield return curr.Data;
@@ -348,8 +348,8 @@ namespace lab
         /// </summary>
         public void Dispose()
         {
-            ListNode<T>? curr = Head;
-            ListNode<T>? next;
+            Node<T>? curr = Head;
+            Node<T>? next;
             while (curr != null)
             {
                 next = curr.Next;
@@ -373,7 +373,7 @@ namespace lab
         {
             if (readOnly)
                 throw new MemberAccessException();
-            ListNode<T>? curr = SearchFirstNodeWithData(afterElement);
+            Node<T>? curr = SearchFirstNodeWithData(afterElement);
 
             if (curr != null)
             {
@@ -401,11 +401,11 @@ namespace lab
         {
             if (readOnly)
                 throw new MemberAccessException();
-            ListNode<T>? found = SearchFirstNodeWithData(element);
+            Node<T>? found = SearchFirstNodeWithData(element);
             if (found == null)
                 return false;
             Head = found;
-            ListNode<T>? deleteTo = Head.Previous;
+            Node<T>? deleteTo = Head.Previous;
             Head.Previous = null;
             while (deleteTo != null)
             {
@@ -421,11 +421,11 @@ namespace lab
         /// </summary>
         /// <param name="data">Значение для поиска</param>
         /// <returns>Найденный узел или null</returns>
-        private ListNode<T>? SearchFirstNodeWithData(T data)
+        private Node<T>? SearchFirstNodeWithData(T data)
         {
             if (Head == null)
                 return null;
-            ListNode<T> result = Head;
+            Node<T> result = Head;
             while (result.Next != null && !result.Data.Equals(data))
             { 
                 result = result.Next;

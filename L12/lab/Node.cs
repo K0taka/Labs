@@ -1,14 +1,14 @@
 ﻿namespace lab
 {
-    public class ListNode<T>: IDisposable where T: IDisposable
+    public class Node<T>: IDisposable where T: IDisposable
     {
         public T Data { get; set; }
 
-        public ListNode<T>? Next { get; set; }
+        public Node<T>? Next { get; set; }
 
-        public ListNode<T>? Previous { get; set; }
+        public Node<T>? Previous { get; set; }
 
-        public ListNode(T data, ListNode<T>? next = null, ListNode<T>? previous = null)
+        public Node(T data, Node<T>? next = null, Node<T>? previous = null)
         {
             Data = data;
             Next = next;
@@ -28,7 +28,7 @@
             GC.SuppressFinalize(this);
         }
 
-        ~ListNode() 
+        ~Node() 
         {
             Dispose();
         }
