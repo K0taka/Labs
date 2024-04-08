@@ -307,6 +307,7 @@ namespace Tests
             list.Remove(remove);
 
             Assert.IsFalse(list.Contains(remove));
+            Assert.AreEqual(list[0], list.Head.Data);
 
         }
 
@@ -329,6 +330,94 @@ namespace Tests
             list.Remove(remove);
 
             Assert.IsFalse(list.Contains(remove));
+            Assert.AreEqual(list[^1], list.Last.Data);
+        }
+
+        [TestMethod]
+        public void RemoveFromEmptyListTest()
+        {
+            MyList<ControlElement> list = [];
+
+            ControlElement remove = new(10, 10);
+
+            Assert.IsFalse(list.Remove(remove));
+        }
+
+        [TestMethod]
+        public void RemoveAtTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement removing = list[3];
+
+            list.RemoveAt(3);
+            
+            Assert.IsFalse(list.Contains(removing));
+        }
+
+        public void RemoveAtFirstTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement removing = list[0];
+
+            list.RemoveAt(0);
+
+            Assert.IsFalse(list.Contains(removing));
+            Assert.AreEqual(list[0], list.Head.Data);
+        }
+
+        [TestMethod]
+        public void RemoveAtLastTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement removing = list[4];
+
+            list.RemoveAt(4);
+
+            Assert.IsFalse(list.Contains(removing));
+            Assert.AreEqual(list[^1], list.Last.Data);
+        }
+
+        [TestMethod]
+        public void RemoveAtEmptyTest()
+        {
+            MyList<ControlElement> list = new();
+
+            Assert.ThrowsException<NullReferenceException>(() => list.RemoveAt(0));
+        }
+
+        [TestMethod]
+        public void RemoveAtOutOfRangeTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => list.RemoveAt(6));
         }
     }
 }
