@@ -7,6 +7,16 @@ namespace Tests
     [TestClass]
     public class ListTest
     {
+        static void FillList(MyList<ControlElement> list, int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+        }
+
         [TestMethod]
         public void EmptyListIndexGetTest()
         {
@@ -38,16 +48,11 @@ namespace Tests
         public void IndexGetLastTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement last = new ControlElement(10, 10);
             list.Add(last);
-            Assert.AreEqual(last, list[6]);
+            Assert.AreEqual(last, list[5]);
         }
 
         [TestMethod]
@@ -66,21 +71,62 @@ namespace Tests
             Assert.AreEqual(first, list[0]);
         }
 
-        //working here
+        [TestMethod]
+        public void IndexGetIncorrectIndexTest()
+        {
+            MyList<ControlElement> list = new();
+            FillList(list, 5);
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => list[10]);
+        }
+
         [TestMethod]
         public void IndexSetTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement nElem = new ControlElement(10, 10);
             list[3] = nElem;
             Assert.AreEqual(nElem, list[3]);
+        }
+
+        [TestMethod]
+        public void IndexSetFirstTest()
+        {
+            MyList<ControlElement> list = new();
+            FillList(list, 5);
+
+            ControlElement nElem = new(10, 10);
+            list[0] = nElem;
+            Assert.AreEqual(nElem, list[0]);
+        }
+
+        [TestMethod]
+        public void IndexSetLastTest()
+        {
+            MyList<ControlElement> list = new();
+            FillList(list, 5);
+
+            ControlElement nElem = new(10, 10);
+            list[^1] = nElem;
+            Assert.AreEqual(nElem, list[^1]);
+        }
+
+        [TestMethod]
+        public void IndexSetEmptyTest()
+        {
+            MyList<ControlElement> list = new();
+
+            Assert.ThrowsException<IndexOutOfRangeException>(() => list[0] = new ControlElement());
+        }
+
+        [TestMethod]
+        public void IndexSetOutOfRAngeTest()
+        {
+            MyList<ControlElement> list = new();
+            FillList(list, 5);
+            Assert.ThrowsException<IndexOutOfRangeException>(() => list[10] = new ControlElement());
         }
 
         [TestMethod]
@@ -126,12 +172,7 @@ namespace Tests
         public void CopyToArrayTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement element = new();
-                element.RandomInit();
-                list.Add(element);
-            }
+            FillList(list, 5);
 
             ControlElement[] arr = new ControlElement[5];
 
@@ -150,12 +191,7 @@ namespace Tests
             ControlElement[] arr = new ControlElement[10];
 
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement element = new();
-                element.RandomInit();
-                list.Add(element);
-            }
+            FillList(list, 5);
 
             list.CopyTo(arr, 5);
 
@@ -179,12 +215,7 @@ namespace Tests
         public void CopyToArrayWithNotEnoghtSpaceTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 10; i++)
-            {
-                ControlElement element = new();
-                element.RandomInit();
-                list.Add(element);
-            }
+            FillList(list, 10);
 
             ControlElement[] arr = new ControlElement[5];
 
@@ -198,12 +229,7 @@ namespace Tests
             last.RandomInit();
 
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 10; i++)
-            {
-                ControlElement element = new();
-                element.RandomInit();
-                list.Add(element);
-            }
+            FillList(list, 10);
 
             list.Add(last);
 
@@ -218,12 +244,7 @@ namespace Tests
             first.RandomInit();
 
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 10; i++)
-            {
-                ControlElement element = new();
-                element.RandomInit();
-                list.AddFirst(element);
-            }
+            FillList(list, 10);
 
             list.AddFirst(first);
 
@@ -235,12 +256,7 @@ namespace Tests
         public void InsertTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
             ControlElement insert = new();
             insert.RandomInit();
 
@@ -253,12 +269,7 @@ namespace Tests
         public void InsertFirstTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
             ControlElement insert = new();
             insert.RandomInit();
 
@@ -271,12 +282,7 @@ namespace Tests
         public void InsertLastTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
             ControlElement insert = new();
             insert.RandomInit();
 
@@ -289,12 +295,7 @@ namespace Tests
         public void InsertOutOfRangeTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
             ControlElement insert = new();
             insert.RandomInit();
 
@@ -305,12 +306,7 @@ namespace Tests
         public void RemoveTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement remove = new(10, 10);
             list.Insert(3, remove);
@@ -326,12 +322,7 @@ namespace Tests
         public void RemoveNonExistTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement remove = new(10, 10);
 
@@ -342,12 +333,7 @@ namespace Tests
         public void RemoveFirstTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement remove = new(10, 10);
             list.AddFirst(remove);
@@ -365,12 +351,7 @@ namespace Tests
         public void RemoveLastTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement remove = new(10, 10);
             list.Add(remove);
@@ -397,12 +378,7 @@ namespace Tests
         public void RemoveAtTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement removing = list[3];
 
@@ -415,12 +391,7 @@ namespace Tests
         public void RemoveAtFirstTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement removing = list[0];
 
@@ -434,12 +405,7 @@ namespace Tests
         public void RemoveAtLastTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement removing = list[4];
 
@@ -461,12 +427,7 @@ namespace Tests
         public void RemoveAtOutOfRangeTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             Assert.ThrowsException<IndexOutOfRangeException>(() => list.RemoveAt(6));
         }
@@ -475,12 +436,7 @@ namespace Tests
         public void ClearTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
             list.Clear();
             Assert.AreEqual(0, list.Count);
 
@@ -498,12 +454,7 @@ namespace Tests
         public void IndexOfTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement add = new(10, 10);
 
@@ -516,12 +467,7 @@ namespace Tests
         public void IndexOfFirstTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement add = new(10, 10);
 
@@ -534,12 +480,7 @@ namespace Tests
         public void IndexOfLastTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement add = new(10, 10);
 
@@ -552,12 +493,7 @@ namespace Tests
         public void IndexOfNonExistTest()
         {
             MyList<ControlElement> list = new();
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement add = new(10, 10);
 
@@ -578,12 +514,7 @@ namespace Tests
         public void ContainsTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement contains = new(10, 10);
             list.Insert(3, contains);
@@ -595,12 +526,7 @@ namespace Tests
         public void ContainsFirstTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement contains = new(10, 10);
             list.AddFirst(contains);
@@ -612,12 +538,7 @@ namespace Tests
         public void ContainsLastTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement contains = new(10, 10);
             list.Add(contains);
@@ -629,12 +550,7 @@ namespace Tests
         public void ContainsNonExistTest()
         {
             MyList<ControlElement> list = [];
-            for (int i = 0; i < 5; i++)
-            {
-                ControlElement elem = new();
-                elem.RandomInit();
-                list.Add(elem);
-            }
+            FillList(list, 5);
 
             ControlElement contains = new(10, 10);
 
