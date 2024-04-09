@@ -1,5 +1,6 @@
 using Lab10Lib;
 using lab;
+using System.Collections.Generic;
 
 namespace Tests
 {
@@ -7,7 +8,7 @@ namespace Tests
     public class ListTest
     {
         [TestMethod]
-        public void EmptyListIndexTest()
+        public void EmptyListIndexGetTest()
         {
             MyList<ControlElement> list = new();
 
@@ -15,7 +16,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public void IndexTest()
+        public void IndexGetTest()
         {
             ControlElement first = new ControlElement();
             Button last = new Button();
@@ -31,6 +32,55 @@ namespace Tests
             Assert.AreEqual(first, list[0]);
             Assert.AreEqual(last, list[2]);
 
+        }
+
+        [TestMethod]
+        public void IndexGetLastTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement last = new ControlElement(10, 10);
+            list.Add(last);
+            Assert.AreEqual(last, list[6]);
+        }
+
+        [TestMethod]
+        public void IndexGetFirstTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement first = new ControlElement(10, 10);
+            list.AddFirst(first);
+            Assert.AreEqual(first, list[0]);
+        }
+
+        //working here
+        [TestMethod]
+        public void IndexSetTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement nElem = new ControlElement(10, 10);
+            list[3] = nElem;
+            Assert.AreEqual(nElem, list[3]);
         }
 
         [TestMethod]
@@ -600,5 +650,7 @@ namespace Tests
 
             Assert.IsFalse(list.Contains(contains));
         }
+
+
     }
 }
