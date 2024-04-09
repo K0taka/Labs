@@ -435,6 +435,11 @@ namespace lab
             return null;
         }
 
+        /// <summary>
+        /// Эквивалентность двух списков
+        /// </summary>
+        /// <param name="obj">С каким списком сравнивать</param>
+        /// <returns>Логическое, true если равны</returns>
         public override bool Equals(object? obj)
         {
             if (obj == null) return false;
