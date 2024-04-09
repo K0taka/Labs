@@ -1,6 +1,6 @@
 ﻿namespace lab
 {
-    public class Node<T>: IDisposable where T: IDisposable
+    public class ListNode<T>: IDisposable where T: IDisposable
     {
         /// <summary>
         /// Автосвойство для хранения объекта; null не предусмотрен
@@ -10,12 +10,12 @@
         /// <summary>
         /// Ссылка на следующий элементъ
         /// </summary>
-        public Node<T>? Next { get; set; }
+        public ListNode<T>? Next { get; set; }
 
         /// <summary>
         /// Ссылка на предыдущий элемент
         /// </summary>
-        public Node<T>? Previous { get; set; }
+        public ListNode<T>? Previous { get; set; }
 
         /// <summary>
         /// Конструктор для создания узла с информацией и ссылками на следующий и предыдущий элементы
@@ -23,7 +23,7 @@
         /// <param name="data">Объект в узле</param>
         /// <param name="next">Ссылка на следующий</param>
         /// <param name="previous">Ссылка на предыдущий</param>
-        public Node(T data, Node<T>? next = null, Node<T>? previous = null)
+        public ListNode(T data, ListNode<T>? next = null, ListNode<T>? previous = null)
         {
             Data = data;
             Next = next;
@@ -50,7 +50,7 @@
             GC.SuppressFinalize(this);
         }
 
-        ~Node() 
+        ~ListNode() 
         {
             Dispose();
         }
