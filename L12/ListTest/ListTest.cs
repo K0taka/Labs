@@ -1,6 +1,5 @@
 using Lab10Lib;
 using lab;
-using System.Collections.Generic;
 
 namespace Tests
 {
@@ -608,5 +607,53 @@ namespace Tests
             Assert.AreNotEqual(list[^1], clone[^1]);
         }
 
+        [TestMethod]
+        public void AddAfterTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            ControlElement add = new(10, 10);
+
+            Assert.IsTrue(list.AddAfter(list[3], add));
+            Assert.AreEqual(list[4], add);
+        }
+
+        [TestMethod]
+        public void AddAfterFirstTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            ControlElement add = new(10, 10);
+
+            Assert.IsTrue(list.AddAfter(list[0], add));
+            Assert.AreEqual(list[1], add);
+        }
+
+        [TestMethod]
+        public void AddAfterLastTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            ControlElement add = new(10, 10);
+
+            Assert.IsTrue(list.AddAfter(list[^1], add));
+            Assert.AreEqual(list[^1], add);
+            Assert.AreEqual(list[^1], list.Last.Data);
+        }
+
+        [TestMethod]
+        public void AddAfterNonExistTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            ControlElement after = new(10, 10);
+            ControlElement add = new(20, 20);
+            Assert.IsFalse(list.AddAfter(after, add));
+            Assert.IsFalse(list.Contains(add));
+        }
     }
 }
