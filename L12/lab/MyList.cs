@@ -404,6 +404,8 @@ namespace lab
             Node<T>? found = SearchFirstNodeWithData(element);
             if (found == null)
                 return false;
+            if (Head == found)
+                return false;
             Head = found;
             Node<T>? deleteTo = Head.Previous;
             Head.Previous = null;
