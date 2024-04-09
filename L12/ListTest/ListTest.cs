@@ -447,9 +447,158 @@ namespace Tests
         [TestMethod]
         public void IndexOfTest()
         {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
 
+            ControlElement add = new(10, 10);
+
+            list.Insert(3, add);
+
+            Assert.AreEqual(3, list.IndexOf(add));
         }
 
-        //Work in progress
+        [TestMethod]
+        public void IndexOfFirstTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement add = new(10, 10);
+
+            list.AddFirst(add);
+
+            Assert.AreEqual(0, list.IndexOf(add));
+        }
+
+        [TestMethod]
+        public void IndexOfLastTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement add = new(10, 10);
+
+            list.Add(add);
+
+            Assert.AreEqual(5, list.IndexOf(add));
+        }
+
+        [TestMethod]
+        public void IndexOfNonExistTest()
+        {
+            MyList<ControlElement> list = new();
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement add = new(10, 10);
+
+            Assert.AreEqual(-1, list.IndexOf(add));
+        }
+
+        [TestMethod]
+        public void IndexOfNullTest()
+        {
+            MyList<ControlElement> list = new();
+
+            ControlElement add = new(10, 10);
+
+            Assert.AreEqual(-1, list.IndexOf(add));
+        }
+
+        [TestMethod]
+        public void ContainsTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement contains = new(10, 10);
+            list.Insert(3, contains);
+
+            Assert.IsTrue(list.Contains(contains));
+        }
+
+        [TestMethod]
+        public void ContainsFirstTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement contains = new(10, 10);
+            list.AddFirst(contains);
+
+            Assert.IsTrue(list.Contains(contains));
+        }
+
+        [TestMethod]
+        public void ContainsLastTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement contains = new(10, 10);
+            list.Add(contains);
+
+            Assert.IsTrue(list.Contains(contains));
+        }
+
+        [TestMethod]
+        public void ContainsNonExistTest()
+        {
+            MyList<ControlElement> list = [];
+            for (int i = 0; i < 5; i++)
+            {
+                ControlElement elem = new();
+                elem.RandomInit();
+                list.Add(elem);
+            }
+
+            ControlElement contains = new(10, 10);
+
+            Assert.IsFalse(list.Contains(contains));
+        }
+
+        [TestMethod]
+        public void ContainsNullTest()
+        {
+            MyList<ControlElement> list = [];
+
+            ControlElement contains = new(10, 10);
+
+            Assert.IsFalse(list.Contains(contains));
+        }
     }
 }
