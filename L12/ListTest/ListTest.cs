@@ -567,6 +567,46 @@ namespace Tests
             Assert.IsFalse(list.Contains(contains));
         }
 
+        [TestMethod]
+        public void EnumeratorTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+            int i = 0;
+            foreach(ControlElement element in list)
+            {
+                Assert.AreEqual(list[i], element);
+                i++;
+            }
+        }
+
+        [TestMethod]
+        public void CloneTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            MyList<ControlElement> clone = (MyList<ControlElement>)list.Clone();
+
+            Assert.AreEqual(list, clone);
+        }
+
+        [TestMethod]
+        public void DeepCloneTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            MyList<ControlElement> clone = (MyList<ControlElement>)list.Clone();
+
+            clone[^1].X = 10; clone[^1].Y = 10;
+            Assert.AreNotEqual(list, clone);
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                Assert.AreEqual(list[i], clone[i]);
+            }
+            Assert.AreNotEqual(list[^1], clone[^1]);
+        }
 
     }
 }

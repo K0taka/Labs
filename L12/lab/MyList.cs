@@ -435,6 +435,20 @@ namespace lab
             return null;
         }
 
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (GetType() != obj.GetType()) return false;
+            MyList<T>? list = obj as MyList<T>;
+            if (list == null) return false;
+            if (Count != list.Count) return false;
+            for (int index = 0; index < Count; index++)
+            {
+                if (!this[index].Equals(list[index])) return false;
+            }
+            return true;
+        }
+
         ~MyList()
         {
             Dispose();
