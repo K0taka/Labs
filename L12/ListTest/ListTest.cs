@@ -655,5 +655,61 @@ namespace Tests
             Assert.IsFalse(list.AddAfter(after, add));
             Assert.IsFalse(list.Contains(add));
         }
+
+        [TestMethod]
+        public void DeleteAllBeforeTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            Assert.IsTrue(list.DeleteAllBefore(list[3]));
+            Assert.AreEqual(2, list.Count);
+            Assert.AreEqual(list[0], list.Head.Data);
+        }
+
+        [TestMethod]
+        public void DeleteAllBeforeFirstTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            Assert.IsFalse(list.DeleteAllBefore(list[0]));
+            Assert.AreEqual(5, list.Count);
+        }
+
+        [TestMethod]
+        public void DeleteAllBeforeLastTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            Assert.IsTrue(list.DeleteAllBefore(list[4]));
+            Assert.AreEqual(1, list.Count);
+            Assert.AreEqual(list[0], list.Head.Data);
+            Assert.AreEqual(list[0], list.Last.Data);
+        }
+
+        [TestMethod]
+        public void DeleteAllBeforeNonExistTest()
+        {
+            MyList<ControlElement> list = [];
+            FillList(list, 5);
+
+            ControlElement nonExist = new(10, 10);
+
+            Assert.IsFalse(list.DeleteAllBefore(nonExist));
+            Assert.AreEqual(5, list.Count);
+        }
+
+        [TestMethod]
+        public void DeleteAllBeforeEmptyTest()
+        {
+            MyList<ControlElement> list = [];
+
+            ControlElement nonExist = new(10, 10);
+
+            Assert.IsFalse(list.DeleteAllBefore(nonExist));
+            Assert.AreEqual(0, list.Count);
+        }
     }
 }
