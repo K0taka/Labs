@@ -1,86 +1,107 @@
 ﻿//Work in progress
 namespace lab
 {
-    public class MyHashTable<T>: IDisposable where T : ICloneable, IDisposable
+    public class MyHashTable<TKey, TValue>: IDisposable where TValue : ICloneable, IDisposable
     {
-        readonly HashTableNode<T>[] table;
+        readonly HashTableNode<TValue>?[] table;
 
         public int Count => table.Length;
 
         public MyHashTable(int capacity = 16)
         {
-            table = new HashTableNode<T>[capacity];
+            table = new HashTableNode<TValue>[capacity];
         }
 
-        private int GetIndex(T element) => Math.Abs(element.GetHashCode()) % Count;
+        private int GetIndex(TKey element) => Math.Abs(element == null ? 0 : element.GetHashCode()) % Count;
+
+        public void Clear()
+        {
+            Dispose();
+        }
 
         public void Dispose()
         {
             foreach (var element in table)
             {
-                HashTableNode<T> curr = element;
+                HashTableNode<TValue>? curr = element;
                 while (curr != null)
                 {
+                    HashTableNode<TValue> next = curr;
                     curr.Dispose();
-                    HashTableNode<T> next = curr;
-                    curr.Next = null;
                     curr = next;
                 }
             }
             GC.SuppressFinalize(this);
         }
 
-        public bool Add(T element)
+        public bool Add(TKey key, TValue element)
         {
-            int index = GetIndex(element);
+            int index = GetIndex(key);
             if (table[index] == null)
             {
-                table[index] = new((T)element.Clone());
+                table[index] = new((TValue)element.Clone());
                 return true;
             }
+
             var curr = table[index];
-            while (curr.Next != null)
-            {
-                curr = curr.Next;
-            }
-            curr.Next = new((T)element.Clone());
+            table[index] = new((TValue)element.Clone(), next: curr, chainLen: curr!.ChainLen + 1);
+            
             return true;
         }
 
-        public bool Contains(T element)
+        public bool Contains(TKey key)
         {
-            return FindNode(element).Item2 != null;
+            return table[GetIndex(key)] != null;
         }
 
-        public bool Remove(T element)
+        public bool Remove(TKey key)
         {
-            HashTableNode<T>? prev, curr;
-            (prev, curr) = FindNode(element);
+            HashTableNode<TValue>? curr, next;
+            (curr, next) = FindNode(key);
             if (curr == null)
                 return false;
-            if (prev != null)
-            {
-                prev.Next = curr.Next;
-                curr.Next = null;
-                return true;
-            }
-            table[GetIndex(element)] = curr.Next!;
-            curr.Next = null;
+            table[GetIndex(key)] = next;
+            curr.Dispose();
             return true;
         }
 
-        private (HashTableNode<T>?, HashTableNode<T>?) FindNode(T element)
+        private (HashTableNode<TValue>?, HashTableNode<TValue>?) FindNode(TKey key)
         {
-            int index = GetIndex(element);
-            HashTableNode<T>? curr = table[index];
-            HashTableNode<T>? next = curr.Next ?? null;
-            if (curr == null)
-                return (null, null);
-            if (curr.Equals(element))
-                return (null, curr);
-            while (next != null && !next.Data.Equals(element))
-                (curr, next) = (next, next.Next);
+            int index = GetIndex(key);
+            HashTableNode<TValue>? curr = table[index];
+            HashTableNode<TValue>? next = curr?.Next;
             return (curr, next);
+        }
+
+        public TValue[] this[TKey key]
+        {
+            get
+            {
+                if (table == null)
+                    throw new InvalidOperationException();
+                if (table[GetIndex(key)] == null)
+                    throw new ArgumentException("Key не существует в таблице");
+                return MakeArray(key);
+            }
+        }
+
+        private TValue[] MakeArray(TKey key)
+        {
+            var curr = table[GetIndex(key)];
+            if (curr == null)
+                return [];
+            TValue[] arr = new TValue[curr.ChainLen];
+            while (curr != null)
+            {
+                arr[^curr.ChainLen] = curr.Data;
+                curr = curr.Next;
+            }
+            return arr;
+        }
+
+        ~MyHashTable()
+        {
+            Dispose();
         }
     }
 }
