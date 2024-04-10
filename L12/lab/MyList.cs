@@ -284,7 +284,7 @@ namespace lab
                 if (readOnly)
                     throw new MemberAccessException();
                 ListNode<T> curr = NodeAt(index) ?? throw new IndexOutOfRangeException();
-                curr.Data = value;
+                curr.Data = (T)value.Clone();
             }
         }
 
