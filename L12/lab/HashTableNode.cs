@@ -1,41 +1,24 @@
 ﻿namespace lab
 {
-    public class HashTableNode<T> : IDisposable where T : IDisposable
+    public class HashTableNode<TKey, TValue> where TKey: notnull
     {
-        public int ChainLen { get; set; }
 
-        public T Data { get; set; }
+        public TKey Key { get; set; }
 
-        public HashTableNode<T>? Next { get; set; }
+        public TValue Data { get; set; }
 
-        public HashTableNode(T data, HashTableNode<T>? next = null, int chainLen = 1)
+        public HashTableNode<TKey, TValue>? Next { get; set; }
+
+        public HashTableNode(TKey key, TValue data, HashTableNode<TKey, TValue>? next = null)
         {
+            Key = key;
             Data = data;
             Next = next;
-            ChainLen = chainLen;
-        }
-
-        public void Dispose()
-        {
-            ChainLen = 0;
-            Data.Dispose();
-            Next = null;
-            GC.SuppressFinalize(this);
-        }
-
-        public override string ToString()
-        {
-            return Data.ToString() ?? "";
         }
 
         public override int GetHashCode()
         {
-            return Data.GetHashCode();
-        }
-
-        ~HashTableNode()
-        {
-            Dispose();
+            return Key.GetHashCode();
         }
     }
 }

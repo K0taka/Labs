@@ -9,7 +9,7 @@ namespace lab
         static readonly Random rand = new();
         static void Main()
         {
-            Menu MainMenu = new(["Часть 1. Список", "Часть 2. ???", "Часть 3. ???"]);
+            Menu MainMenu = new(["Часть 1. Список", "Часть 2. Hashtable с цепочками", "Часть 3. ???"]);
             while (true)
             {
                 MainMenu.ShowMenu();
@@ -19,6 +19,11 @@ namespace lab
                         Clear();
                         ListPart();
                         break;
+                    case 2:
+                        Clear();
+                        HashTablePart();
+                        break;
+
                     default:
                         Clear();
                         WorkInProgress();
@@ -163,11 +168,12 @@ namespace lab
                 }
             }
             Clear();
+            list.Dispose();
         }
 
-        static ControlElement GenerateRandHierObj()
+        static ControlElement GenerateRandHierObj(int start = 0, int end = 4)
         {
-            ControlElement element = rand.Next(0, 4) switch
+            ControlElement element = rand.Next(start, end) switch
             {
                 1 => new Button(),
                 2 => new MultButton(),
@@ -320,6 +326,124 @@ namespace lab
                 if (element.X == x) return element;
             }
             return null;
+        }
+
+        static void HashTablePart()
+        {
+            Menu HashTableMenu = new(["Заполнить случайными", "Добавить элемент", "Печать", "Удалить элемент", "Поиск", "Назад в главное меню"]);
+            int capacity = (int)GetIntegerAnswer("Укажите вместимость хэш-таблицы >>> ",1, 100);
+            MyHashTable<ControlElement, ControlElement> hashTable = new(capacity);
+            Clear();
+            bool isClosed = false;
+            while (!isClosed)
+            {
+                GC.Collect(GC.MaxGeneration);
+                GC.WaitForPendingFinalizers();
+
+                HashTableMenu.ShowMenu();
+                switch (HashTableMenu.SetUserAnswer())
+                {
+                    case 1:
+                        Clear();
+                        int num = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 0, 20);
+                        FillHashTable(num, hashTable);
+                        Clear();
+                        break;
+                    case 2:
+                        Clear();
+                        Button bt = new();
+                        WriteLine("Укажите элемент для добавления");
+                        bt.Init();
+                        if (hashTable.Add(new(bt.X, bt.Y), bt))
+                            WriteLine("Элемент успешно добавлен");
+                        else
+                            WriteLine("Не удалось добавить элемент");
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 3:
+                        Clear();
+                        PrintHashTable(hashTable);
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 4:
+                        Clear();
+                        PrintHashTable(hashTable);
+                        if (hashTable.Count > 0)
+                        {
+                            WriteLine("Ключ для удаления:");
+                            ControlElement remove = new();
+                            remove.Init();
+                            if (hashTable.Remove(remove))
+                                WriteLine("Элемент успешно удален!");
+                            else
+                                WriteLine("Не удалось удалить элемент!");
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 5:
+                        Clear();
+                        PrintHashTable(hashTable);
+                        if (hashTable.Count > 0)
+                        {
+                            WriteLine("Ключ для удаления:");
+                            ControlElement find = new();
+                            find.Init();
+                            if (hashTable.Contains(find))
+                            {
+                                WriteLine("Элемент успешно найден!");
+                                WriteLine($"\tKey: {find}\n\tValue: {hashTable[find]}");
+                            }
+                            else
+                                WriteLine("Не удалось найти элемент!");
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 6:
+                        Clear();
+                        isClosed = true;
+                        break;
+                }
+            }
+            Clear();
+            hashTable = null;
+            GC.Collect(GC.MaxGeneration);
+            GC.WaitForPendingFinalizers();
+        }
+
+        static void FillHashTable(int count, MyHashTable<ControlElement, ControlElement> hashTable)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                ControlElement elem = GenerateRandHierObj(start: 1);
+                ControlElement key = new(elem.X, elem.Y);
+                if (!hashTable.Add(key, elem))
+                    i--;
+            }
+        }
+
+        static void PrintHashTable(MyHashTable<ControlElement, ControlElement> hashTable)
+        {
+            if (hashTable.Count == 0)
+            {
+                WriteLine("Хэш-таблица пуста в данный момент");
+                return;
+            }
+            int code = -1;
+            WriteLine("Хэш-таблица выглядит так:");
+            foreach(var pair in hashTable)
+            {
+                int newCode = Math.Abs(pair.Key.GetHashCode()) % hashTable.Capacity;
+                if (code != newCode)
+                {
+                    WriteLine($"Цепочка в ячейке {newCode}");
+                    code = newCode;
+                }
+                WriteLine($"\n\tKey: {pair.Key}\n\tValue: {pair.Value}");
+            }
         }
     }
 }

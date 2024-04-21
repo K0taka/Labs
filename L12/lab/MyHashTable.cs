@@ -1,107 +1,142 @@
-﻿//Work in progress
+﻿using System.Collections;
+
 namespace lab
 {
-    public class MyHashTable<TKey, TValue>: IDisposable where TValue : ICloneable, IDisposable
+    public class MyHashTable<TKey, TValue>: IEnumerable<KeyValuePair<TKey, TValue>> where TValue : ICloneable where TKey : notnull, ICloneable
     {
-        readonly HashTableNode<TValue>?[] table;
+        readonly HashTableChain<TKey, TValue>?[] table;
+        
+        public int Capacity => table.Length;
 
-        public int Count => table.Length;
+        public int Count { get; private set; }
+
+        public TKey[] Keys
+        {
+            get
+            {
+                TKey[] keys = new TKey[Count];
+                int index = 0;
+                foreach (var chain in table)
+                {
+                    if(chain == null || chain.Count == 0)
+                        continue;
+                    foreach (var pair in chain)
+                    {
+                        keys[index++] = pair.Key;
+                    }
+                }
+                return keys;
+            }
+        }
+
+        public TValue[] Values
+        {
+            get
+            {
+                TValue[] values = new TValue[Count];
+                int index = 0;
+                foreach(var chain in table)
+                {
+                    if (chain == null || chain.Count == 0)
+                        continue;
+                    foreach(var pair in chain)
+                    {
+                        values[index++] = pair.Value;
+                    }
+                }
+                return values;
+            }
+        }
 
         public MyHashTable(int capacity = 16)
         {
-            table = new HashTableNode<TValue>[capacity];
+            ArgumentOutOfRangeException.ThrowIfLessThan(capacity, 1);
+            table = new HashTableChain<TKey, TValue>[capacity];
+            Count = 0;
         }
 
-        private int GetIndex(TKey element) => Math.Abs(element == null ? 0 : element.GetHashCode()) % Count;
+        private int GetIndex(TKey key) => Math.Abs(key.GetHashCode()) % Capacity;
 
         public void Clear()
         {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            foreach (var element in table)
+            Count = 0;
+            for (int i = 0; i < Capacity; i++)
             {
-                HashTableNode<TValue>? curr = element;
-                while (curr != null)
-                {
-                    HashTableNode<TValue> next = curr;
-                    curr.Dispose();
-                    curr = next;
-                }
+                table[i]?.Clear();
             }
-            GC.SuppressFinalize(this);
         }
 
         public bool Add(TKey key, TValue element)
         {
             int index = GetIndex(key);
-            if (table[index] == null)
+            table[index] ??= [];
+            try
             {
-                table[index] = new((TValue)element.Clone());
+                table[index]!.Add(key, element);
+                Count += 1;
                 return true;
             }
-
-            var curr = table[index];
-            table[index] = new((TValue)element.Clone(), next: curr, chainLen: curr!.ChainLen + 1);
-            
-            return true;
+            catch (ArgumentException)
+            {
+                return false;
+            }
         }
 
         public bool Contains(TKey key)
         {
-            return table[GetIndex(key)] != null;
+            var chain = table[GetIndex(key)];
+            if (chain == null)
+                return false;
+            return chain.Contains(key);
         }
 
         public bool Remove(TKey key)
         {
-            HashTableNode<TValue>? curr, next;
-            (curr, next) = FindNode(key);
-            if (curr == null)
+            try
+            {
+                table[GetIndex(key)].Remove(key);
+                Count -= 1;
+                return true;
+            }
+            catch
+            {
                 return false;
-            table[GetIndex(key)] = next;
-            curr.Dispose();
-            return true;
+            }
         }
 
-        private (HashTableNode<TValue>?, HashTableNode<TValue>?) FindNode(TKey key)
-        {
-            int index = GetIndex(key);
-            HashTableNode<TValue>? curr = table[index];
-            HashTableNode<TValue>? next = curr?.Next;
-            return (curr, next);
-        }
-
-        public TValue[] this[TKey key]
+        public TValue this[TKey key]
         {
             get
             {
-                if (table == null)
-                    throw new InvalidOperationException();
-                if (table[GetIndex(key)] == null)
-                    throw new ArgumentException("Key не существует в таблице");
-                return MakeArray(key);
+                int index = GetIndex(key);
+
+                if (table[index] == null)
+                    throw new KeyNotFoundException();
+                try
+                {
+                    return table[index][key];
+                }
+                catch
+                {
+                    throw new KeyNotFoundException();
+                }
             }
         }
 
-        private TValue[] MakeArray(TKey key)
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            var curr = table[GetIndex(key)];
-            if (curr == null)
-                return [];
-            TValue[] arr = new TValue[curr.ChainLen];
-            while (curr != null)
+            foreach (var chain in table)
             {
-                arr[^curr.ChainLen] = curr.Data;
-                curr = curr.Next;
+                if (chain == null)
+                    continue;
+                foreach(var pair in chain)
+                {
+                    yield return pair;
+                }
             }
-            return arr;
-        }
-
-        ~MyHashTable()
-        {
-            Dispose();
+            yield break;
         }
     }
 }
