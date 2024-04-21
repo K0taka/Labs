@@ -155,7 +155,7 @@ namespace Lab10Lib
         /// <returns>Возвращает вычисленный хэш-код</returns>
         public override int GetHashCode()
         {
-            return id.GetHashCode() + X.GetHashCode()*5 + Y.GetHashCode()*7;
+            return X.GetHashCode()*5 + Y.GetHashCode()*7;
         }
 
         /// <summary>
