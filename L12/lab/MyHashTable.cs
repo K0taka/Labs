@@ -2,7 +2,7 @@
 
 namespace lab
 {
-    public class MyHashTable<TKey, TValue>: IEnumerable<KeyValuePair<TKey, TValue>> where TValue : ICloneable where TKey : notnull, ICloneable
+    public class MyHashTable<TKey, TValue>: IEnumerable<HashTableChain<TKey, TValue>?> where TValue : ICloneable where TKey : notnull, ICloneable
     {
         readonly HashTableChain<TKey, TValue>?[] table;
         
@@ -18,11 +18,11 @@ namespace lab
                 int index = 0;
                 foreach (var chain in table)
                 {
-                    if(chain == null || chain.Count == 0)
+                    if (chain == null || chain.Count == 0)
                         continue;
-                    foreach (var pair in chain)
+                    foreach (var node in chain)
                     {
-                        keys[index++] = pair.Key;
+                        keys[index++] = node.Key;
                     }
                 }
                 return keys;
@@ -35,13 +35,13 @@ namespace lab
             {
                 TValue[] values = new TValue[Count];
                 int index = 0;
-                foreach(var chain in table)
+                foreach (var chain in table)
                 {
                     if (chain == null || chain.Count == 0)
                         continue;
-                    foreach(var pair in chain)
+                    foreach (var node in chain)
                     {
-                        values[index++] = pair.Value;
+                        values[index++] = node.Data;
                     }
                 }
                 return values;
@@ -125,16 +125,11 @@ namespace lab
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        public IEnumerator<HashTableChain<TKey, TValue>?> GetEnumerator()
         {
             foreach (var chain in table)
             {
-                if (chain == null)
-                    continue;
-                foreach(var pair in chain)
-                {
-                    yield return pair;
-                }
+                yield return chain;
             }
             yield break;
         }

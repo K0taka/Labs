@@ -2,7 +2,7 @@
 
 namespace lab
 {
-    public class HashTableChain<TKey, TValue> : IEnumerable<KeyValuePair<TKey,TValue>> where TValue : ICloneable where TKey : notnull, ICloneable
+    public class HashTableChain<TKey, TValue> : IEnumerable<HashTableNode<TKey,TValue>> where TValue : ICloneable where TKey : notnull, ICloneable
     {
         HashTableNode<TKey, TValue>? Head;
 
@@ -56,12 +56,12 @@ namespace lab
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        public IEnumerator<HashTableNode<TKey, TValue>> GetEnumerator()
         {
             var curr = Head;
             while (curr != null)
             {
-                yield return new KeyValuePair<TKey, TValue>(curr.Key, curr.Data);
+                yield return curr;
                 curr = curr.Next;
             }
             yield break;

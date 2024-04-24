@@ -116,10 +116,13 @@ namespace Tests
         [TestMethod]
         public void RemoveSoloTest()
         {
-            MyHashTable<ControlElement, Button> hashTable = [];
+            MyHashTable<ControlElement, Button> hashTable = new();
             var keys = FillHashTable(5, hashTable, out _);
             Assert.IsTrue(hashTable.Remove(keys[3]));
-            Assert.IsFalse(hashTable.Keys.Any(x => x.Equals(keys[3])));
+            foreach (var key in hashTable.Keys)
+            {
+                Assert.AreNotEqual(keys[3], key);
+            }
             Assert.AreEqual(4, hashTable.Count);
         }
 
@@ -138,7 +141,10 @@ namespace Tests
             MyHashTable<ControlElement, Button> hashTable = new(1);
             var keys = FillHashTable(5, hashTable, out _);
             Assert.IsTrue(hashTable.Remove(keys[0]));
-            Assert.IsFalse(hashTable.Keys.Any(x => x.Equals(keys[0])));
+            foreach (var key in hashTable.Keys)
+            {
+                Assert.AreNotEqual(keys[0], key);
+            }
             Assert.AreEqual(4, hashTable.Count);
         }
 
@@ -148,7 +154,10 @@ namespace Tests
             MyHashTable<ControlElement, Button> hashTable = new(1);
             var keys = FillHashTable(5, hashTable, out _);
             Assert.IsTrue(hashTable.Remove(keys[3]));
-            Assert.IsFalse(hashTable.Keys.Any(x => x.Equals(keys[3])));
+            foreach (var key in hashTable.Keys)
+            {
+                Assert.AreNotEqual(keys[3], key);
+            }
             Assert.AreEqual(4, hashTable.Count);
         }
 
@@ -174,13 +183,28 @@ namespace Tests
         [TestMethod]
         public void EnumerationTest()
         {
-            MyHashTable<ControlElement, Button> hashTable = [];
+            MyHashTable<ControlElement, Button> hashTable = new();
             var keys = FillHashTable(5, hashTable, out var values);
 
-            foreach(var pair in hashTable)
+            foreach (var chain in hashTable)
             {
-                Assert.AreEqual(Array.IndexOf(keys, pair.Key), Array.IndexOf(values, pair.Value));
+                if (chain == null)
+                    continue;
+                foreach (var node in chain)
+                    Assert.AreEqual(Array.IndexOf(keys, node.Key), Array.IndexOf(values, node.Data));
             }
+        }
+
+        [TestMethod]
+        public void NodeHashCodeTest()
+        {
+            Button value = new Button();
+            value.RandomInit();
+            ControlElement key = new ControlElement(value.X, value.Y);
+
+            HashTableNode<ControlElement, Button> node = new(key, value);
+
+            Assert.AreEqual(key.GetHashCode(), node.GetHashCode());
         }
     }
 }

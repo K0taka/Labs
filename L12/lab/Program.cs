@@ -432,17 +432,24 @@ namespace lab
                 WriteLine("Хэш-таблица пуста в данный момент");
                 return;
             }
-            int code = -1;
+            int code = 0;
             WriteLine("Хэш-таблица выглядит так:");
-            foreach(var pair in hashTable)
+            foreach (var chain in hashTable)
             {
-                int newCode = Math.Abs(pair.Key.GetHashCode()) % hashTable.Capacity;
-                if (code != newCode)
+                WriteLine($"Ячейка {code++} в таблице:");
+                if (chain == null || chain.Count == 0)
                 {
-                    WriteLine($"Цепочка в ячейке {newCode}");
-                    code = newCode;
+                    WriteLine("Данная ячейка пуста!");
                 }
-                WriteLine($"\n\tKey: {pair.Key}\n\tValue: {pair.Value}");
+                else
+                {
+                    string container = "";
+                    foreach (var node in chain)
+                    {
+                        container = container + $"\n  Key: {node.Key}\n  Value: {node.Data}";
+                    }
+                    WriteLine(container);
+                }
             }
         }
     }
