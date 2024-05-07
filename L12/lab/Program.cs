@@ -1,6 +1,7 @@
 ﻿global using Lab10Lib;
 global using IOLib;
 global using static IOLib.IO;
+using System.Transactions;
 
 namespace lab
 {
@@ -9,7 +10,7 @@ namespace lab
         static readonly Random rand = new();
         static void Main()
         {
-            Menu MainMenu = new(["Часть 1. Список", "Часть 2. Hashtable с цепочками", "Часть 3. ???"]);
+            Menu MainMenu = new(["Часть 1. Список", "Часть 2. Hashtable с цепочками", "Часть 3. Идеально сбалансированное дерево"]);
             while (true)
             {
                 MainMenu.ShowMenu();
@@ -26,7 +27,7 @@ namespace lab
 
                     default:
                         Clear();
-                        WorkInProgress();
+                        PBTPart();
                         break;
                 }
             }
@@ -207,14 +208,6 @@ namespace lab
             {
                 WriteLine($"Элемент {i + 1}: {list[i]}");
             }
-        }
-
-        static void WorkInProgress()
-        {
-            Menu wkProgress= new(["Работа все еще кипит! :3"]);
-            wkProgress.ShowMenu();
-            wkProgress.SetUserAnswer();
-            Clear();
         }
 
         static void WorkWithListCopy(MyList<ControlElement> list)
@@ -451,6 +444,129 @@ namespace lab
                     WriteLine(container);
                 }
             }
+        }
+
+        static void PBTPart()
+        {
+            Menu PBTMenu = new(["Заполнить случайными", "Заполнить вручную", "Печать", "Количество листьев", "Назад в главное меню"]);
+            PBT<ControlElement>? tree = null;
+            bool isClosed = false;
+            while (!isClosed)
+            {
+                GC.Collect(GC.MaxGeneration);
+                GC.WaitForPendingFinalizers();
+                PBTMenu.ShowMenu();
+                switch (PBTMenu.SetUserAnswer())
+                {
+                    case 1:
+                        Clear();
+                        int count = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 1, 20);
+                        ControlElement[] arr = new ControlElement[count];
+                        for(int i = 0; i < count; i++)
+                            arr[i] = GenerateRandHierObj();
+                        tree = new(arr);
+                        Clear();
+                        break;
+                    case 2:
+                        Clear();
+
+                        Clear();
+                        break;
+                    case 3:
+                        Clear();
+                        if (tree == null)
+                        {
+                            WriteLine("Дерево не заполнено!");
+                        }
+                        else
+                        {
+                            WriteLine("\n" + CreateString(tree));
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        isClosed = true;
+                        break;
+                }
+            }
+            Clear();
+            tree = null;
+            GC.Collect(GC.MaxGeneration);
+            GC.WaitForPendingFinalizers();
+        }
+
+        static string CreateString(PBT<ControlElement> tree)
+        {
+            return tree.Capacity > 7 ? CreateStringHorizontalLayout(tree.Root) : CreateStringVerticalLayout(tree);
+        }
+
+        static string CreateStringVerticalLayout(PBT<ControlElement> tree)
+        {
+            if (tree.Root == null)
+                return "Дерево пустое";
+
+            string result = "";
+            
+            int levels = (int)Math.Log2(tree.Capacity) + 1;
+            string[] spaces = new string[levels+1];
+            int area = 145;  //(int)Math.Pow(2, levels)*(23+1);
+
+            for (int level = 0; level <= levels; level++)
+            {
+                int elems = (int)Math.Pow(2, level);
+                int len = (area - elems * 22) / (elems + 1);
+                spaces[level] = CreateSpace(len);
+            }
+
+            Queue<TreeNode<ControlElement>?> elements = new();
+            elements.Enqueue(tree.Root);
+            int passed = 0;
+            int currLevel = 0;
+            while (elements.Count > 0)
+            {
+                TreeNode<ControlElement>? curr = elements.Dequeue();
+                passed++;
+
+                if ((int)Math.Log2(passed) + 1 > currLevel)
+                {
+                    currLevel = (int)Math.Log2(passed) + 1;
+                    result += "\n";
+                }
+
+                if (curr != null)
+                {
+                    elements.Enqueue(curr.Left);
+                    elements.Enqueue(curr.Right);
+                    result += spaces[currLevel - 1] + $"ID: {curr.Data.Id} X: {curr.Data.X} Y: {curr.Data.Y}";
+                }
+                else
+                    result += spaces[currLevel - 1] + $"                       ";
+            }
+            return result;
+        }
+
+        static string CreateStringHorizontalLayout(TreeNode<ControlElement> node, int spaces = 0)
+        {
+            if (node == null)
+                return "";
+            string line = "";
+            line = CreateSpace(spaces) + $"ID: {node.Data.Id} X: {node.Data.X} Y: {node.Data.Y}\n";
+            if (node.Left != null)
+                line = line + CreateStringHorizontalLayout(node.Left, spaces+5);
+            if (node.Right != null)
+                line = CreateStringHorizontalLayout(node.Right, spaces+5) + line;
+            return line;
+        }
+
+        static string CreateSpace(int space)
+        {
+            string res = "";
+            for (int i = 0; i < space; i++)
+                res += " ";
+            return res;
         }
     }
 }
