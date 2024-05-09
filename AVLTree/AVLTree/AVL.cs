@@ -1,7 +1,4 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using System.Collections;
-using System.Reflection.Metadata.Ecma335;
-using System.Text.RegularExpressions;
+﻿using System.Collections;
 
 namespace AVLTree
 {
@@ -14,12 +11,57 @@ namespace AVLTree
 
         public int Count => count;
 
+        public bool IsReadOnly { get; set; }
+
+        public ICollection<TKey> Keys
+        {
+            get
+            {
+                TKey[] keys = new TKey[count];
+                int index = 0;
+                foreach(var item in this)
+                {
+                    keys[index++] = item.Key is ICloneable key? (TKey)key.Clone() : item.Key;
+                }
+
+                return keys;
+            }
+        }
+
+        public ICollection<TValue> Values
+        {
+            get
+            {
+                TValue[] values = new TValue[count];
+                int index = 0;
+                foreach (var item in this)
+                {
+                    values[index++] = item.Value is ICloneable value ? (TValue)value.Clone() : item.Value;
+                }
+
+                return values;
+            }
+        }
+
         public AVL() { }
+
+        public AVL(AVL<TKey, TValue> tree)
+        {
+            foreach(var item in tree.InWideEnumerator())
+            {
+                Add(item.Key is ICloneable key ? (TKey)key.Clone() : item.Key, item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
+            }
+
+        }
 
         public void Add(TKey key, TValue value) { try { Add(new KeyValuePair<TKey, TValue>(key, value)); } catch { throw; } }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
+            if (IsReadOnly)
+                throw new NotSupportedException();
+            if (item.Key == null)
+                throw new ArgumentNullException("key");
             if (root == null) { root = new(item); count++; return; }
             try { Add(item, root); } catch { throw; }
         }
@@ -112,6 +154,8 @@ namespace AVLTree
 
         public void Clear()
         {
+            if (IsReadOnly)
+                throw new NotSupportedException();
             root = null;
             count = 0;
         }
@@ -164,8 +208,33 @@ namespace AVLTree
             }
         }
 
+        public IEnumerable<KeyValuePair<TKey,TValue>> InWideEnumerator()
+        {
+            if (root == null)
+                yield break;
+            else
+            {
+                Queue<Node<TKey, TValue>> nodes = new Queue<Node<TKey, TValue>>();
+                nodes.Enqueue(root);
+                while (nodes.Count > 0)
+                {
+                    var curr = nodes.Dequeue();
+                    yield return curr.Entry;
+                    if (curr.Left != null)
+                        nodes.Enqueue(curr.Left);
+                    if (curr.Right != null)
+                        nodes.Enqueue(curr.Right);
+                }
+                yield break;
+            }
+        }
+
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
+            if (IsReadOnly)
+                throw new NotSupportedException();
+            if (item.Key == null)
+                throw new ArgumentNullException("key");
             if (root == null)
                 return false;
 
@@ -181,6 +250,10 @@ namespace AVLTree
 
         public bool Remove(TKey key)
         {
+            if (IsReadOnly)
+                throw new NotSupportedException();
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
             if (root == null)
                 return false;
             bool isDeleted = false;
@@ -228,6 +301,111 @@ namespace AVLTree
         private static Node<TKey, TValue> GetMin(Node<TKey, TValue> node)
         {
             return node.Left == null ? node : GetMin(node.Left);
+        }
+
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int index)
+        {
+            if (array == null)
+                throw new ArgumentNullException(nameof(array));
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index));
+            if (array.Length - index < count)
+                throw new ArgumentException("Not enoght space in array");
+            foreach(var item in this)
+            {
+                array[index++] = new(
+                    item.Key is not ICloneable key ? item.Key : (TKey)key.Clone(),
+                    item.Value is not ICloneable value ? item.Value : (TValue)value.Clone());
+            }
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                if (key == null)
+                    throw new ArgumentNullException(nameof(key));
+                var current = root;
+                while (current != null)
+                {
+                    switch(current.Entry.Key.CompareTo(key))
+                    {
+                        case 0:
+                            return current.Entry.Value;
+                        case 1:
+                            current = current.Left;
+                            break;
+                        case -1:
+                            current = current.Right;
+                            break;
+                    }
+                }
+                throw new KeyNotFoundException();
+            }
+
+            set
+            {
+                if (key == null)
+                    throw new ArgumentNullException(nameof(key));
+                var current = root;
+                while (current != null)
+                {
+                    switch (current.Entry.Key.CompareTo(key))
+                    {
+                        case 0:
+                            current.Entry = new KeyValuePair<TKey, TValue>(key, value);
+                            return;
+                        case 1:
+                            current = current.Left;
+                            break;
+                        case -1:
+                            current = current.Right;
+                            break;
+                    }
+                }
+                Add(key, value);
+            }
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            if (key == null)
+                throw new ArgumentNullException(nameof(key));
+            var current = root;
+            while (current != null)
+            {
+                switch (current.Entry.Key.CompareTo(key))
+                {
+                    case 0:
+                        return true;
+                    case 1:
+                        current = current.Left;
+                        break;
+                    case -1:
+                        current = current.Right;
+                        break;
+                }
+            }
+            return false;
+        }
+
+        public bool TryGetValue(TKey key, out TValue value)
+        {
+            try
+            {
+                value = this[key];
+                return true;
+            }
+            catch
+            {
+                value = default;
+                return false;
+            }
+        }
+
+        public object Clone()
+        {
+            return new AVL<TKey, TValue>(this);
         }
     }
 }
