@@ -2,7 +2,7 @@
 using static IOLib.IO;
 namespace Lab10Lib
 {
-    public class ControlElement: IInit, IComparable, ICloneable, IDisposable
+    public class ControlElement: IInit, IComparable, ICloneable, IDisposable, IComparable<ControlElement>
     {
         protected static readonly Random rnd = new();
         protected ID id;
@@ -119,7 +119,14 @@ namespace Lab10Lib
         {
             if (obj is not ControlElement element)
                 return -1;
-            return Id.CompareTo(element.Id);
+            return CompareTo(element);
+        }
+
+        public int CompareTo(ControlElement? other)
+        {
+            if (other is null)
+                return -1;
+            return Id.CompareTo(other.Id);
         }
 
         /// <summary>
