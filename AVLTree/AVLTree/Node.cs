@@ -9,8 +9,6 @@
         public Node<TKey, TValue>? Right { get; set; }
 
         public int Hight { get; set; }
-        
-        public bool Color { get; set; }
 
         public Node(KeyValuePair<TKey, TValue> item)
         {

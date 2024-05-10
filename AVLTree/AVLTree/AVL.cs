@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AVLTree
 {
@@ -47,11 +48,23 @@ namespace AVLTree
 
         public AVL(AVL<TKey, TValue> tree)
         {
-            foreach(var item in tree.InWideEnumerator())
+            if (typeof(TKey).GetInterfaces().Contains(typeof(ICloneable)))
             {
-                Add(item.Key is ICloneable key ? (TKey)key.Clone() : item.Key, item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
-            }
+                TKey[] keys = (TKey[])tree.Keys;
 
+                foreach(var item in tree.InWideEnumerator())
+                {
+                    int index = Array.IndexOf(keys, item.Key);
+                    Add(keys[index], item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
+                }   
+            }
+            else
+            {
+                foreach (var item in tree.InWideEnumerator())
+                {
+                    Add(item.Key, item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
+                }
+            }
         }
 
         public void Add(TKey key, TValue value) { try { Add(new KeyValuePair<TKey, TValue>(key, value)); } catch { throw; } }
@@ -182,6 +195,7 @@ namespace AVLTree
             return false;
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -345,6 +359,8 @@ namespace AVLTree
 
             set
             {
+                if (IsReadOnly)
+                    throw new NotSupportedException();
                 if (key == null)
                     throw new ArgumentNullException(nameof(key));
                 var current = root;
@@ -406,6 +422,23 @@ namespace AVLTree
         public object Clone()
         {
             return new AVL<TKey, TValue>(this);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not AVL<TKey, TValue> tree)
+                return false;
+            if (tree.Count != count)
+                return false;
+            var thisArray = this.ToArray();
+            var treeArray = tree.ToArray();
+            for (var i = 0;  i < count; i++)
+            {
+                if (thisArray[i].Key.Equals(treeArray[i].Key) && thisArray[i].Value.Equals(treeArray[i].Value))
+                    continue;
+                return false;
+            }
+            return true;
         }
     }
 }
