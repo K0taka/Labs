@@ -1,7 +1,9 @@
 ﻿global using Lab10Lib;
 global using IOLib;
 global using static IOLib.IO;
-using System.Transactions;
+using AVLTree;
+using System.Runtime.CompilerServices;
+using System.ComponentModel.Design.Serialization;
 
 namespace lab
 {
@@ -14,7 +16,7 @@ namespace lab
             while (true)
             {
                 MainMenu.ShowMenu();
-                switch(MainMenu.SetUserAnswer())
+                switch (MainMenu.SetUserAnswer())
                 {
                     case 1:
                         Clear();
@@ -140,7 +142,7 @@ namespace lab
                             list.Remove(chosEl);
                             WriteLine($"Элемент\n\t{chosEl}\nудален");
                             chosEl.Dispose();
-                            chosEl = null;  
+                            chosEl = null;
                         }
                         WaitAnyButton();
                         Clear();
@@ -226,7 +228,7 @@ namespace lab
 
 
             bool isClosed = false;
-            while(!isClosed)
+            while (!isClosed)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
@@ -314,7 +316,7 @@ namespace lab
 
         static ControlElement? FindWithX(MyList<ControlElement> list, uint x)
         {
-            foreach(ControlElement element in list)
+            foreach (ControlElement element in list)
             {
                 if (element.X == x) return element;
             }
@@ -324,7 +326,7 @@ namespace lab
         static void HashTablePart()
         {
             Menu HashTableMenu = new(["Заполнить случайными", "Добавить элемент", "Печать", "Удалить элемент", "Поиск", "Назад в главное меню"]);
-            int capacity = (int)GetIntegerAnswer("Укажите вместимость хэш-таблицы >>> ",1, 100);
+            int capacity = (int)GetIntegerAnswer("Укажите вместимость хэш-таблицы >>> ", 1, 100);
             MyHashTable<ControlElement, ControlElement> hashTable = new(capacity);
             Clear();
             bool isClosed = false;
@@ -448,8 +450,11 @@ namespace lab
 
         static void PBTPart()
         {
-            Menu PBTMenu = new(["Заполнить случайными", "Заполнить вручную", "Печать", "Количество листьев", "Назад в главное меню"]);
-            PBT<ControlElement>? tree = null;
+            Menu PBTMenu = new(["Заполнить ИСД случайными", "Заполнить ИСД вручную", "Печать", "Количество листьев", "Заполнить АВЛ по ИСД",
+                "Заполнить АВЛ случайными", "Заполнить АВЛ вручную", "Добавить в АВЛ элемент", "Удалить из АВЛ", "Поиск в АВЛ",
+                "Работа с клонами", "Foreach", "Назад в главное меню"]);
+            PBT<ControlElement>? PBTtree = null;
+            AVL<ControlElement, ControlElement>? AVLtree = null;
             bool isClosed = false;
             while (!isClosed)
             {
@@ -463,39 +468,203 @@ namespace lab
                         int count = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 1, 20);
                         ControlElement[] arr = new ControlElement[count];
                         for(int i = 0; i < count; i++)
-                            arr[i] = GenerateRandHierObj();
-                        tree = new(arr);
+                            arr[i] = GenerateRandHierObj(1);
+                        PBTtree = new(arr);
                         Clear();
                         break;
                     case 2:
                         Clear();
-
+                        int count2 = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 1, 20);
+                        ControlElement[] arr2 = new ControlElement[count2];
+                        for (int i = 0; i < count2; i++)
+                        {
+                            Write($"Элемент {i+1}: \n");
+                            arr2[i] = new();
+                            arr2[i].Init();
+                        }
+                        PBTtree = new(arr2);
                         Clear();
                         break;
                     case 3:
                         Clear();
-                        if (tree == null)
-                        {
-                            WriteLine("Дерево не заполнено!");
-                        }
-                        else
-                        {
-                            WriteLine("\n" + CreateString(tree));
-                        }
+                        PrintTrees(PBTtree, AVLtree);
                         WaitAnyButton();
                         Clear();
                         break;
                     case 4:
+                        Clear();
+                        PrintLeafs(PBTtree, AVLtree);
+                        WaitAnyButton();
+                        Clear();
                         break;
                     case 5:
+                        Clear();
+                        if (PBTtree == null || PBTtree.Capacity == 0)
+                            WriteLine("ИС-дерево пустое, не из чего копировать");
+                        else
+                        {
+                            AVLtree = new();
+                            foreach(var item in PBTtree)
+                            {
+                                try
+                                {
+                                    AVLtree.Add(new ControlElement(item.Data.X, item.Data.Y), (ControlElement)item.Data.Clone());
+                                }
+                                catch (Exception ex)
+                                {
+                                    WriteLine($"Внимание! была следующая ошибка: {ex.Message}, {ex.GetType().Name}");
+                                }
+                            }
+                            WriteLine("Копирование успешно произведено!");
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 6:
+                        Clear();
+                        AVLtree = new();
+                        int count3 = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 1, 20);
+                        for (int i = 0; i < count3; i++)
+                        {
+                            ControlElement obj = GenerateRandHierObj(1);
+                            try
+                            {
+                                AVLtree.Add(new ControlElement(obj.X, obj.Y), obj);
+                            }
+                            catch
+                            {
+                                i--;
+                            }
+                        }
+                        Clear();
+                        break;
+                    case 7:
+                        Clear();
+                        AVLtree = new();
+                        int count4 = (int)GetIntegerAnswer("Укажите количество элементов >>> ", 1, 20);
+                        for (int i = 0; i < count4; i++)
+                        {
+                            WriteLine($"Элемент {i}:");
+                            ControlElement obj1 = GenerateRandHierObj(1);
+                            obj1.Init();
+                            try
+                            {
+                                AVLtree.Add(new ControlElement(obj1.X, obj1.Y), obj1);
+                            }
+                            catch
+                            {
+                                WriteLine("Элемент с таким ключем уже добавлен! Повторите попытку!");
+                                i--;
+                            }
+                        }
+                        Clear();
+                        break;
+                    case 8:
+                        Clear();
+                        Button toAdd = new();
+                        WriteLine("Добавляем элемент >>> ");
+                        toAdd.Init();
+                        try
+                        {
+                            AVLtree.Add(new ControlElement(toAdd.X, toAdd.Y), toAdd);
+                            WriteLine("Успешно!");
+                        }
+                        catch (NullReferenceException)
+                        {
+                            WriteLine("Дерево было не создано");
+                            AVLtree = new();
+                            AVLtree.Add(new ControlElement(toAdd.X, toAdd.Y), toAdd);
+                            WriteLine("Успешно!");
+                        }
+                        catch
+                        {
+                            WriteLine("Элемент с таким ключом уже существует");
+                        }
+                        WaitAnyButton();
+                        break;
+                    case 9:
+                        Clear();
+                        if (AVLtree == null || AVLtree.Root == null)
+                            WriteLine("Дерево пустое, ничего не удалить");
+                        else
+                        {
+                            ControlElement toDelete = new();
+                            WriteLine("Элемент для удаления:");
+                            toDelete.Init();
+                            if (AVLtree.Remove(toDelete))
+                                WriteLine("Удалено!!");
+                            else
+                                WriteLine("Не удалено");
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 10:
+                        Clear();
+                        if (AVLtree == null)
+                            WriteLine("Дерево не создано");
+                        else
+                        {
+                            ControlElement toFind = new();
+                            WriteLine("Элемент для поиска:");
+                            toFind.Init();
+                            if (AVLtree.ContainsKey(toFind))
+                                WriteLine($"Найдено! Значение: {AVLtree[toFind]}");
+                            else
+                                WriteLine($"Не найдено!");
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 11:
+                        Clear();
+                        WorkWithTreeCopy(AVLtree);
+                        Clear();
+                        break;
+                    case 12:
+                        Clear();
+                        if (AVLtree == null || AVLtree.Count == 0)
+                        {
+                            WriteLine("Пусто");
+                        }
+                        else
+                        {
+                            WriteLine("Демонстрация foreach. В порядке возрастания");
+                            foreach(var item in AVLtree)
+                            {
+                                WriteLine($"Key {item.Key},\nValue{item.Value}\n");
+                            }
+                            WriteLine("Демонстрация foreach. В ширину.");
+                            foreach (var item in AVLtree.InWideEnumerator())
+                            {
+                                WriteLine($"Key {item.Key},\nValue{item.Value}\n");
+                            }
+                        }
+                        WaitAnyButton();
+                        Clear();
+                        break;
+                    case 13:
                         isClosed = true;
                         break;
                 }
             }
             Clear();
-            tree = null;
+            PBTtree = null;
             GC.Collect(GC.MaxGeneration);
             GC.WaitForPendingFinalizers();
+        }
+        
+        static void PrintTrees(PBT<ControlElement> PBTtree, AVL<ControlElement, ControlElement> AVLtree)
+        {
+            if (PBTtree == null || PBTtree.Root == null)
+                WriteLine("ИС-дерево пустое");
+            else
+                WriteLine(CreateString(PBTtree));
+
+            if (AVLtree == null || AVLtree.Root == null)
+                WriteLine("AVL-дерево пустое");
+            else
+                WriteLine("\n"+CreateStringHorizontalLayout(AVLtree.Root));
         }
 
         static string CreateString(PBT<ControlElement> tree)
@@ -561,12 +730,139 @@ namespace lab
             return line;
         }
 
+        static string CreateStringHorizontalLayout(Node<ControlElement, ControlElement> node, int spaces = 0)
+        {
+            if (node == null)
+                return "";
+            string line = "";
+            line = CreateSpace(spaces) + $"Key: {node.Entry.Key},\n{CreateSpace(spaces)}Value: {node.Entry.Value}\n";
+            if (node.Left != null)
+                line = line + CreateStringHorizontalLayout(node.Left, spaces + 5);
+            if (node.Right != null)
+                line = CreateStringHorizontalLayout(node.Right, spaces + 5) + line;
+            return line;
+        }
+
         static string CreateSpace(int space)
         {
             string res = "";
             for (int i = 0; i < space; i++)
                 res += " ";
             return res;
+        }
+
+        static void PrintLeafs(PBT<ControlElement> PBTTree, AVL<ControlElement, ControlElement> AVlTree)
+        {
+            int count = 0;
+            if (PBTTree == null)
+                WriteLine("ИС-дерево пустое и листьев в нем нет");
+            else
+            {
+                CountLeafsInPBT(PBTTree.Root, ref count);
+                WriteLine($"В Ис-дереве содержится {count} листьев");
+            }
+            count = 0;
+            if (AVlTree == null)
+                WriteLine("AVL-дерево пустое и листьев в нем нет");
+            else
+            {
+                CountLeafsInAVL(AVlTree.Root, ref count);
+                WriteLine($"В AVL-дереве содержится {count} листьев");
+            }
+        }
+
+        static void CountLeafsInPBT(TreeNode<ControlElement> node, ref int count)
+        {
+            if (node == null)
+                return;
+            if (node.Left == null && node.Right == null)
+                count += 1;
+            else
+            {
+                CountLeafsInPBT(node.Left, ref count);
+                CountLeafsInPBT(node.Right, ref count);
+            }
+        }
+
+        static void CountLeafsInAVL(Node<ControlElement, ControlElement> node, ref int count)
+        {
+            if (node == null)
+                return;
+            if (node.Left == null && node.Right == null)
+            {
+                count += 1;
+            }
+            else
+            {
+                CountLeafsInAVL(node.Left, ref count);
+                CountLeafsInAVL(node.Right, ref count);
+            }
+        }
+
+        static void WorkWithTreeCopy(AVL<ControlElement, ControlElement> tree)
+        {
+            if (tree == null)
+                WriteLine("Дерево не инициализировано!");
+            else
+            {
+                var clone = (AVL<ControlElement, ControlElement>)tree.Clone();
+                var copy = (AVL<ControlElement, ControlElement>)tree.ShallowCopy();
+
+                WriteLine("Оригинальное дерево:");
+                if (tree.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(tree.Root));
+                }
+                else
+                    WriteLine("Дерево пустое!");
+
+                WriteLine("Глубоко скопированное дерево:");
+                if (clone.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(clone.Root));
+                }
+                else
+                    WriteLine("Дерево пустое!");
+
+                WriteLine("Поверхностно скопированное дерево:");
+                if (tree.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(copy.Root));
+                }
+                else
+                    WriteLine("Дерево пустое!");
+
+                WriteLine("Удалим корень из оригинального дерева: ");
+                tree.Remove(tree.Root.Entry.Key);
+
+                WriteLine("Оригинальное дерево:");
+                if (tree.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(tree.Root));
+                    WriteLine($"Количество элементов: {tree.Count}");
+                }
+                else
+                    WriteLine("Дерево пустое!");
+
+                WriteLine("Глубоко скопированное дерево:");
+                if (clone.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(clone.Root));
+                    WriteLine($"Количество элементов: {clone.Count}");
+                }
+                else
+                    WriteLine("Дерево пустое!");
+
+                WriteLine("Поверхностно скопированное дерево:");
+                if (tree.Count > 0)
+                {
+                    WriteLine("\n" + CreateStringHorizontalLayout(copy.Root));
+                    WriteLine($"Количество элементов: {copy.Count}");
+                }
+                else
+                    WriteLine("Дерево пустое!");
+            }
+            WaitAnyButton();
         }
     }
 }
