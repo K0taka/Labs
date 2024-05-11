@@ -8,6 +8,8 @@ namespace AVLTree
     {
         private Node<TKey, TValue>? root;
 
+        public Node<TKey, TValue>? Root => root;
+
         private int count;
 
         public int Count => count;
@@ -439,6 +441,21 @@ namespace AVLTree
                 return false;
             }
             return true;
+        }
+
+        public object ShallowCopy()
+        {
+            return this.MemberwiseClone();
+        }
+
+        public bool ContainsValue(TValue value)
+        {
+            foreach( var item in this)
+            {
+                if (item.Value.Equals(value))
+                    return true;
+            }
+            return false;
         }
     }
 }

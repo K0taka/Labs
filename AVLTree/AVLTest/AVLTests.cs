@@ -489,5 +489,33 @@ namespace AVLTest
                 Assert.AreEqual(values[i], Values[i]);
             }
         }
+
+        [TestMethod]
+        public void ShallowCopyTest()
+        {
+            AVL<ControlElement, Button> first = new();
+            Fill(first, out ControlElement[] keys, out _);
+            AVL<ControlElement, Button> second = (AVL<ControlElement, Button>)first.ShallowCopy();
+            Assert.AreEqual(first, second);
+            first.Remove(keys[0]);
+            Assert.AreEqual(first.Count + 1, second.Count);
+            Assert.IsFalse(second.ContainsKey(keys[0]));
+        }
+
+        [TestMethod]
+        public void ContainsValueTest()
+        {
+            AVL<ControlElement, Button> tree = new();
+            Fill(tree, out _, out Button[] values);
+            Assert.IsTrue(tree.ContainsValue(values[1]));
+        }
+
+        [TestMethod]
+        public void NotContainsValueTest()
+        {
+            AVL<ControlElement, Button> tree = new();
+            Fill(tree, out _, out _);
+            Assert.IsFalse(tree.ContainsValue(new Button()));
+        }
     }
 }
