@@ -126,7 +126,9 @@ namespace Lab10Lib
         {
             if (other is null)
                 return -1;
-            return Id.CompareTo(other.Id);
+            double thisDistance = Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
+            double otherDistance = Math.Sqrt(Math.Pow(other.X, 2) + Math.Pow(other.Y, 2));
+            return thisDistance.CompareTo(otherDistance);
         }
 
         /// <summary>
