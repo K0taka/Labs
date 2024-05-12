@@ -31,15 +31,6 @@
         }
 
         /// <summary>
-        /// Информация о содержащимся объекте в строковом представлении
-        /// </summary>
-        /// <returns>Строка с информацией об объекте</returns>
-        public override string? ToString()
-        {
-            return Data != null ? Data.ToString() : "";
-        }
-
-        /// <summary>
         /// Уничтожение узла
         /// </summary>
         public void Dispose()

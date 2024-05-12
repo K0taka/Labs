@@ -1,5 +1,5 @@
-﻿using AVLTree;
-using System.Collections;
+﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace lab
 {
@@ -26,17 +26,18 @@ namespace lab
             return node;
         }
 
+        [ExcludeFromCodeCoverage]
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-        public IEnumerator<TreeNode<T>> GetEnumerator() => InOrderEnumerator(Root).GetEnumerator();
+        public IEnumerator<TreeNode<T>> GetEnumerator() => InAddOrder(Root).GetEnumerator();
 
-        private IEnumerable<TreeNode<T>> InOrderEnumerator(TreeNode<T> node)
+        private IEnumerable<TreeNode<T>> InAddOrder(TreeNode<T> node)
         {
             if (node != null)
             {
-                foreach (var item in InOrderEnumerator(node.Left))
-                    yield return item;
                 yield return node;
-                foreach(var item in InOrderEnumerator(node.Right))
+                foreach (var item in InAddOrder(node.Left))
+                    yield return item;
+                foreach(var item in InAddOrder(node.Right))
                     yield return item;
             }
         }

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="lab.MyList&lt;T&gt;">
+    <Position X="3" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEKAAEAAACAAAJAQiCCAJAwAAAAAAAAEKAACAABQKBA=</HashCode>
+      <FileName>MyList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Right" Position="0.1" />
+  </Class>
+  <Class Name="lab.ListNode&lt;T&gt;">
+    <Position X="1.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAACAAAgAEAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>ListNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="0.1" />
+  </Class>
+  <Class Name="lab.MyHashTable&lt;TKey, TValue&gt;">
+    <Position X="12.25" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABBQCAAABAQCAAAAAAAEAAAgAABQAAA=</HashCode>
+      <FileName>MyHashTable.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="3.556" />
+  </Class>
+  <Class Name="lab.HashTableNode&lt;TKey, TValue&gt;">
+    <Position X="6.75" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAQAAAAAAAAAAAAAAJAAAAAAAAAAAAA=</HashCode>
+      <FileName>HashTableNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab.HashTableChain&lt;TKey, TValue&gt;">
+    <Position X="9.5" Y="1.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAJAACAAABAQAAAAAAAAEAAAAAABQAAA=</HashCode>
+      <FileName>HashTableChain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Orientation="Left" Position="2.394" />
+  </Class>
+  <Class Name="lab.TreeNode&lt;T&gt;">
+    <Position X="16.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAACACAAAAAAAA=</HashCode>
+      <FileName>TreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="lab.PBT&lt;T&gt;">
+    <Position X="18" Y="1.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAADAAAAAAAAACAAAAAAAFAAAAAAAAAAA=</HashCode>
+      <FileName>PBT.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
