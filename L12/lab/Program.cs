@@ -27,12 +27,15 @@ namespace lab
 
                     default:
                         Clear();
-                        PBTPart();
+                        TreePart();
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// Главное меню работы со списком
+        /// </summary>
         static void ListPart()
         {
             MyList<ControlElement> list = [];
@@ -172,6 +175,12 @@ namespace lab
             list.Dispose();
         }
 
+        /// <summary>
+        /// Создает случайный объект из иерархии классов
+        /// </summary>
+        /// <param name="start">С какого элемента из иерархии</param>
+        /// <param name="end">По какой</param>
+        /// <returns></returns>
         static ControlElement GenerateRandHierObj(int start = 0, int end = 4)
         {
             ControlElement element = rand.Next(start, end) switch
@@ -185,6 +194,11 @@ namespace lab
             return element;
         }
 
+        /// <summary>
+        /// Заполнить список случайными элементами
+        /// </summary>
+        /// <param name="len">Количетсво элементов</param>
+        /// <param name="list">Список</param>
         static void FillList(int len, MyList<ControlElement> list)
         {
             list.Dispose();
@@ -196,6 +210,11 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Печать списка на экране
+        /// </summary>
+        /// <typeparam name="T">Текущий тип списка</typeparam>
+        /// <param name="list">Список для печати</param>
         static void PrintList<T>(MyList<T> list) where T : IDisposable, ICloneable
         {
             WriteLine("На текущий момент двусвязный список выглядит так:");
@@ -210,6 +229,10 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Демонстрация работы с копией списка
+        /// </summary>
+        /// <param name="list"></param>
         static void WorkWithListCopy(MyList<ControlElement> list)
         {
             MyList<ControlElement> copy = (MyList<ControlElement>)list.Clone();
@@ -312,6 +335,12 @@ namespace lab
             Clear();
         }
 
+        /// <summary>
+        /// Запрос для поиска всех элементов с заданной координатой X в списке
+        /// </summary>
+        /// <param name="list">Список</param>
+        /// <param name="x">Координата</param>
+        /// <returns>Количество элементов</returns>
         static ControlElement? FindWithX(MyList<ControlElement> list, uint x)
         {
             foreach (ControlElement element in list)
@@ -321,6 +350,9 @@ namespace lab
             return null;
         }
 
+        /// <summary>
+        /// Работа с хэш-таблицей
+        /// </summary>
         static void HashTablePart()
         {
             Menu HashTableMenu = new(["Заполнить случайными", "Добавить элемент", "Печать", "Удалить элемент", "Поиск", "Назад в главное меню"]);
@@ -407,6 +439,11 @@ namespace lab
             GC.WaitForPendingFinalizers();
         }
 
+        /// <summary>
+        /// Заполнение таблицы случайнми элементами
+        /// </summary>
+        /// <param name="count">Количество элементов</param>
+        /// <param name="hashTable">хэш-таблица для заполнения</param>
         static void FillHashTable(int count, MyHashTable<ControlElement, ControlElement> hashTable)
         {
             for (int i = 0; i < count; i++)
@@ -418,6 +455,10 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Печать хэш-таблицы
+        /// </summary>
+        /// <param name="hashTable">Хэш-таблица для печати</param>
         static void PrintHashTable(MyHashTable<ControlElement, ControlElement> hashTable)
         {
             if (hashTable.Count == 0)
@@ -446,7 +487,10 @@ namespace lab
             }
         }
 
-        static void PBTPart()
+        /// <summary>
+        /// Работа с деревьями
+        /// </summary>
+        static void TreePart()
         {
             Menu PBTMenu = new(["Заполнить ИСД случайными", "Заполнить ИСД вручную", "Печать", "Количество листьев", "Заполнить АВЛ по ИСД",
                 "Заполнить АВЛ случайными", "Заполнить АВЛ вручную", "Добавить в АВЛ элемент", "Удалить из АВЛ", "Поиск в АВЛ",
@@ -652,6 +696,11 @@ namespace lab
             GC.WaitForPendingFinalizers();
         }
         
+        /// <summary>
+        /// Печать деревьев
+        /// </summary>
+        /// <param name="PBTtree">ИСД</param>
+        /// <param name="AVLtree">АВЛ-дерево</param>
         static void PrintTrees(PBT<ControlElement> PBTtree, AVL<ControlElement, ControlElement> AVLtree)
         {
             if (PBTtree == null || PBTtree.Root == null)
@@ -665,11 +714,21 @@ namespace lab
                 WriteLine("\n"+CreateStringHorizontalLayout(AVLtree.Root));
         }
 
+        /// <summary>
+        /// Создает строку из ИСД в зависимости от количества элементов
+        /// </summary>
+        /// <param name="tree">ИСД для создания строки</param>
+        /// <returns>Строка с отступами</returns>
         static string CreateString(PBT<ControlElement> tree)
         {
             return tree.Capacity > 7 ? CreateStringHorizontalLayout(tree.Root) : CreateStringVerticalLayout(tree);
         }
 
+        /// <summary>
+        /// ИСД вертикально (до 8 элементов)
+        /// </summary>
+        /// <param name="tree">ИСД</param>
+        /// <returns>Строка с разделением уровней</returns>
         static string CreateStringVerticalLayout(PBT<ControlElement> tree)
         {
             if (tree.Root == null)
@@ -715,6 +774,12 @@ namespace lab
             return result;
         }
 
+        /// <summary>
+        /// Создание для ИСД альбомного расположения дерева
+        /// </summary>
+        /// <param name="node">Текущий узел</param>
+        /// <param name="spaces">Количество отступов</param>
+        /// <returns>Созданная строка с отступами</returns>
         static string CreateStringHorizontalLayout(TreeNode<ControlElement> node, int spaces = 0)
         {
             if (node == null)
@@ -728,6 +793,12 @@ namespace lab
             return line;
         }
 
+        /// <summary>
+        /// Создание для АВЛ-дерева альбомного расположения дерева
+        /// </summary>
+        /// <param name="node">Текущий узел</param>
+        /// <param name="spaces">Количество отступов</param>
+        /// <returns>Созданная строка с отступами</returns>
         static string CreateStringHorizontalLayout(Node<ControlElement, ControlElement> node, int spaces = 0)
         {
             if (node == null)
@@ -741,6 +812,11 @@ namespace lab
             return line;
         }
 
+        /// <summary>
+        /// Создает строку с указанным кол-вом пробелом
+        /// </summary>
+        /// <param name="space"></param>
+        /// <returns></returns>
         static string CreateSpace(int space)
         {
             string res = "";
@@ -749,6 +825,11 @@ namespace lab
             return res;
         }
 
+        /// <summary>
+        /// Печать количества листов в деревьях
+        /// </summary>
+        /// <param name="PBTTree">ИСД</param>
+        /// <param name="AVlTree">АВЛ</param>
         static void PrintLeafs(PBT<ControlElement> PBTTree, AVL<ControlElement, ControlElement> AVlTree)
         {
             int count = 0;
@@ -769,6 +850,11 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Подсчет листьев в ИСД
+        /// </summary>
+        /// <param name="node">текущий узел</param>
+        /// <param name="count">количество найденных листьев</param>
         static void CountLeafsInPBT(TreeNode<ControlElement> node, ref int count)
         {
             if (node == null)
@@ -782,6 +868,11 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Подсчет листьев в АВЛ
+        /// </summary>
+        /// <param name="node">текущий узел</param>
+        /// <param name="count">количество найденных листьев</param>
         static void CountLeafsInAVL(Node<ControlElement, ControlElement> node, ref int count)
         {
             if (node == null)
@@ -797,6 +888,10 @@ namespace lab
             }
         }
 
+        /// <summary>
+        /// Работа с копией АВЛ дерева
+        /// </summary>
+        /// <param name="tree"></param>
         static void WorkWithTreeCopy(AVL<ControlElement, ControlElement> tree)
         {
             if (tree == null)
