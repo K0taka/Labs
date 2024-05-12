@@ -1,6 +1,5 @@
 using AVLTree;
 using Lab10Lib;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
 
 namespace AVLTest
 {
@@ -16,7 +15,13 @@ namespace AVLTest
             {
                 values[i] = new Button();
                 values[i].RandomInit();
-                keys[i] = values[i].GetBase;
+                keys[i] = values[i].GetBase;  
+            }
+            Array.Sort(keys);
+            Array.Sort(values);
+
+            for (int i = 0; i < count; i++)
+            {
                 tree.Add(keys[i], values[i]);
             }
         }
