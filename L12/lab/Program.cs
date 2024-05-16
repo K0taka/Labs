@@ -674,7 +674,7 @@ namespace lab
                             WriteLine("Демонстрация foreach. В порядке возрастания");
                             foreach(var item in AVLtree)
                             {
-                                WriteLine($"Key {item.Key},\nValue{item.Value}\n");
+                                WriteLine($"Key {item.Key},\nValue{item.Value},\nCompare: {Math.Sqrt(Math.Pow(item.Key.X, 2) + Math.Pow(item.Key.Y, 2))}");
                             }
                             WriteLine("Демонстрация foreach. В ширину.");
                             foreach (var item in AVLtree.InWideEnumerator())
@@ -804,7 +804,7 @@ namespace lab
             if (node == null)
                 return "";
             string line = "";
-            line = CreateSpace(spaces) + $"Key: {node.Entry.Key},\n{CreateSpace(spaces)}Value: {node.Entry.Value}\n";
+            line = CreateSpace(spaces) + $"Key: {node.Entry.Key},\n{CreateSpace(spaces)}Value: {node.Entry.Value}\nCompare: {Math.Sqrt(Math.Pow(node.Entry.Key.X, 2) + Math.Pow(node.Entry.Key.Y, 2))}\n";
             if (node.Left != null)
                 line = line + CreateStringHorizontalLayout(node.Left, spaces + 5);
             if (node.Right != null)
@@ -896,6 +896,8 @@ namespace lab
         {
             if (tree == null)
                 WriteLine("Дерево не инициализировано!");
+            else if (tree.Count == 0)
+                WriteLine("Дерево пустое! Сначала заполните!");
             else
             {
                 var clone = (AVL<ControlElement, ControlElement>)tree.Clone();
