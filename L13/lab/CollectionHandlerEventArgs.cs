@@ -2,9 +2,9 @@
 {
     public class CollectionHandlerEventArgs: EventArgs
     {
-        string Action { get; set; }
+        public string Action { get; set; }
 
-        object? Item { get; set; }
+        public object? Item { get; set; }
 
         public CollectionHandlerEventArgs(string action, object? item)
         {
