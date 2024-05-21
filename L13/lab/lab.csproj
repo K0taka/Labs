@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="AVL">
+      <HintPath>..\..\AVLTree\AVLTree\bin\Debug\net8.0\AVL.dll</HintPath>
+    </Reference>
+    <Reference Include="IOLib">
+      <HintPath>..\..\IOLib\IOLib\IOLib\bin\Release\net8.0\IOLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lab10Lib">
+      <HintPath>..\..\L10\Lab10Lib\Lab10Lib\bin\Release\net8.0\Lab10Lib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

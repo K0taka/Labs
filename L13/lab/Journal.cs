@@ -27,7 +27,7 @@
 
         public void Add(object source, CollectionHandlerEventArgs args)
         {
-            journal.Add(new(source.GetType().Name, args.Item?.ToString(), args.Action.ToString()));
+            journal.Add(new(args.CollectionName, args.Item?.ToString(), args.Action.ToString()));
         }
     }
 }
