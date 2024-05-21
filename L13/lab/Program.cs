@@ -1,10 +1,17 @@
-﻿namespace lab
+﻿using IOLib;
+using Lab10Lib;
+using static IOLib.IO;
+
+namespace lab
 {
     internal class Program
     {
-        static void Main(string[] args)
+        ObservedCollection<ControlElement, Button> firstCollection = new("Button tree");
+        ObservedCollection<int, ControlElement> secondCollection = new("Controls tree");
+
+        static void Main()
         {
-            Console.WriteLine("Hello, World!");
+            
         }
     }
 }
