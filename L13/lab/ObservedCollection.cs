@@ -22,35 +22,32 @@ namespace lab
             else
                 Name = "AVL tree";
 
+            TKey[] keys = (TKey[])collection.Keys;
 
-            if (typeof(TKey).GetInterfaces().Contains(typeof(ICloneable)))
+            foreach (var item in collection.InWideEnumerator())
             {
-                TKey[] keys = (TKey[])collection.Keys;
-
-                foreach (var item in collection.InWideEnumerator())
-                {
-                    int index = Array.IndexOf(keys, item.Key);
-                    Add(keys[index], item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
-                }
-            }
-            else
-            {
-                foreach (var item in collection.InWideEnumerator())
-                {
-                    Add(item.Key, item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
-                }
+                int index = Array.IndexOf(keys, item.Key);
+                Add(keys[index], item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
             }
         }
 
+        
         public void RegisterCountChangedHandler(CollectionHandler countHandler) => CollectionCountChanged += countHandler;
+        
         public void UnregisterCountChangedHandler(CollectionHandler countHandler) => CollectionCountChanged -= countHandler;
+        
         public void RegisterReferenceChangedHandler(CollectionHandler refHandler) => CollectionReferenceChanged += refHandler;
+        
         public void UnregisterReferenceChangedHandler(CollectionHandler refHandler) => CollectionReferenceChanged -= refHandler;
+        
         public void RegisterThrowedErrorHandler(CollectionHandler errorHandler) => CollectionThrowedError += errorHandler;
+        
         public void UnregisterThrowedErrorHandler(CollectionHandler errorHandler) => CollectionThrowedError -= errorHandler;
-
+        
         private void OnCollectionCountChanged(object source, CollectionHandlerEventArgs args) => CollectionCountChanged?.Invoke(source, args);
+        
         private void OnCollectionReferenceChanged(object source, CollectionHandlerEventArgs args) => CollectionReferenceChanged?.Invoke(source, args);
+       
         private void OnCollectionThrowedError(object source, CollectionHandlerEventArgs args) => CollectionThrowedError?.Invoke(source, args);
 
 
@@ -93,7 +90,7 @@ namespace lab
         public new void Clear()
         {
             base.Clear();
-            OnCollectionCountChanged(this, new CollectionHandlerEventArgs(Name, "Collection was cleared", null));
+            OnCollectionCountChanged(this, new CollectionHandlerEventArgs(Name, "Collection was cleared", this));
         }
 
         public new bool Remove(KeyValuePair<TKey, TValue> pair)
@@ -111,10 +108,12 @@ namespace lab
             catch (NotSupportedException)
             {
                 OnCollectionThrowedError(this, new(Name, "The pair wasn't removed from collection, collection was ReadOnly", pair));
+                throw;
             }
             catch (ArgumentNullException)
             {
                 OnCollectionThrowedError(this, new(Name, "The pair wasn't removed from collection, the key in the pair was null", pair));
+                throw;
             }
             return false;
         }
@@ -134,10 +133,12 @@ namespace lab
             catch (NotSupportedException)
             {
                 OnCollectionThrowedError(this, new(Name, "The pair with key wasn't removed from collection, collection is ReadOnly", key));
+                throw;
             }
             catch (ArgumentNullException)
             {
                 OnCollectionThrowedError(this, new(Name, "The pair with key wasn't removed from collection, key was null", key));
+                throw;
             }
             return false;
         }
@@ -198,6 +199,11 @@ namespace lab
                 value = default;
                 return false;
             }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return base.Equals(obj) && Name.Equals(((ObservedCollection<TKey, TValue>)obj).Name);
         }
     }
 }

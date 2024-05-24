@@ -72,22 +72,12 @@ namespace AVLTree
         /// <param name="tree">Дерево, из которого требуется копировать элементы</param>
         public AVL(AVL<TKey, TValue> tree)
         {
-            if (typeof(TKey).GetInterfaces().Contains(typeof(ICloneable)))
-            {
-                TKey[] keys = (TKey[])tree.Keys;
+            TKey[] keys = (TKey[])tree.Keys;
 
-                foreach(var item in tree.InWideEnumerator())
-                {
-                    int index = Array.IndexOf(keys, item.Key);
-                    Add(keys[index], item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
-                }   
-            }
-            else
+            foreach(var item in tree.InWideEnumerator())
             {
-                foreach (var item in tree.InWideEnumerator())
-                {
-                    Add(item.Key, item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
-                }
+                int index = Array.IndexOf(keys, item.Key);
+                Add(keys[index], item.Value is ICloneable value ? (TValue)value.Clone() : item.Value);
             }
         }
 

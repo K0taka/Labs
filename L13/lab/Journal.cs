@@ -3,31 +3,31 @@
     public delegate void PrintHandler(string str);
     public class Journal
     {
-        List<JournalEntry> journal;
-        PrintHandler Print;
+        private readonly List<JournalEntry> journal;
+        public PrintHandler PrintMethod { get; private set; }
 
         public Journal(PrintHandler printMethod)
         {
             journal = [];
-            Print = printMethod;
+            PrintMethod = printMethod;
         }
 
         public void SetPrintMetod(PrintHandler printMethod)
         {
-            Print = printMethod;
+            PrintMethod = printMethod;
         }
 
         public void ShowJournal()
         {
             foreach (JournalEntry entry in journal)
             {
-                Print(entry.ToString());
+                PrintMethod(entry.ToString());
             }
         }
 
         public void Add(object source, CollectionHandlerEventArgs args)
         {
-            journal.Add(new(args.CollectionName, args.Item?.ToString(), args.Action.ToString()));
+            journal.Add(new(args.CollectionName, args.Item.ToString()!, args.Action.ToString()));
         }
     }
 }
