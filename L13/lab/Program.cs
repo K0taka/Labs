@@ -100,10 +100,9 @@ namespace lab
         static void Change(int collection)
         {
             Clear();
-            var key = new ControlElement();
-            key.Init();
             ControlElement change = collection == 0 ? new Button() : new TextField();
             change.Init();
+            ControlElement key = new(change.X, change.Y);
 
             if (collection == 0)
                 firstCollection[key] = (Button)change;
