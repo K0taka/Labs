@@ -19,9 +19,13 @@
 
         public void ShowJournal()
         {
+            if (journal.Count == 0)
+            {
+                PrintMethod("Журнал пуст!");
+            }
             foreach (JournalEntry entry in journal)
             {
-                PrintMethod(entry.ToString());
+                PrintMethod("\n" + entry.ToString());
             }
         }
 

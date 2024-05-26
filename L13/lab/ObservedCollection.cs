@@ -179,7 +179,7 @@ namespace lab
                     OnCollectionThrowedError(this, new(Name, "Error while updating the value because collection was ReadOnly", key));
                     throw;
                 }
-                catch (KeyNotFoundException)
+                catch (ArgumentNullException)
                 {
                     OnCollectionThrowedError(this, new(Name, "Error while updating the value because the key was null", key));
                     throw;
