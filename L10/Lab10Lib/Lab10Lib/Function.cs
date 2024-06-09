@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Lab10Lib
+﻿namespace Lab10Lib
 {
     public class Function
     {
