@@ -6,26 +6,23 @@ namespace Lab10Lib
     /// Класс-компаратор для координаты X
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class SortByX: IComparer<object>
+    public class SortByX: IComparer<ControlElement>
     {
-        public int Compare(object? obj1, object? obj2)
+        public int Compare(ControlElement? obj1, ControlElement? obj2)
         {
-            ControlElement? cntEl1 = obj1 as ControlElement;
-            ControlElement? cntEl2 = obj2 as ControlElement;
-
-            if (cntEl1 == null)
+            if (obj1 == null)
             {
-                if (cntEl2 == null)
+                if (obj2 == null)
                     return 0;
                 return -1;
             }
 
-            if (cntEl2 == null)
+            if (obj2 == null)
                 return 1;
 
-            if (cntEl1.X > cntEl2.X)
+            if (obj1.X > obj2.X)
                 return 1;
-            if (cntEl1.X < cntEl2.X)
+            if (obj1.X < obj2.X)
                 return -1;
             return 0;
         }

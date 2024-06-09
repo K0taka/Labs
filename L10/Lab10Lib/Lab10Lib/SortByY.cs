@@ -6,27 +6,23 @@ namespace Lab10Lib
     /// Класс компаратор для координаты Y
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class SortByY: IComparer<object>
+    public class SortByY: IComparer<ControlElement>
     {
-        public int Compare(object? obj1, object? obj2)
-        {
-            ControlElement? cntEl1 = obj1 as ControlElement;
-            ControlElement? cntEl2 = obj2 as ControlElement;
-            
-
-            if (cntEl1 == null)
+        public int Compare(ControlElement? obj1, ControlElement? obj2)
+        { 
+            if (obj1 == null)
             {
-                if (cntEl2 == null)
+                if (obj2 == null)
                     return 0;
                 return -1;
             }
 
-            if (cntEl2 == null)
+            if (obj2 == null)
                 return 1;
 
-            if (cntEl1.Y > cntEl2.Y)
+            if (obj1.Y > obj2.Y)
                 return 1;
-            if (cntEl1.Y < cntEl2.Y)
+            if (obj1.Y < obj2.Y)
                 return -1;
             return 0;
         }
