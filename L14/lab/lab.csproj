@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="AVL">
+      <HintPath>..\..\AVLTree\AVLTree\bin\Debug\net8.0\AVL.dll</HintPath>
+    </Reference>
     <Reference Include="IOLib">
       <HintPath>..\..\IOLib\IOLib\IOLib\bin\Release\net8.0\IOLib.dll</HintPath>
     </Reference>
