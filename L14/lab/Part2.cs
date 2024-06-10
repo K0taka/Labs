@@ -61,8 +61,21 @@ namespace lab
                        group element.Value by element.Value.GetType()
             group gr.Count() by gr.Key;
 
+        public static IEnumerable<IGrouping<Type, int>> EXTCountGroupsByTypes(AVL<ControlElement, ControlElement> tree) =>
+            tree.GroupBy(elelemnt => elelemnt.Value.GetType(), element => element.Value)
+                .GroupBy(gr => gr.Key, gr => gr.Count());
+
         #endregion request6: Group count of types
 
+        #region request6: Sum of X less than N
+        public static long LINQSumOfXLeffThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
+            (from element in tree
+            where element.Value.X < upperX
+            select element.Value.X).Sum(element => element);
 
+        public static long EXTSumOfXLeffThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
+            tree.Where(element => element.Value.X < upperX).Select(element => element.Value.X).Sum(element => element);
+
+        #endregion request6: Sum of X less than N
     }
 }
