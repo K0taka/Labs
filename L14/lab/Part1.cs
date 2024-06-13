@@ -2,6 +2,7 @@
 
 namespace lab
 {
+
     public static class Part1
     {
         #region request1: Elements far than
@@ -24,44 +25,36 @@ namespace lab
         #region request2: Get min distanse element in every window
 
         public static IEnumerable<ControlElement> LINQGetMinDistanseInEveryWindow(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            from mins in from window in app
-                         select window.Min()
-            select mins.Value;
+            from window in app
+            select window.Min(element => element.Value);
 
         public static IEnumerable<ControlElement> EXTGetMinDistanseInEveryWindow(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            app.Select(window => window.Min())
-               .Select(element => element.Value);
+            app.Select(window => window.Min(element => element.Value));
 
         #endregion request2: Get min distanse element in every window
 
         #region request3: Get max distanse element in every window
         public static IEnumerable<ControlElement> LINQGetMaxDistanseInEveryWindow(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            from mins in from window in app
-                         select window.Max()
-            select mins.Value;
+            from window in app
+            select window.Max(element => element.Value);
 
         public static IEnumerable<ControlElement> EXTGetMaxDistanseInEveryWindow(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            app.Select(window => window.Max())
-               .Select(element => element.Value);
+            app.Select(window => window.Max(element => element.Value));
 
         #endregion request3: Get max distanse element in every window
 
         #region request4: Average dist between elements
 
-        public static double LINQAverageDistanceBetweenElements(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            (from element1 in (from window in app from element in window select element.Value)
-             from element2 in (from window in app from element in window select element.Value)
-             where element1 != element2
-             let distance = Math.Sqrt(Math.Pow(element1.X - element2.X, 2) + Math.Pow(element1.Y - element2.Y, 2))
-             select distance).Average();
+        public static double LINQAverageDistanceOfElements(Stack<Dictionary<ControlElement, ControlElement>> app) =>
+            (from window in app
+             from element in window
+             let distance = Math.Sqrt(Math.Pow(element.Value.X, 2) + Math.Pow(element.Value.Y, 2))
+             select distance).Average(distance => distance);
 
-        public static double EXTAverageDistanceBetweenElements(Stack<Dictionary<ControlElement, ControlElement>> app) =>
-            app.SelectMany(element => element.Values)
-               .Select((element1) => app.SelectMany(element => element.Values)
-                                     .Where(element2 => element1 != element2)
-                                     .Select(element2 => Math.Sqrt(Math.Pow(element1.X - element2.X, 2) + Math.Pow(element1.Y - element2.Y, 2))))
-               .SelectMany(distance => distance)
-               .Average();
+        public static double EXTAverageDistanceOfElements(Stack<Dictionary<ControlElement, ControlElement>> app) =>
+            app.SelectMany(element => element)
+               .Select(element => Math.Sqrt(Math.Pow(element.Value.X, 2) + Math.Pow(element.Value.Y, 2)))
+               .Average(distance => distance);
 
         #endregion request4: Average dist between elements
 
@@ -109,18 +102,19 @@ namespace lab
 
         #region request7: Element with it's function
 
-        public static IEnumerable<KeyValuePair<ControlElement, string>> LINQElementAndItsFuntion(Stack<Dictionary<ControlElement, ControlElement>> app, List<Function> funcs) =>
+        public static IEnumerable<dynamic> LINQElementAndItsFuntion(Stack<Dictionary<ControlElement, ControlElement>> app, List<Function> funcs) =>
             from window in app
             from element in window
             join function in funcs on element.Value.Id equals function.ConnectedID
-            select new KeyValuePair<ControlElement, string>(element.Value, function.Description);
+            let item = new { Item = element.Value, Function = function.Description }
+            select item;
 
-        public static IEnumerable<KeyValuePair<ControlElement, string>> EXTElementAndItsFuntion(Stack<Dictionary<ControlElement, ControlElement>> app, List<Function> funcs) =>
+        public static IEnumerable<dynamic> EXTElementAndItsFuntion(Stack<Dictionary<ControlElement, ControlElement>> app, List<Function> funcs) =>
             app.SelectMany(element => element)
                .Join(funcs,
                      element => element.Value.Id,
                      funtion => funtion.ConnectedID,
-                     (element, function) => new KeyValuePair<ControlElement, string>(element.Value, function.Description));
+                     (element, function) => new { Item = element.Value, Function = function.Description });
 
         #endregion request7: Element with it's function
 

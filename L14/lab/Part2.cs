@@ -9,11 +9,11 @@ namespace lab
 
         public static int LINQCountElementsOfType(AVL<ControlElement, ControlElement> tree, Type type) =>
             (from element in tree
-            where element.GetType() == type
+            where element.Value.GetType() == type
             select element).Count();
 
         public static int EXTCountElementsOfType(AVL<ControlElement, ControlElement> tree, Type type) =>
-            tree.Where(element => element.GetType() == type)
+            tree.Where(element => element.Value.GetType() == type)
                 .Count();
 
         #endregion request1: Count elements of type
@@ -68,12 +68,12 @@ namespace lab
         #endregion request6: Group count of types
 
         #region request6: Sum of X less than N
-        public static long LINQSumOfXLeffThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
+        public static long LINQSumOfXLessThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
             (from element in tree
             where element.Value.X < upperX
             select element.Value.X).Sum(element => element);
 
-        public static long EXTSumOfXLeffThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
+        public static long EXTSumOfXLessThan(AVL<ControlElement, ControlElement> tree, uint upperX) =>
             tree.Where(element => element.Value.X < upperX).Select(element => element.Value.X).Sum(element => element);
 
         #endregion request6: Sum of X less than N

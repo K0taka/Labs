@@ -128,7 +128,13 @@ namespace Lab10Lib
                 return -1;
             double thisDistance = Math.Sqrt(Math.Pow(X, 2) + Math.Pow(Y, 2));
             double otherDistance = Math.Sqrt(Math.Pow(other.X, 2) + Math.Pow(other.Y, 2));
-            return thisDistance.CompareTo(otherDistance);
+            return thisDistance.CompareTo(otherDistance) switch
+            {
+                -1 => -1,
+                1 => 1,
+                0 => X.CompareTo(other.X),
+                _ => -1
+            };
         }
 
         /// <summary>
